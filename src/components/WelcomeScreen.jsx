@@ -1,280 +1,316 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const WelcomeScreen = ({ onWelcomeComplete }) => {
-  const [phase, setPhase] = useState(0);
-  const [exitAnimation, setExitAnimation] = useState(false);
-  const [typedText, setTypedText] = useState("");
-  const { theme } = useTheme();
-
-  // Theme-based colors
-  const colors = {
-    light: {
-      primary: "hsl(222.2 47.4% 11.2%)",
-      secondary: "hsl(262.1 83.3% 57.8%)",
-      background: "hsl(0 0% 100%)",
-      muted: "hsl(215.4 16.3% 46.9%)",
-      link: "hsl(221.2 83.2% 53.3%)"
-    },
-    dark: {
-      primary: "hsl(210 40% 98%)",
-      secondary: "hsl(263.4 70% 50.4%)",
-      background: "hsl(222.2 47.4% 11.2%)",
-      muted: "hsl(215 20.2% 65.1%)",
-      link: "hsl(217.2 91.2% 59.8%)"
-    }
-  };
-
-  const currentColors = colors[theme] || colors.dark;
-  const portfolioUrl = "kishanpokal.dev";
-  const welcomeMessages = [
-    "Building Android Apps",
-    "AI & Automation",
-    "Solving real-world problems"
-  ];
-
-  useEffect(() => {
-    const phase1 = setTimeout(() => setPhase(1), 800);
-    const phase2 = setTimeout(() => setPhase(2), 1600);
-    const phase3 = setTimeout(() => setPhase(3), 2400);
-    const complete = setTimeout(() => {
-      setExitAnimation(true);
-      setTimeout(onWelcomeComplete, 1000);
-    }, 5000);
-
-    return () => {
-      clearTimeout(phase1);
-      clearTimeout(phase2);
-      clearTimeout(phase3);
-      clearTimeout(complete);
-    };
-  }, [onWelcomeComplete]);
-
-  useEffect(() => {
-    if (phase >= 2) {
-      let i = 0;
-      const typingInterval = setInterval(() => {
-        if (i <= portfolioUrl.length) {
-          setTypedText(portfolioUrl.substring(0, i));
-          i++;
-        } else {
-          clearInterval(typingInterval);
-        }
-      }, 40);
-
-      return () => clearInterval(typingInterval);
-    }
-  }, [phase]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
-      }
-    },
-    exit: {
-      y: "-100vh",
-      opacity: 0,
-      transition: {
-        duration: 1,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  const contentVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  const underlineVariants = {
-    hidden: { scaleX: 0 },
-    visible: {
-      scaleX: 1,
-      transition: {
-        delay: 0.8,
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  const cursorVariants = {
-    blinking: {
-      opacity: [0, 0, 1, 1],
-      transition: {
-        duration: 1,
-        repeat: Infinity,
-        repeatDelay: 0
-      }
-    }
-  };
+const CodeRain = () => {
+  const chars = "01アカサタナハマヤラワ{}[]<>=/;";
+  const columns = 20;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Welcome Screen */}
-      <motion.div
-        className="h-full w-full flex items-center justify-center p-4"
-        style={{ backgroundColor: currentColors.background }}
-        variants={containerVariants}
-        initial="hidden"
-        animate={exitAnimation ? "exit" : "visible"}
-      >
-        {/* Animated background elements - scaled down for mobile */}
-        <motion.div className="absolute inset-0 -z-10 overflow-hidden opacity-20">
-          <motion.div
-            className="absolute top-1/4 left-1/4 w-32 h-32 md:w-64 md:h-64 rounded-full blur-[50px] md:blur-[100px]"
-            style={{
-              background: `linear-gradient(to right, ${currentColors.primary}, ${currentColors.secondary})`
-            }}
-            animate={{
-              x: [0, 20, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut'
-            }}
-          />
-          <motion.div
-            className="absolute top-1/3 right-1/4 w-36 h-36 md:w-72 md:h-72 rounded-full blur-[60px] md:blur-[120px]"
-            style={{
-              background: `linear-gradient(to right, ${currentColors.secondary}, #ec4899)`
-            }}
-            animate={{
-              x: [0, -30, 0],
-              y: [0, 40, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut'
-            }}
-          />
+    <div className="absolute inset-0 overflow-hidden opacity-[0.06] pointer-events-none">
+      {[...Array(columns)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute top-0 text-primary text-xs font-mono leading-tight select-none"
+          style={{ left: `${(i / columns) * 100}%` }}
+          initial={{ y: "-100%" }}
+          animate={{ y: "120%" }}
+          transition={{
+            duration: Math.random() * 6 + 4,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+            ease: "linear",
+          }}
+        >
+          {[...Array(30)].map((_, j) => (
+            <div key={j} className="opacity-70">
+              {chars[Math.floor(Math.random() * chars.length)]}
+            </div>
+          ))}
         </motion.div>
-
-        <div className="w-full max-w-2xl mx-auto text-center px-4">
-          <motion.div className="space-y-4 md:space-y-8">
-            {phase >= 0 && (
-              <motion.div variants={contentVariants}>
-                <motion.div
-                  className="text-sm md:text-lg lg:text-xl font-mono mb-2 md:mb-4 inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-2 rounded-full border"
-                  style={{
-                    color: currentColors.primary,
-                    backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
-                    borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                  }}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                >
-                  <Sparkles className="h-3 w-3 md:h-4 md:w-4" />
-                  {welcomeMessages[phase % welcomeMessages.length]}
-                </motion.div>
-              </motion.div>
-            )}
-
-            {phase >= 1 && (
-              <motion.h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-tight"
-                style={{ color: currentColors.primary }}
-                variants={contentVariants}
-              >
-                <span className="inline-block">Hello</span>
-                <motion.span
-                  className="inline-block ml-2 sm:ml-3 relative"
-                  style={{ color: currentColors.secondary }}
-                  variants={contentVariants}
-                >
-                  There !
-                  <motion.span
-                    className="absolute -bottom-1 sm:-bottom-2 left-0 h-0.5 sm:h-1 w-full"
-                    style={{ backgroundColor: currentColors.secondary }}
-                    variants={underlineVariants}
-                  />
-                </motion.span>
-              </motion.h1>
-            )}
-
-            {phase >= 2 && (
-              <motion.div
-                className="text-base sm:text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed font-light"
-                style={{ color: currentColors.muted }}
-                variants={contentVariants}
-              >
-                <motion.div
-                  className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg font-mono flex justify-center items-center"
-                  style={{ color: currentColors.link }}
-                >
-                  {typedText}
-                  {phase >= 2 && (
-                    <motion.span
-                      className="ml-0.5 h-4 sm:h-5 md:h-6 w-0.5 sm:w-1 inline-block"
-                      style={{ backgroundColor: currentColors.link }}
-                      variants={cursorVariants}
-                      animate="blinking"
-                    />
-                  )}
-                </motion.div>
-                <motion.p
-                  className="mt-2 sm:mt-4 text-xs sm:text-sm md:text-base"
-                  style={{ color: currentColors.muted }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                >
-                  (This is my portfolio website)
-                </motion.p>
-              </motion.div>
-            )}
-
-            {phase >= 3 && (
-              <motion.div
-                className="pt-4 sm:pt-6 md:pt-8"
-                variants={contentVariants}
-              >
-                <motion.div
-                  className="h-1 sm:h-2 w-16 sm:w-20 rounded-full mx-auto"
-                  style={{ backgroundColor: currentColors.secondary + '80' }}
-                  animate={{
-                    scaleX: [1, 1.5, 1],
-                    opacity: [1, 0.7, 1]
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity
-                  }}
-                />
-                <motion.p
-                  className="mt-2 sm:mt-4 text-xs sm:text-sm opacity-70"
-                  style={{ color: currentColors.muted }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  Loading my best work for you...
-                </motion.p>
-              </motion.div>
-            )}
-          </motion.div>
-        </div>
-      </motion.div>
+      ))}
     </div>
   );
 };
 
-export default WelcomeScreen;
+const FloatingParticles = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    {[...Array(25)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute w-1 h-1 rounded-full bg-primary/30"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+        }}
+        animate={{
+          y: [0, (Math.random() - 0.5) * 200],
+          x: [0, (Math.random() - 0.5) * 100],
+          opacity: [0, 0.8, 0],
+          scale: [0, 1.5, 0],
+        }}
+        transition={{
+          duration: Math.random() * 4 + 3,
+          repeat: Infinity,
+          delay: Math.random() * 2,
+        }}
+      />
+    ))}
+  </div>
+);
+
+const GlowOrbs = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <motion.div
+      className="absolute w-80 h-80 rounded-full bg-primary/10 blur-[100px]"
+      style={{ top: "20%", left: "10%" }}
+      animate={{
+        x: [0, 80, 0],
+        y: [0, -60, 0],
+        scale: [1, 1.3, 1],
+        opacity: [0.3, 0.6, 0.3],
+      }}
+      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+    />
+    <motion.div
+      className="absolute w-60 h-60 rounded-full bg-purple-500/10 blur-[80px]"
+      style={{ bottom: "20%", right: "15%" }}
+      animate={{
+        x: [0, -60, 0],
+        y: [0, 40, 0],
+        scale: [1, 1.2, 1],
+        opacity: [0.2, 0.5, 0.2],
+      }}
+      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+    />
+    <motion.div
+      className="absolute w-40 h-40 rounded-full bg-cyan-400/8 blur-[60px]"
+      style={{ top: "50%", left: "50%", transform: "translate(-50%,-50%)" }}
+      animate={{
+        scale: [0.8, 1.4, 0.8],
+        opacity: [0.1, 0.4, 0.1],
+      }}
+      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+    />
+  </div>
+);
+
+export const WelcomeScreen = ({ onWelcomeComplete }) => {
+  const [phase, setPhase] = useState(0); // 0: init, 1: logo, 2: text, 3: exit
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // Phase 0 → 1: Initial delay
+    const t0 = setTimeout(() => setPhase(1), 200);
+    // Phase 1 → 2: Logo appears, then text
+    const t1 = setTimeout(() => setPhase(2), 800);
+    // Progress bar
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          return 100;
+        }
+        return prev + 2;
+      });
+    }, 50);
+    // Phase 2 → 3: Exit
+    const t2 = setTimeout(() => setPhase(3), 3200);
+    // Complete
+    const t3 = setTimeout(() => onWelcomeComplete(), 3800);
+
+    return () => {
+      clearTimeout(t0);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearInterval(progressInterval);
+    };
+  }, [onWelcomeComplete]);
+
+  return (
+    <AnimatePresence>
+      {phase < 3 && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background overflow-hidden"
+          exit={{
+            opacity: 0,
+            scale: 1.1,
+            filter: "blur(10px)",
+          }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          {/* Backgrounds */}
+          <CodeRain />
+          <FloatingParticles />
+          <GlowOrbs />
+
+          {/* Grid overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)]" />
+
+          {/* Content */}
+          <div className="relative z-20 flex flex-col items-center">
+            {/* Logo / Icon */}
+            <motion.div
+              className="relative mb-8"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={
+                phase >= 1
+                  ? { scale: 1, rotate: 0 }
+                  : { scale: 0, rotate: -180 }
+              }
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                damping: 20,
+                delay: 0.1,
+              }}
+            >
+              {/* Rotating ring */}
+              <motion.div
+                className="absolute -inset-4 rounded-full border-2 border-dashed border-primary/20"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+              />
+              <motion.div
+                className="absolute -inset-8 rounded-full border border-primary/10"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+              />
+
+              {/* Logo container */}
+              <motion.div
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-primary via-purple-600 to-pink-500 flex items-center justify-center shadow-2xl shadow-primary/30 relative overflow-hidden"
+                animate={{
+                  boxShadow: [
+                    "0 0 20px rgba(139,92,246,0.3)",
+                    "0 0 40px rgba(139,92,246,0.5)",
+                    "0 0 20px rgba(139,92,246,0.3)",
+                  ],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {/* Shimmer */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{ x: ["-200%", "200%"] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                />
+                <span className="text-3xl sm:text-4xl font-black text-white relative z-10 tracking-tight">
+                  KP
+                </span>
+              </motion.div>
+
+              {/* Orbiting dots */}
+              {[0, 1, 2, 3].map((i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 rounded-full bg-primary/60"
+                  style={{
+                    top: "50%",
+                    left: "50%",
+                  }}
+                  animate={{
+                    x: Math.cos((i * Math.PI) / 2) * 55,
+                    y: Math.sin((i * Math.PI) / 2) * 55,
+                    opacity: [0.3, 1, 0.3],
+                    scale: [0.5, 1.2, 0.5],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: i * 0.3,
+                  }}
+                />
+              ))}
+            </motion.div>
+
+            {/* Name */}
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={
+                phase >= 2
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 0, y: 30 }
+              }
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 tracking-tight">
+                <span className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  Kishan Pokal
+                </span>
+              </h1>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={
+                  phase >= 2
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 0, y: 10 }
+                }
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                <p className="text-muted-foreground text-sm sm:text-base tracking-[0.3em] uppercase font-medium">
+                  Android & AI Developer
+                </p>
+              </motion.div>
+            </motion.div>
+
+            {/* Progress Bar */}
+            <motion.div
+              className="mt-10 w-48 sm:w-60"
+              initial={{ opacity: 0, y: 20 }}
+              animate={
+                phase >= 2
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 0, y: 20 }
+              }
+              transition={{ delay: 0.5, duration: 0.4 }}
+            >
+              <div className="h-1 bg-primary/10 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-full"
+                  style={{ width: `${progress}%` }}
+                  transition={{ duration: 0.1 }}
+                />
+              </div>
+              <motion.p
+                className="text-xs text-muted-foreground/60 mt-3 text-center font-mono"
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                Loading portfolio...
+              </motion.p>
+            </motion.div>
+          </div>
+
+          {/* Corner decorations */}
+          <motion.div
+            className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-primary/20 rounded-tl-lg"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          />
+          <motion.div
+            className="absolute top-8 right-8 w-16 h-16 border-r-2 border-t-2 border-primary/20 rounded-tr-lg"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          />
+          <motion.div
+            className="absolute bottom-8 left-8 w-16 h-16 border-l-2 border-b-2 border-primary/20 rounded-bl-lg"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+          />
+          <motion.div
+            className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-primary/20 rounded-br-lg"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};

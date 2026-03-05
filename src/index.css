@@ -8,7 +8,21 @@
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
 
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
   --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-input: hsl(var(--input));
+
+  --color-destructive: hsl(var(--destructive));
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
@@ -18,6 +32,8 @@
   --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
   --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
   --animate-meteor: meteor 5s linear infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
 
   @keyframes float {
     0%,
@@ -60,6 +76,22 @@
       opacity: 0;
     }
   }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 5px hsl(var(--primary) / 0.2), 0 0 10px hsl(var(--primary) / 0.1);
+    }
+    to {
+      box-shadow: 0 0 10px hsl(var(--primary) / 0.4), 0 0 20px hsl(var(--primary) / 0.2);
+    }
+  }
 }
 
 @layer base {
@@ -68,11 +100,26 @@
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
     --primary: 250 47% 60%;
     --primary-foreground: 210 40% 98%;
 
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
     --border: 214 32% 91%;
+    --input: 214 32% 91%;
+
+    --destructive: 0 84% 60%;
+
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -80,11 +127,26 @@
     --foreground: 213 31% 91%;
 
     --card: 222 47% 8%;
+    --card-foreground: 213 31% 91%;
 
     --primary: 250 65% 65%;
     --primary-foreground: 213 31% 91%;
 
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 213 31% 91%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 213 31% 91%;
+
     --border: 217 33% 20%;
+    --input: 217 33% 20%;
+
+    --destructive: 0 63% 31%;
+
+    --radius: 0.75rem;
   }
 
   * {
@@ -97,16 +159,20 @@
 
   body {
     @apply bg-background text-foreground transition-colors duration-300;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @utility container {
   margin-inline: auto;
-  padding-inline: 2rem;
+  padding-inline: 1rem;
 
   @media (width >= 640px) {
     max-width: 640px;
+    padding-inline: 2rem;
   }
   @media (width >= 768px) {
     max-width: 768px;
@@ -139,9 +205,19 @@
 }
 
 @utility cosmic-button {
-  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
+  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium
          transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
          hover:scale-105 active:scale-95;
+}
+
+@utility glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+@utility glass-subtle {
+  backdrop-filter: blur(8px) saturate(150%);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
 }
 
 @utility star {
@@ -154,6 +230,15 @@
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
 }
 
+/* Bottom nav safe area */
+@utility pb-nav {
+  padding-bottom: 5.5rem;
+}
+
+@utility mb-nav {
+  margin-bottom: 5.5rem;
+}
+
 #root {
   max-width: 100%;
   margin: 0 auto;
@@ -161,6 +246,12 @@
   text-align: center;
 }
 
-::-webkit-scrollbar{
-  display:none
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Selection color */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
 }
