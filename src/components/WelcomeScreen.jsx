@@ -251,7 +251,7 @@ export const WelcomeScreen = ({ onWelcomeComplete }) => {
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <p className="text-muted-foreground text-sm sm:text-base tracking-[0.3em] uppercase font-medium">
-                  Android & AI Developer
+                  Android & AIML Engineer
                 </p>
               </motion.div>
             </motion.div>

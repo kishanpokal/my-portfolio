@@ -160,7 +160,6 @@ export const ContactSection = () => {
             <div className="space-y-3">
               {[
                 { icon: Mail, label: "Email", value: "kishanpokal1111@gmail.com", href: "mailto:kishanpokal1111@gmail.com" },
-                { icon: Phone, label: "Phone", value: "+91 7016781763", href: "tel:+917016781763" },
                 { icon: MapPin, label: "Location", value: "Ahmedabad, Gujarat, India", href: null },
               ].map((item, index) => (
                 <motion.div

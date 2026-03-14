@@ -13,9 +13,9 @@ export const HeroSection = () => {
   const [displayedCode, setDisplayedCode] = useState("");
 
   const codeSnippets = [
-    "import { AndroidAIDeveloper } from 'kishan.dev';",
+    "import { AndroidAIMLEngineer } from 'kishan.dev';",
     "",
-    "const developer = new AndroidAIDeveloper({",
+    "const developer = new AndroidAIMLEngineer({",
     "  name: 'Kishan Pokal',",
     "  stack: ['Android Development', 'Artificial Intelligence', 'Java', 'Firebase', 'Python'],",
     "  focus: 'Building Android apps and AI-powered tools that solve real-world problems',",
@@ -144,7 +144,7 @@ export const HeroSection = () => {
                 transition={{ duration: 8, repeat: Infinity }}
                 style={{ backgroundSize: '200% 100%' }}
               >
-                Android & AI Developer
+                Android & AIML Engineer
               </motion.span>
             </motion.h1>
 
@@ -262,7 +262,7 @@ export const HeroSection = () => {
                             ${line.includes("import") ? "text-purple-400 font-semibold" :
                               line.includes("const") || line.includes("new") ? "text-blue-400 font-semibold" :
                                 line.includes("React") || line.includes("Node.js") || line.includes("TypeScript") ? "text-cyan-400" :
-                                  line.includes("AndroidAIDeveloper") ? "text-emerald-400 font-semibold" :
+                                  line.includes("AndroidAIMLEngineer") ? "text-emerald-400 font-semibold" :
                                     line.includes("//") ? "text-muted-foreground italic" :
                                       line.includes("await") || line.includes("connect") ? "text-yellow-400" :
                                         line.includes("'") ? "text-amber-400" :

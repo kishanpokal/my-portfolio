@@ -27,7 +27,6 @@ export const Footer = () => {
 
   const contactInfo = [
     { icon: <Mail size={16} />, text: "kishanpokal1111@gmail.com", href: "mailto:kishanpokal1111@gmail.com" },
-    { icon: <Phone size={16} />, text: "+91 7016781763", href: "tel:+917016781763" },
   ];
 
   const containerVariants = {
@@ -62,7 +61,7 @@ export const Footer = () => {
             <motion.div variants={itemVariants} className="space-y-4">
               <h3 className="text-xl font-bold text-foreground">KISHAN</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Android & AI developer creating meaningful applications and solving real-world problems.
+                Android & AIML engineer creating meaningful applications and solving real-world problems.
               </p>
               <div className="flex space-x-3">
                 {socialLinks.map((social, index) => (
