@@ -30,48 +30,57 @@ import netbeansIcon from "@/assets/icons/netbeans.svg";
 import jetpackcomposeIcon from "@/assets/icons/jetpackcompose.svg";
 
 const skills = [
+  // Programming
+  { name: "Java", level: 85, category: "programming", icon: "java" },
+  { name: "Kotlin", level: 80, category: "programming", icon: "kotlin" },
+  { name: "Python", level: 75, category: "programming", icon: "python" },
+  { name: "JavaScript", level: 75, category: "programming", icon: "javascript" },
+  { name: "C++", level: 70, category: "programming", icon: "cpp" },
+  { name: "C", level: 70, category: "programming", icon: "c" },
+
   // Frontend
-  { name: "HTML", level: 85, category: "frontend", icon: "html" },
-  { name: "CSS", level: 80, category: "frontend", icon: "css" },
+  { name: "HTML5", level: 85, category: "frontend", icon: "html" },
+  { name: "CSS3", level: 80, category: "frontend", icon: "css" },
   { name: "JavaScript", level: 75, category: "frontend", icon: "javascript" },
   { name: "Bootstrap", level: 75, category: "frontend", icon: "bootstrap" },
 
   // Backend
-  { name: "Java", level: 85, category: "backend", icon: "java" },
   { name: "PHP", level: 70, category: "backend", icon: "php" },
-  { name: "Python", level: 75, category: "backend", icon: "python" },
-  { name: "Firebase", level: 80, category: "backend", icon: "firebase" },
-  { name: "MySQL", level: 80, category: "backend", icon: "mysql" },
+  { name: "JSP/Servlets", level: 65, category: "backend", icon: "java" },
+  { name: "REST APIs", level: 75, category: "backend", icon: "postman" },
+
+  // Mobile Development
+  { name: "Android Development", level: 85, category: "mobile", icon: "androidstudio" },
+  { name: "Kotlin", level: 80, category: "mobile", icon: "kotlin" },
+  { name: "XML UI", level: 75, category: "mobile", icon: "androidstudio" },
+  { name: "Firebase", level: 80, category: "mobile", icon: "firebase" },
 
   // Database
   { name: "MySQL", level: 80, category: "database", icon: "mysql" },
-  { name: "Firebase Firestore", level: 80, category: "database", icon: "firebase" },
-  { name: "Realtime Database", level: 80, category: "database", icon: "firebase" },
+  { name: "Firebase", level: 80, category: "database", icon: "firebase" },
 
-  // Android
-  { name: "Kotlin", level: 80, category: "android", icon: "kotlin" },
-  { name: "Jetpack Compose", level: 75, category: "android", icon: "jetpackcompose" },
-  { name: "Android Studio", level: 85, category: "android", icon: "androidstudio" },
-  { name: "Firebase", level: 80, category: "android", icon: "firebase" },
+  // AI & Data
+  { name: "Machine Learning Basics", level: 60, category: "ai", icon: "python" },
+  { name: "Data Analysis with Python", level: 70, category: "ai", icon: "python" },
 
-  // Tools & Platforms
+  // Tools
   { name: "Git", level: 75, category: "tools", icon: "git" },
   { name: "GitHub", level: 80, category: "tools", icon: "github" },
   { name: "VS Code", level: 85, category: "tools", icon: "vscode" },
-  { name: "Android Studio", level: 85, category: "tools", icon: "androidstudio" },
   { name: "NetBeans", level: 70, category: "tools", icon: "netbeans" },
   { name: "Eclipse", level: 70, category: "tools", icon: "eclipse" },
-  { name: "Firebase Console", level: 80, category: "tools", icon: "firebase" },
-  { name: "Figma", level: 70, category: "tools", icon: "figma" },
+  { name: "Android Studio", level: 85, category: "tools", icon: "androidstudio" },
 ];
 
 const categories = [
   { id: "all", label: "All Skills", color: "bg-gradient-to-r from-purple-500 to-pink-500" },
-  { id: "frontend", label: "Frontend", color: "bg-gradient-to-r from-blue-500 to-cyan-500" },
+  { id: "programming", label: "Programming", color: "bg-gradient-to-r from-blue-500 to-indigo-500" },
+  { id: "frontend", label: "Frontend", color: "bg-gradient-to-r from-cyan-500 to-blue-500" },
   { id: "backend", label: "Backend", color: "bg-gradient-to-r from-green-500 to-emerald-500" },
+  { id: "mobile", label: "Mobile Dev", color: "bg-gradient-to-r from-emerald-500 to-green-600" },
   { id: "database", label: "Database", color: "bg-gradient-to-r from-teal-500 to-cyan-600" },
-  { id: "android", label: "Android", color: "bg-gradient-to-r from-emerald-500 to-green-600" },
-  { id: "tools", label: "Tools & Platforms", color: "bg-gradient-to-r from-orange-500 to-yellow-500" },
+  { id: "ai", label: "AI & Data", color: "bg-gradient-to-r from-purple-600 to-blue-600" },
+  { id: "tools", label: "Tools", color: "bg-gradient-to-r from-orange-500 to-yellow-500" },
 ];
 
 const iconImages = {
