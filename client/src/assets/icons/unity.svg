@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <rect width="128" height="128" rx="28" fill="#1f2937" />
+  <!-- Unity cube icon -->
+  <path fill="#ffffff" d="M64 24 L100 45 L100 83 L64 104 L28 83 L28 45 Z" />
+  <path fill="#1f2937" d="M64 30 L94 48 L94 80 L64 98 L34 80 L34 48 Z" />
+  <path fill="#ffffff" d="M64 35 L88 49 L88 77 L64 91 L40 77 L40 49 Z" opacity="0.4" />
+</svg>
