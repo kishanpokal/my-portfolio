@@ -148,31 +148,31 @@
      10% — Accent gold (CTAs, highlights, interactive elements)
    ═══════════════════════════════════════════════════════════════ */
   :root {
-    /* 60% — Warm off-white background */
-    --background: 40 20% 97%;
-    --foreground: 220 15% 15%;
+    /* 60% — Crisp White */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
 
-    /* 30% — Soft warm gray cards & surfaces */
-    --card: 36 16% 93%;
-    --card-foreground: 220 15% 15%;
+    /* 30% — Soft light gray cards */
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 3.9%;
 
-    /* 10% — Rich warm gold accent */
+    /* 10% — Primary (Keep the signature gold) */
     --primary: 38 88% 38%;
-    --primary-foreground: 40 20% 97%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 36 10% 88%;
-    --secondary-foreground: 220 15% 25%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 36 10% 90%;
-    --muted-foreground: 220 8% 45%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 36 10% 88%;
-    --accent-foreground: 220 15% 15%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
 
-    --border: 36 12% 85%;
-    --input: 36 12% 85%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84.2% 60.2%;
 
     --radius: 0.85rem;
   }

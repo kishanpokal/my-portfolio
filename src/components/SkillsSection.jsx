@@ -92,13 +92,12 @@ const TickerRow = ({ items, speed = 25, direction = "left" }) => {
           return (
             <motion.div
               key={`${skill.name}-${index}`}
-              className="flex items-center gap-2.5 px-4.5 py-2.5 rounded-full border border-border/50 bg-card/30 backdrop-blur-md transition-all duration-300"
+              className="flex items-center gap-2.5 px-4.5 py-2.5 rounded-full border border-border/50 bg-card backdrop-blur-md shadow-sm transition-all duration-300 hover:bg-secondary/50"
               whileHover={{ 
                 scale: 1.12, 
                 y: -4,
                 borderColor: color,
-                boxShadow: `0 0 15px ${color}3a`,
-                backgroundColor: "rgba(255, 255, 255, 0.05)"
+                boxShadow: `0 0 15px ${color}3a`
               }}
               transition={{ type: "spring", stiffness: 450, damping: 20 }}
             >
@@ -163,8 +162,8 @@ const SkillCard = ({ skill, index }) => {
       }}
       whileHover={{ y: -6, scale: 1.04 }}
       className="group relative flex flex-col items-center justify-center
-                 rounded-2xl border border-border/50 bg-card/50 glass-subtle
-                 p-2.5 aspect-square overflow-hidden
+                 rounded-2xl border border-border/50 bg-card/90 glass-subtle
+                 p-2.5 aspect-square overflow-hidden shadow-sm
                  transition-colors duration-300 hover:border-primary/40 text-center"
       style={{ "--tech": color }}
     >
@@ -221,7 +220,7 @@ const DetailedSkillCard = ({ skill, index }) => {
         damping: 16,
       }}
       whileHover={{ y: -4 }}
-      className="group relative flex items-start gap-4 p-5 rounded-2xl border border-border/50 bg-card/45 backdrop-blur-md transition-all duration-300 hover:border-primary/30 shadow-md text-left"
+      className="group relative flex items-start gap-4 p-5 rounded-2xl border border-border/50 bg-card/90 backdrop-blur-md transition-all duration-300 hover:border-primary/30 shadow-md text-left"
     >
       {/* Icon Frame */}
       <div 

@@ -11,6 +11,8 @@ import {
   VolumeX,
   Github,
   Linkedin,
+  Command,
+  X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -86,6 +88,7 @@ const ThemeToggle = () => {
 export const Navbar = () => {
   const [activeSection, setActiveSection] = useState("#hero");
   const [showNavbar, setShowNavbar] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [isAudioReady, setIsAudioReady] = useState(false);
   const lastScrollYRef = useRef(0);
@@ -132,6 +135,7 @@ export const Navbar = () => {
       // Auto-hide on fast scroll down, show on scroll up
       if (currentScrollY > lastScrollYRef.current && currentScrollY > 300) {
         setShowNavbar(false);
+        setIsExpanded(false);
       } else {
         setShowNavbar(true);
       }
@@ -272,13 +276,13 @@ export const Navbar = () => {
           damping: 30,
         }}
       >
-        <div
+        <motion.div
+          layout
           className={cn(
-            "pointer-events-auto",
+            "relative overflow-hidden pointer-events-auto",
             "mx-4 mb-4 sm:mb-5",
             "flex items-center gap-1",
-            "px-2 py-2 sm:px-3 sm:py-2.5",
-            "rounded-2xl",
+            isExpanded ? "px-2 py-2 sm:px-3 sm:py-2.5 rounded-2xl" : "px-4 py-2.5 sm:px-5 sm:py-3 rounded-full",
             "glass",
             "bg-background/90 dark:bg-background/85",
             "border border-border/60 dark:border-border/40",
@@ -286,77 +290,124 @@ export const Navbar = () => {
             "transition-colors duration-300"
           )}
         >
-          {/* Navigation Items */}
-          {navItems.map((item) => {
-            const isActive = activeSection === item.href;
-            return (
-              <motion.a
-                key={item.name}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const target = document.querySelector(item.href);
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
-                className={cn(
-                  "relative flex flex-col items-center justify-center",
-                  "min-w-[3rem] sm:min-w-[3.5rem] py-1.5 px-2 sm:px-3",
-                  "rounded-xl",
-                  "transition-all duration-300",
-                  isActive
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.92 }}
-                aria-label={item.name}
+          <AnimatePresence mode="popLayout">
+            {!isExpanded ? (
+              <motion.button
+                key="collapsed"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.05 } }}
+                transition={{ duration: 0.2 }}
+                onClick={() => setIsExpanded(true)}
+                className="flex items-center justify-center gap-2 text-foreground hover:text-primary transition-colors whitespace-nowrap"
+                aria-label="Open menu"
               >
-                {/* Active Background Pill */}
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className={cn(
-                      "absolute inset-0 rounded-xl",
-                      "bg-primary/10 dark:bg-primary/15",
-                      "border border-primary/25 dark:border-primary/30",
-                      "shadow-[0_0_16px_hsl(var(--primary)/0.28)]"
-                    )}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 30,
-                    }}
-                  />
-                )}
+                <Command className="w-5 h-5" />
+                <span className="text-sm font-medium">Menu</span>
+              </motion.button>
+            ) : (
+              <motion.div
+                key="expanded"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.05 } }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-1 whitespace-nowrap"
+              >
+                {/* Navigation Items */}
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.href;
+                  return (
+                    <motion.a
+                      key={item.name}
+                      href={item.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const target = document.querySelector(item.href);
+                        if (target) {
+                          target.scrollIntoView({ behavior: "smooth" });
+                        }
+                        setIsExpanded(false);
+                      }}
+                      className={cn(
+                        "relative flex flex-col items-center justify-center",
+                        "min-w-[3rem] sm:min-w-[3.5rem] py-1.5 px-2 sm:px-3",
+                        "rounded-xl",
+                        "transition-all duration-300",
+                        isActive
+                          ? "text-primary"
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.92 }}
+                      aria-label={item.name}
+                    >
+                      {/* Active Background Pill */}
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeTab"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className={cn(
+                            "absolute inset-0 rounded-xl",
+                            "bg-primary/10 dark:bg-primary/15",
+                            "border border-primary/25 dark:border-primary/30",
+                            "shadow-[0_0_16px_hsl(var(--primary)/0.28)]"
+                          )}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 30,
+                          }}
+                        />
+                      )}
 
-                <item.icon
+                      <item.icon
+                        className={cn(
+                          "relative z-10 w-[18px] h-[18px] sm:w-5 sm:h-5",
+                          "transition-all duration-300",
+                          isActive && "text-primary"
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          "relative z-10 text-[10px] sm:text-xs font-medium mt-0.5",
+                          "transition-all duration-300",
+                          isActive && "text-primary font-semibold"
+                        )}
+                      >
+                        {item.name}
+                      </span>
+                    </motion.a>
+                  );
+                })}
+
+                {/* Separator */}
+                <div className="w-px h-8 bg-border/50 mx-1" />
+
+                {/* Theme Toggle */}
+                <ThemeToggle />
+
+                {/* Close Button */}
+                <div className="w-px h-8 bg-border/50 mx-1" />
+                <motion.button
+                  onClick={() => setIsExpanded(false)}
                   className={cn(
-                    "relative z-10 w-[18px] h-[18px] sm:w-5 sm:h-5",
-                    "transition-all duration-300",
-                    isActive && "text-primary"
+                    "relative p-2.5 rounded-xl transition-all duration-300",
+                    "hover:bg-primary/10 hover:text-primary",
+                    "text-muted-foreground"
                   )}
-                />
-                <span
-                  className={cn(
-                    "relative z-10 text-[10px] sm:text-xs font-medium mt-0.5",
-                    "transition-all duration-300",
-                    isActive && "text-primary font-semibold"
-                  )}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  aria-label="Close menu"
                 >
-                  {item.name}
-                </span>
-              </motion.a>
-            );
-          })}
-
-          {/* Separator */}
-          <div className="w-px h-8 bg-border/50 mx-1" />
-
-          {/* Theme Toggle */}
-          <ThemeToggle />
-        </div>
+                  <X className="w-4 h-4" />
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </motion.nav>
     </>
   );

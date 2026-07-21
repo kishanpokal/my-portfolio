@@ -50,9 +50,9 @@ const ProjectCard = ({ project, index }) => {
 
   return (
     <div
-      className="group relative flex flex-col lg:flex-row rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl p-6 sm:p-8 overflow-hidden shadow-2xl transition-all duration-500 gap-8 w-full h-full max-h-[85vh] hover:border-white/20"
+      className="group relative flex flex-col lg:flex-row rounded-3xl border border-border bg-card/60 backdrop-blur-xl p-6 sm:p-8 overflow-hidden shadow-2xl transition-all duration-500 gap-8 w-full h-full max-h-[85vh] hover:border-primary/50"
       style={{
-        boxShadow: `0 20px 40px -20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)`,
+        boxShadow: `0 20px 40px -20px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.05)`,
       }}
     >
       {/* Background ambient glow */}
@@ -68,7 +68,7 @@ const ProjectCard = ({ project, index }) => {
         
         {/* Top Image / Preview Container */}
         <div 
-          className="relative w-full h-[240px] md:h-[280px] rounded-xl overflow-hidden border border-white/10 shadow-lg shrink-0 bg-background/80 flex flex-col transition-all duration-500 group-hover:border-white/20 allow-system-cursor"
+          className="relative w-full h-[240px] md:h-[280px] rounded-xl overflow-hidden border border-border shadow-lg shrink-0 bg-background/80 flex flex-col transition-all duration-500 group-hover:border-primary/50 allow-system-cursor"
           onMouseEnter={() => {
             setIsHovered(true);
             if (isWebPreview) {
@@ -84,17 +84,17 @@ const ProjectCard = ({ project, index }) => {
         >
           {/* macOS style browser bar for web projects */}
           {isWebPreview && (
-            <div className="h-8 w-full bg-white/5 border-b border-white/5 flex items-center px-3 gap-1.5 shrink-0 z-30 relative backdrop-blur-md">
+            <div className="h-8 w-full bg-secondary/50 border-b border-border/40 flex items-center px-3 gap-1.5 shrink-0 z-30 relative backdrop-blur-md">
                <div className="w-2.5 h-2.5 rounded-full bg-red-500/80 shadow-sm"></div>
                <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80 shadow-sm"></div>
                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 shadow-sm"></div>
                {isHovered ? (
-                 <span className="ml-auto text-[10px] text-emerald-400 uppercase font-bold tracking-widest flex items-center gap-1.5 animate-in fade-in">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                 <span className="ml-auto text-[10px] text-emerald-500 uppercase font-bold tracking-widest flex items-center gap-1.5 animate-in fade-in">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     Live
                  </span>
                ) : (
-                 <span className="ml-auto text-[10px] text-white/40 uppercase font-semibold tracking-wider flex items-center gap-1.5 animate-in fade-in">
+                 <span className="ml-auto text-[10px] text-muted-foreground/60 uppercase font-semibold tracking-wider flex items-center gap-1.5 animate-in fade-in">
                     <Eye size={12} /> Hover to preview
                  </span>
                )}
@@ -140,8 +140,8 @@ const ProjectCard = ({ project, index }) => {
               <span
                 className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider glass border ${
                   project.status.toLowerCase() === "completed"
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                    : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                    : "bg-amber-500/10 text-amber-500 border-amber-500/20"
                 }`}
               >
                 {project.status}
@@ -159,31 +159,31 @@ const ProjectCard = ({ project, index }) => {
               >
                 {project.category}
               </span>
-             <h3 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+             <h3 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
                {project.title}
              </h3>
           </div>
           
-          <p className="text-white/60 text-sm sm:text-base leading-relaxed font-medium">
+          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-medium">
             {project.description}
           </p>
         </div>
 
         {/* Small project number in bottom left */}
         <div className="absolute bottom-0 left-0 pt-4">
-           <span className="text-4xl font-display font-black text-white/20 select-none">
+           <span className="text-4xl font-display font-black text-muted-foreground/20 select-none">
              {num}
            </span>
         </div>
       </div>
 
       {/* Right Column (Features, Tech Stack & Actions) */}
-      <div className="lg:w-[40%] flex flex-col border-t lg:border-t-0 lg:border-l border-white/10 pt-6 lg:pt-0 lg:pl-8 relative z-10 overflow-hidden">
+      <div className="lg:w-[40%] flex flex-col border-t lg:border-t-0 lg:border-l border-border/50 pt-6 lg:pt-0 lg:pl-8 relative z-10 overflow-hidden">
          <div className="flex-1 overflow-y-auto pr-2 space-y-8 custom-scrollbar pb-2">
             
             {/* Features Section */}
             <div>
-               <h4 className="text-[11px] font-bold uppercase tracking-widest text-white/40 mb-4 flex items-center gap-2">
+               <h4 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-4 flex items-center gap-2">
                   <Sparkles size={14} style={{ color: accentHex }}/> Key Features & Details
                </h4>
                <ul className="space-y-3">
@@ -193,7 +193,7 @@ const ProjectCard = ({ project, index }) => {
                         className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
                         style={{ backgroundColor: accentHex, boxShadow: `0 0 10px ${accentHex}` }}
                       />
-                      <span className="text-white/70 leading-relaxed font-medium text-left">
+                      <span className="text-muted-foreground leading-relaxed font-medium text-left">
                         {highlight}
                       </span>
                    </li>
@@ -203,7 +203,7 @@ const ProjectCard = ({ project, index }) => {
 
             {/* Architecture Section */}
             <div>
-               <h4 className="text-[11px] font-bold uppercase tracking-widest text-white/40 mb-4 flex items-center gap-2">
+               <h4 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60 mb-4 flex items-center gap-2">
                   <Code2 size={14} style={{ color: accentHex }}/> Architecture
                </h4>
                
@@ -211,12 +211,12 @@ const ProjectCard = ({ project, index }) => {
                  {project.tags.map((tag, i) => (
                    <div 
                      key={i} 
-                     className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-sm"
+                     className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-border/40 bg-secondary/50 hover:bg-secondary/80 hover:border-border/80 transition-all duration-300 backdrop-blur-sm"
                    >
                      <span style={{ color: accentHex }}>
                        {getTagIcon(tag)}
                      </span>
-                     <span className="text-xs font-semibold text-white/90 whitespace-nowrap">
+                     <span className="text-xs font-semibold text-foreground/90 whitespace-nowrap">
                        {tag}
                      </span>
                    </div>
@@ -225,7 +225,7 @@ const ProjectCard = ({ project, index }) => {
             </div>
          </div>
 
-         <div className="mt-6 pt-6 border-t border-white/5 shrink-0">
+         <div className="mt-6 pt-6 border-t border-border/40 shrink-0">
             <div className="flex flex-col gap-3">
               {project.demoUrl !== "#" && (
                 <a
@@ -237,7 +237,7 @@ const ProjectCard = ({ project, index }) => {
                     backgroundColor: accentHex,
                   }}
                 >
-                  <div className="absolute inset-0 w-full h-full bg-white/20 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-300 ease-out" />
+                  <div className="absolute inset-0 w-full h-full bg-foreground/10 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-300 ease-out" />
                   <span className="relative z-10 flex items-center gap-2">
                     {isPlayStore ? (
                       <>
@@ -257,7 +257,7 @@ const ProjectCard = ({ project, index }) => {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold border border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/10 transition-all duration-300"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-sm font-bold border border-border/50 bg-secondary/50 text-foreground hover:border-border/80 hover:bg-secondary/80 transition-all duration-300"
                 >
                   <Github size={16} /> Source Code
                 </a>
