@@ -30,15 +30,15 @@ const ProjectCard = ({ project, index }) => {
   const num = String(index + 1).padStart(2, "0");
 
   const accentColors = {
-    "from-emerald-500 to-teal-600": "#10b981",
+    "from-cyan-500 to-blue-600": "#06b6d4",
     "from-red-500 to-rose-600": "#ef4444",
-    "from-blue-500 to-cyan-600": "#b8860b",
+    "from-blue-500 to-cyan-600": "#06b6d4",
     "from-purple-500 to-indigo-600": "#a855f7",
-    "from-amber-500 to-orange-600": "#f59e0b",
+    "from-amber-500 to-orange-600": "#06b6d4",
     "from-rose-500 to-pink-600": "#f43f5e",
     "from-violet-500 to-purple-600": "#8b5cf6",
   };
-  const accentHex = accentColors[project.accentColor] || "#b8860b";
+  const accentHex = accentColors[project.accentColor] || "#06b6d4";
 
   const getTagIcon = (tag) => {
     const lowerTag = tag.toLowerCase();
@@ -86,11 +86,11 @@ const ProjectCard = ({ project, index }) => {
           {isWebPreview && (
             <div className="h-8 w-full bg-secondary/50 border-b border-border/40 flex items-center px-3 gap-1.5 shrink-0 z-30 relative backdrop-blur-md">
                <div className="w-2.5 h-2.5 rounded-full bg-red-500/80 shadow-sm"></div>
-               <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80 shadow-sm"></div>
-               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 shadow-sm"></div>
+               <div className="w-2.5 h-2.5 rounded-full bg-cyan-500/80 shadow-sm"></div>
+               <div className="w-2.5 h-2.5 rounded-full bg-cyan-500/80 shadow-sm"></div>
                {isHovered ? (
-                 <span className="ml-auto text-[10px] text-emerald-500 uppercase font-bold tracking-widest flex items-center gap-1.5 animate-in fade-in">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                 <span className="ml-auto text-[10px] text-cyan-500 uppercase font-bold tracking-widest flex items-center gap-1.5 animate-in fade-in">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
                     Live
                  </span>
                ) : (
@@ -140,8 +140,8 @@ const ProjectCard = ({ project, index }) => {
               <span
                 className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider glass border ${
                   project.status.toLowerCase() === "completed"
-                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                    : "bg-amber-500/10 text-amber-500 border-amber-500/20"
+                    ? "bg-cyan-500/10 text-cyan-500 border-cyan-500/20"
+                    : "bg-cyan-500/10 text-cyan-500 border-cyan-500/20"
                 }`}
               >
                 {project.status}

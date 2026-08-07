@@ -136,7 +136,7 @@ export const ContactSection = () => {
             Let's Connect
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-amber-400 to-amber-300">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-cyan-400 to-cyan-300">
             Get In Touch
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -271,7 +271,7 @@ export const ContactSection = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={cn(
-                  "group relative overflow-hidden w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-gradient-to-r from-primary to-amber-700 text-white font-medium hover:shadow-primary/40 transition-all duration-300 shadow-lg shadow-primary/25 text-sm",
+                  "group relative overflow-hidden w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-gradient-to-r from-primary to-cyan-700 text-white font-medium hover:shadow-primary/40 transition-all duration-300 shadow-lg shadow-primary/25 text-sm",
                   isSubmitting && "opacity-80 cursor-not-allowed"
                 )}
                 whileHover={{ scale: isSubmitting ? 1 : 1.02 }}

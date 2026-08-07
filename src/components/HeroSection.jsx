@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { projects } from "@/data/projects";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { WireframeCubes } from "./WireframeCubes";
 
 // Dynamic project count — automatically updates when projects are added/removed
 const PROJECT_COUNT = projects.length;
@@ -58,39 +59,9 @@ export const HeroSection = () => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden bg-transparent" ref={ref}>
 
-      {/* Background Grid + Blobs */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(184,134,11,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(184,134,11,0.06)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,black,transparent)]" />
-        </div>
-
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-gradient-to-r from-primary/10 to-amber-500/8 rounded-full"
-            style={{
-              width: Math.random() * 80 + 30 + 'px',
-              height: Math.random() * 80 + 30 + 'px',
-              left: Math.random() * 100 + '%',
-              top: Math.random() * 100 + '%',
-              rotate: Math.random() * 360
-            }}
-            animate={{
-              y: [0, (Math.random() - 0.5) * 50],
-              x: [0, (Math.random() - 0.5) * 30],
-              opacity: [0.08, 0.2, 0.08],
-              scale: [1, 1.15, 1],
-            }}
-            transition={{
-              duration: Math.random() * 8 + 5,
-              repeat: Infinity,
-              repeatType: 'reverse',
-            }}
-          />
-        ))}
-
-        <motion.div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-gradient-to-r from-primary/12 to-amber-700/10 blur-[120px]" animate={{ x: [0, 30, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity }} />
-        <motion.div className="absolute bottom-20 right-10 w-72 h-72 rounded-full bg-gradient-to-r from-amber-400/10 to-amber-600/10 blur-[120px]" animate={{ x: [0, -40, 0], y: [0, 40, 0], scale: [1, 1.2, 1] }} transition={{ duration: 20, repeat: Infinity, delay: 2 }} />
+      {/* Wireframe Cubes Background */}
+      <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 w-[120%] lg:w-[60%] lg:right-[-5%] -z-10 pointer-events-none mix-blend-screen opacity-50 dark:opacity-30">
+        <WireframeCubes />
       </div>
 
       <div className="container max-w-7xl mx-auto w-full mt-8 sm:mt-0">
@@ -116,7 +87,7 @@ export const HeroSection = () => {
             >
               <span className="block text-foreground">I'm Kishan Pokal</span>
               <motion.span
-                className="block bg-gradient-to-r from-primary via-amber-400 to-amber-300 bg-clip-text text-transparent mt-2"
+                className="block bg-gradient-to-r from-primary via-cyan-400 to-cyan-300 bg-clip-text text-transparent mt-2"
                 animate={{ backgroundPosition: ['0%', '100%', '0%'] }}
                 transition={{ duration: 8, repeat: Infinity }}
                 style={{ backgroundSize: '200% 100%' }}
@@ -163,7 +134,7 @@ export const HeroSection = () => {
                 <Magnetic strength={0.4} className="w-full sm:w-auto">
                   <motion.a
                     href="#projects"
-                    className="group relative overflow-hidden w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold bg-gradient-to-r from-primary to-amber-700 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 text-sm flex items-center justify-center gap-2.5 transition-shadow duration-300"
+                    className="group relative overflow-hidden w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold bg-gradient-to-r from-primary to-cyan-700 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 text-sm flex items-center justify-center gap-2.5 transition-shadow duration-300"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                   >
@@ -315,11 +286,11 @@ const TerminalEmulator = ({ codeSnippets }) => {
                   transition-opacity duration-150 ease-in-out
                   ${line.includes("import") ? "text-purple-400 font-semibold" :
                     line.includes("const") || line.includes("new") ? "text-orange-500 font-semibold" :
-                      line.includes("React") || line.includes("Node.js") || line.includes("TypeScript") ? "text-amber-400" :
-                        line.includes("AndroidAIMLEngineer") ? "text-emerald-400 font-semibold" :
+                      line.includes("React") || line.includes("Node.js") || line.includes("TypeScript") ? "text-cyan-400" :
+                        line.includes("AndroidAIMLEngineer") ? "text-cyan-400 font-semibold" :
                           line.includes("//") ? "text-muted-foreground italic" :
                             line.includes("await") || line.includes("connect") ? "text-yellow-400" :
-                              line.includes("'") ? "text-amber-400" :
+                              line.includes("'") ? "text-cyan-400" :
                                 "text-foreground"}
                 `}
               >
@@ -345,7 +316,7 @@ const TerminalEmulator = ({ codeSnippets }) => {
 
       {/* Floating Badges */}
       <motion.div
-        className="absolute -bottom-3 -right-3 w-12 h-12 bg-gradient-to-br from-primary to-amber-700 rounded-xl flex items-center justify-center border-2 border-background shadow-xl shadow-primary/30"
+        className="absolute -bottom-3 -right-3 w-12 h-12 bg-gradient-to-br from-primary to-cyan-700 rounded-xl flex items-center justify-center border-2 border-background shadow-xl shadow-primary/30"
         animate={{ y: [0, -5, 0], rotate: [0, -2, 0], scale: [1, 1.03, 1] }}
         transition={{ duration: 4, repeat: Infinity }}
       >
@@ -358,7 +329,7 @@ const TerminalEmulator = ({ codeSnippets }) => {
         animate={{ scale: 1, rotate: 0 }}
         transition={{ delay: 1.5, type: "spring" }}
       >
-        <Award className="h-4 w-4 text-amber-500" />
+        <Award className="h-4 w-4 text-cyan-500" />
         <span className="text-xs font-semibold text-foreground">Solutions</span>
       </motion.div>
 

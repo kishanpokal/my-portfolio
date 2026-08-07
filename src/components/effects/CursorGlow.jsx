@@ -96,10 +96,10 @@ export const CursorGlow = () => {
         const scale = 1.0;
         ringRef.current.style.transform = `translate3d(${ringCoords.current.x - 20}px, ${ringCoords.current.y - 20}px, 0) scale(${scale})`;
         ringRef.current.style.borderColor = isHovered.current
-          ? "rgba(184, 134, 11, 0.35)"
+          ? "rgba(6, 182, 212, 0.35)"
           : "rgba(255, 255, 255, 0.15)";
         ringRef.current.style.backgroundColor = isHovered.current
-          ? "rgba(184, 134, 11, 0.06)"
+          ? "rgba(6, 182, 212, 0.06)"
           : "rgba(255, 255, 255, 0.03)";
       }
 
@@ -143,7 +143,7 @@ export const CursorGlow = () => {
         className="pointer-events-none fixed left-0 top-0 z-[99997] h-[100px] w-[100px] rounded-full will-change-transform transition-transform duration-300 ease-out"
         style={{
           background:
-            "radial-gradient(circle, rgba(184, 134, 11, 0.08) 0%, transparent 65%)",
+            "radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 65%)",
           filter: "blur(4px)",
         }}
       />
@@ -152,7 +152,7 @@ export const CursorGlow = () => {
       <div
         ref={ringRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[99998] h-[40px] w-[40px] rounded-full border border-white/15 bg-white/[0.03] saturate-[150%] will-change-transform transition-all duration-300 ease-out shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_0_12px_rgba(184,134,11,0.06)]"
+        className="pointer-events-none fixed left-0 top-0 z-[99998] h-[40px] w-[40px] rounded-full border border-white/15 bg-white/[0.03] saturate-[150%] will-change-transform transition-all duration-300 ease-out shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_0_12px_rgba(6,182,212,0.06)]"
       >
         {/* Inner lens flare highlight */}
         <div
@@ -171,7 +171,7 @@ export const CursorGlow = () => {
       <div
         ref={dotRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[99999] h-[6px] w-[6px] rounded-full bg-[#b8860b]/90 shadow-[0_0_6px_rgba(184,134,11,0.6)] will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-[99999] h-[6px] w-[6px] rounded-full bg-[#06b6d4]/90 shadow-[0_0_6px_rgba(6,182,212,0.6)] will-change-transform"
       />
     </>
   );

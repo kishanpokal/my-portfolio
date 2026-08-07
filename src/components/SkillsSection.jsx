@@ -87,7 +87,7 @@ const TickerRow = ({ items, speed = 25, direction = "left" }) => {
         {duplicatedItems.map((skill, index) => {
           const entry = TECH_ICONS[skill.icon];
           const Icon = entry?.Icon;
-          const color = entry?.color || "#b8860b";
+          const color = entry?.color || "#06b6d4";
           
           return (
             <motion.div
@@ -146,7 +146,7 @@ const InfiniteScrollSkills = ({ shiftRow1, shiftRow2, shiftRow3 }) => {
 const SkillCard = ({ skill, index }) => {
   const entry = TECH_ICONS[skill.icon];
   const Icon = entry?.Icon;
-  const color = entry?.color || "#b8860b";
+  const color = entry?.color || "#06b6d4";
 
   return (
     <motion.div
@@ -205,7 +205,7 @@ const SkillCard = ({ skill, index }) => {
 const DetailedSkillCard = ({ skill, index }) => {
   const entry = TECH_ICONS[skill.icon];
   const Icon = entry?.Icon;
-  const color = entry?.color || "#b8860b";
+  const color = entry?.color || "#06b6d4";
 
   return (
     <motion.div

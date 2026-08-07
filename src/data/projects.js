@@ -10,7 +10,7 @@ export const projects = [
         demoUrl: "https://play.google.com/store/apps/details?id=com.kishan.trackeasy",
         githubUrl: "",
         featured: true,
-        accentColor: "from-emerald-500 to-teal-600",
+        accentColor: "from-cyan-500 to-blue-600",
         status: "Completed",
         highlights: [
             "Simple and intuitive expense/activity tracking interface",
@@ -82,7 +82,7 @@ export const projects = [
         demoUrl: "https://habitflowweb.vercel.app/",
         githubUrl: "https://github.com/kishanpokal/habit-tracker-web",
         featured: false,
-        accentColor: "from-amber-500 to-orange-600",
+        accentColor: "from-cyan-500 to-blue-600",
         status: "Completed",
         highlights: [
             "Track daily habits and routines",
@@ -100,7 +100,7 @@ export const projects = [
         demoUrl: "https://cricketbuzz-web.vercel.app/",
         githubUrl: "https://github.com/kishanpokal/Cricket-Game",
         featured: false,
-        accentColor: "from-green-500 to-emerald-600",
+        accentColor: "from-cyan-500 to-blue-600",
         status: "Completed",
         highlights: [
             "Firebase Auth and Matchmaking Lobby",

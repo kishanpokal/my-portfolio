@@ -34,7 +34,7 @@ const CanvasCodeRain = () => {
       ctx.fillRect(0, 0, width, height);
 
       // --- Draw Blueprint Grid ---
-      ctx.strokeStyle = "rgba(239, 214, 172, 0.01)";
+      ctx.strokeStyle = "rgba(52, 211, 153, 0.01)";
       ctx.lineWidth = 1;
       const gridSize = 80;
       for (let x = 0; x < width; x += gridSize) {
@@ -53,7 +53,7 @@ const CanvasCodeRain = () => {
       // --- Draw Central HUD Target (Blueprint) ---
       const cx = width / 2;
       const cy = height / 2;
-      ctx.strokeStyle = "rgba(239, 214, 172, 0.015)";
+      ctx.strokeStyle = "rgba(52, 211, 153, 0.015)";
       ctx.lineWidth = 1.5;
       
       // Circles
@@ -61,13 +61,13 @@ const CanvasCodeRain = () => {
       ctx.arc(cx, cy, 220, 0, Math.PI * 2);
       ctx.stroke();
 
-      ctx.strokeStyle = "rgba(239, 214, 172, 0.008)";
+      ctx.strokeStyle = "rgba(52, 211, 153, 0.008)";
       ctx.beginPath();
       ctx.arc(cx, cy, 320, 0, Math.PI * 2);
       ctx.stroke();
 
       // Crosshairs
-      ctx.strokeStyle = "rgba(239, 214, 172, 0.01)";
+      ctx.strokeStyle = "rgba(52, 211, 153, 0.01)";
       ctx.beginPath();
       ctx.moveTo(cx - 360, cy);
       ctx.lineTo(cx + 360, cy);
@@ -77,8 +77,8 @@ const CanvasCodeRain = () => {
 
       // --- Draw Falling Matrix Code Rain ---
       ctx.shadowBlur = 6;
-      ctx.shadowColor = "rgba(239, 214, 172, 0.5)";
-      ctx.fillStyle = "rgba(239, 214, 172, 0.18)";
+      ctx.shadowColor = "rgba(52, 211, 153, 0.5)";
+      ctx.fillStyle = "rgba(52, 211, 153, 0.18)";
       ctx.font = `bold ${fontSize}px monospace`;
 
       for (let i = 0; i < drops.length; i++) {
@@ -92,7 +92,7 @@ const CanvasCodeRain = () => {
         if (Math.random() > 0.98) {
           ctx.fillStyle = "#ffffff";
           ctx.fillText(text, x, y);
-          ctx.fillStyle = "rgba(239, 214, 172, 0.18)";
+          ctx.fillStyle = "rgba(52, 211, 153, 0.18)";
         }
 
         if (y > height && Math.random() > 0.975) {
@@ -154,7 +154,7 @@ const GlowOrbs = () => (
       transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
     />
     <motion.div
-      className="absolute w-80 h-80 rounded-full bg-amber-500/8 blur-[100px]"
+      className="absolute w-80 h-80 rounded-full bg-emerald-500/8 blur-[100px]"
       style={{ bottom: "15%", right: "10%" }}
       animate={{
         x: [0, -50, 0],
@@ -206,7 +206,7 @@ const AnimatedName = ({ name, active }) => {
           className={
             char === " "
               ? "mr-4"
-              : "bg-gradient-to-r from-amber-400 via-amber-600 to-amber-300 bg-clip-text text-transparent inline-block font-display"
+              : "bg-gradient-to-r from-emerald-400 via-emerald-600 to-emerald-300 bg-clip-text text-transparent inline-block font-display"
           }
         >
           {char}
@@ -306,7 +306,7 @@ export const WelcomeScreen = ({ onWelcomeComplete }) => {
 
           {/* Sweeping laser scan line */}
           <motion.div
-            className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber-400/40 to-transparent shadow-[0_0_12px_rgba(239,214,172,0.4)] pointer-events-none z-10"
+            className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent shadow-[0_0_12px_rgba(52,211,153,0.4)] pointer-events-none z-10"
             animate={{ y: ["-10vh", "110vh"] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
           />
@@ -332,25 +332,25 @@ export const WelcomeScreen = ({ onWelcomeComplete }) => {
             >
               {/* Concentric pulsing sonar rings */}
               <motion.div
-                className="absolute -inset-6 rounded-full border border-amber-400/30"
+                className="absolute -inset-6 rounded-full border border-emerald-400/30"
                 animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
               />
               <motion.div
-                className="absolute -inset-6 rounded-full border border-amber-500/25"
+                className="absolute -inset-6 rounded-full border border-emerald-500/25"
                 animate={{ scale: [1, 1.8], opacity: [0.4, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 1 }}
               />
 
               {/* Inner ring (Dashed Cyan: rotating clockwise) */}
               <motion.div
-                className="absolute -inset-4 rounded-full border-2 border-dashed border-amber-400/35"
+                className="absolute -inset-4 rounded-full border-2 border-dashed border-emerald-400/35"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
               />
               {/* Outer ring (Thin Solid Violet: rotating counter-clockwise) */}
               <motion.div
-                className="absolute -inset-8 rounded-full border border-amber-500/25"
+                className="absolute -inset-8 rounded-full border border-emerald-500/25"
                 animate={{ rotate: -360 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
               />
@@ -390,7 +390,7 @@ export const WelcomeScreen = ({ onWelcomeComplete }) => {
               initial={{ opacity: 0, y: 15 }}
               animate={phase >= 2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
               transition={{ delay: 0.45, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-amber-400/20 bg-amber-400/5 text-amber-400 text-xs font-mono tracking-widest uppercase mb-6 select-none shadow-[0_0_15px_rgba(239,214,172,0.06)]"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-emerald-400/20 bg-emerald-400/5 text-emerald-400 text-xs font-mono tracking-widest uppercase mb-6 select-none shadow-[0_0_15px_rgba(52,211,153,0.06)]"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               AI/ML Engineer
@@ -404,8 +404,8 @@ export const WelcomeScreen = ({ onWelcomeComplete }) => {
               transition={{ delay: 0.6, duration: 0.5 }}
             >
               {/* Digital Percentage Readout */}
-              <div className="text-4xl font-mono font-light text-amber-400/90 tracking-widest drop-shadow-[0_0_15px_rgba(251,191,36,0.3)]">
-                {Math.floor(progress).toString().padStart(3, '0')}<span className="text-amber-500/50 text-2xl">%</span>
+              <div className="text-4xl font-mono font-light text-emerald-400/90 tracking-widest drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                {Math.floor(progress).toString().padStart(3, '0')}<span className="text-emerald-500/50 text-2xl">%</span>
               </div>
               
               {/* Segmented Data Nodes */}
@@ -415,7 +415,7 @@ export const WelcomeScreen = ({ onWelcomeComplete }) => {
                     key={i}
                     className={`h-1 w-3 sm:w-4 rounded-sm transition-all duration-300 ${
                       progress > (i / 12) * 100 
-                        ? 'bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.8)]' 
+                        ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]' 
                         : 'bg-primary/20'
                     }`}
                   />
@@ -423,7 +423,7 @@ export const WelcomeScreen = ({ onWelcomeComplete }) => {
               </div>
               
               {/* Status text */}
-              <div className="text-[9px] uppercase tracking-[0.3em] text-amber-500/50 font-mono mt-1">
+              <div className="text-[9px] uppercase tracking-[0.3em] text-emerald-500/50 font-mono mt-1">
                 {progress < 100 ? "Compiling Neural Pathways..." : "System Online"}
               </div>
             </motion.div>

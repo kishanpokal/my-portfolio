@@ -7,6 +7,7 @@ import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
 import { CursorGlow } from "@/components/effects/CursorGlow";
 import { ScrollProgress } from "@/components/effects/ScrollProgress";
+import { F1ScrollIntro } from "@/components/F1ScrollIntro";
 
 export const Home = () => {
   return (
@@ -20,6 +21,9 @@ export const Home = () => {
 
       {/* Film-grain overlay for depth */}
       <div className="grain" aria-hidden="true" />
+
+      {/* F1 Scroll-Driven Frame Animation Intro */}
+      <F1ScrollIntro />
 
       {/* Navbar (Bottom) */}
       <Navbar />

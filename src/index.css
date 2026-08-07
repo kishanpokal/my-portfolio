@@ -31,6 +31,9 @@
 
   --color-destructive: hsl(var(--destructive));
 
+  /* ---- Backgrounds ---- */
+  --background-image-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+
   /* ---- Animations ---- */
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
@@ -141,23 +144,23 @@
 
 @layer base {
   /* ═══════════════════════════════════════════════════════════════
-     60-30-10 Rule: "Midnight Gold" Premium Theme
+     60-30-10 Rule: "Zinc Cyan" Clean Theme
      ───────────────────────────────────────────────────────────────
-     60% — Neutral base (backgrounds, body)
-     30% — Supporting tones (cards, sections, borders)
-     10% — Accent gold (CTAs, highlights, interactive elements)
+     60% — Neutral base (pure white / deep charcoal backgrounds)
+     30% — Supporting tones (zinc cards, surfaces, borders)
+     10% — Cyan accent (CTAs, highlights, interactive elements)
    ═══════════════════════════════════════════════════════════════ */
   :root {
-    /* 60% — Crisp White */
+    /* 60% — Pure White */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
 
-    /* 30% — Soft light gray cards */
-    --card: 0 0% 98%;
+    /* 30% — Soft zinc-100 cards */
+    --card: 240 5% 96%;
     --card-foreground: 240 10% 3.9%;
 
-    /* 10% — Primary (Keep the signature gold) */
-    --primary: 38 88% 38%;
+    /* 10% — Cyan accent */
+    --primary: 192 91% 49%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 4.8% 95.9%;
@@ -178,29 +181,29 @@
   }
 
   .dark {
-    /* 60% — Deep charcoal-navy background */
-    --background: 228 20% 8%;
-    --foreground: 40 15% 90%;
+    /* 60% — Matte charcoal-ink background (#131313 — premium editorial black) */
+    --background: 0 0% 7.5%;
+    --foreground: 0 0% 93%;
 
-    /* 30% — Elevated dark surface */
-    --card: 228 16% 13%;
-    --card-foreground: 40 15% 90%;
+    /* 30% — Elevated neutral surface */
+    --card: 0 0% 10.5%;
+    --card-foreground: 0 0% 93%;
 
-    /* 10% — Warm gold accent (brighter for contrast) */
-    --primary: 38 65% 55%;
-    --primary-foreground: 228 20% 8%;
+    /* 10% — Cyan accent (brighter for dark contrast) */
+    --primary: 192 91% 56%;
+    --primary-foreground: 0 0% 7.5%;
 
-    --secondary: 228 12% 17%;
-    --secondary-foreground: 40 12% 80%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 80%;
 
-    --muted: 228 12% 14%;
-    --muted-foreground: 40 8% 55%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 228 12% 17%;
-    --accent-foreground: 40 15% 90%;
+    --accent: 0 0% 14%;
+    --accent-foreground: 0 0% 93%;
 
-    --border: 228 12% 18%;
-    --input: 228 12% 18%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
 
     --destructive: 0 63% 40%;
 
@@ -298,13 +301,13 @@
   box-shadow: 0 0 10px 5px var(--meteor-glow, rgba(255, 255, 255, 0.3));
 }
 
-/* ---- Premium text gradient (accent-anchored) ---- */
+/* ---- Premium text gradient (cyan-anchored) ---- */
 @utility text-gradient {
   background-image: linear-gradient(
     110deg,
     hsl(var(--primary)),
-    hsl(38 65% 55%),
-    hsl(28 50% 40%)
+    hsl(192 91% 56%),
+    hsl(200 70% 45%)
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -317,16 +320,6 @@
   @apply absolute rounded-full pointer-events-none;
   filter: blur(90px);
   will-change: transform, opacity;
-}
-
-/* ---- Subtle film-grain overlay for depth ---- */
-@utility grain {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ---- Spotlight card: radial glow follows cursor via --mx/--my ---- */
@@ -349,15 +342,15 @@
 }
 
 :root {
-  --star-glow: hsl(38 88% 38% / 0.5);
-  --meteor-glow: hsl(38 65% 55% / 0.4);
+  --star-glow: hsl(192 91% 49% / 0.5);
+  --meteor-glow: hsl(160 72% 50% / 0.4);
 }
 
 .dark {
-  --star-color: #f5e6c8 !important;
-  --star-glow: rgba(245, 230, 200, 0.45) !important;
-  --meteor-color: #d4a24c !important;
-  --meteor-glow: rgba(212, 162, 76, 0.35) !important;
+  --star-color: #67e8f9 !important;
+  --star-glow: rgba(103, 232, 249, 0.45) !important;
+  --meteor-color: #22d3ee !important;
+  --meteor-glow: rgba(34, 211, 238, 0.35) !important;
 }
 
 /* Bottom nav safe area */
@@ -374,6 +367,39 @@
   margin: 0 auto;
   padding: 0;
   text-align: center;
+}
+
+/* ---- Premium film grain overlay ---- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+}
+.dark .grain {
+  opacity: 1;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
 }
 
 ::-webkit-scrollbar {
