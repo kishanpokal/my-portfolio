@@ -5,31 +5,19 @@ import { SkillsSection } from "../components/SkillsSection";
 import { ProjectsSection } from "../components/ProjectsSection";
 import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
-import { CursorGlow } from "@/components/effects/CursorGlow";
-import { ScrollProgress } from "@/components/effects/ScrollProgress";
-import { F1ScrollIntro } from "@/components/F1ScrollIntro";
 
 export const Home = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-clip">
-      {/* Scroll + cursor UX layer */}
-      <ScrollProgress />
-      <CursorGlow />
+    <div className="min-h-screen bg-background text-foreground relative">
+      {/* Animated mesh gradient background */}
+      <div className="mesh-bg" aria-hidden="true" />
 
-      {/* Background Effects */}
-      {/* StarBackground is now rendered globally in App.jsx */}
+      {/* Subtle noise texture overlay */}
+      <div className="fixed inset-0 z-[1] pointer-events-none bg-noise mix-blend-overlay" />
 
-      {/* Film-grain overlay for depth */}
-      <div className="grain" aria-hidden="true" />
-
-      {/* F1 Scroll-Driven Frame Animation Intro */}
-      <F1ScrollIntro />
-
-      {/* Navbar (Bottom) */}
       <Navbar />
 
-      {/* Main Content */}
-      <main className="relative z-10 pb-nav">
+      <main className="relative z-10 flex flex-col">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
@@ -37,7 +25,6 @@ export const Home = () => {
         <ContactSection />
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

@@ -3,17 +3,14 @@ import {
   Linkedin,
   Mail,
   MapPin,
-  Phone,
-  Send,
   Github,
   Loader2,
-  Sparkles
+  Send
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 export const ContactSection = () => {
   const { toast } = useToast();
@@ -77,8 +74,7 @@ export const ContactSection = () => {
         toast({
           title: "Message sent! 🎉",
           description: "I'll get back to you within 24 hours.",
-          variant: "success",
-          className: "bg-green-600 text-white dark:bg-green-500 border border-green-700 shadow-lg"
+          variant: "default",
         });
         setFormData({ name: '', email: '', message: '' });
       } else {
@@ -95,175 +91,143 @@ export const ContactSection = () => {
     }
   };
 
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
+  const containerVariants = {
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], staggerChildren: 0.1 }
     }
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 40, scale: 0.97 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
-    }
+  const childVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 relative bg-transparent">
-      <div className="container mx-auto max-w-6xl">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-12 sm:mb-14"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={sectionVariants}
-        >
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-5 border border-primary/20"
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            viewport={{ once: true }}
+    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-6 bg-background">
+      <motion.div 
+        className="container mx-auto max-w-5xl"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+      >
+        <div className="mb-16 md:mb-24 text-center">
+          <motion.h2 
+            variants={childVariants}
+            className="text-4xl sm:text-5xl md:text-6xl font-serif text-foreground mb-6"
           >
-            <Sparkles className="h-4 w-4" />
-            Let's Connect
-          </motion.div>
-
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-cyan-400 to-cyan-300">
-            Get In Touch
-          </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Have a project in mind or just want to say hi? My inbox is always open.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-          {/* Contact Info */}
-          <SpotlightCard
-            className="p-5 sm:p-7 rounded-2xl bg-card/60 border border-border/50 glass shadow-lg transition-all duration-500 hover:shadow-xl hover:border-primary/30"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-30px" }}
-            variants={cardVariants}
+            Let's build something together.
+          </motion.h2>
+          <motion.p 
+            variants={childVariants}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            <div className="space-y-5">
-            <h3 className="text-lg sm:text-xl font-bold mb-4 flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-primary"></span>
-              Contact Details
-            </h3>
+            I'm always open to discussing new projects, creative ideas, or opportunities to grow.
+          </motion.p>
+        </div>
 
-            <div className="space-y-3">
-              {[
-                { icon: Mail, label: "Email", value: "kishanpokal1111@gmail.com", href: "mailto:kishanpokal1111@gmail.com" },
-                { icon: MapPin, label: "Location", value: "Ahmedabad, Gujarat, India", href: null },
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center gap-3.5 p-3 hover:bg-accent/30 rounded-xl transition-all duration-300"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ x: 4 }}
-                >
-                  <div className="p-2.5 rounded-xl bg-primary/10 text-primary flex-shrink-0">
-                    <item.icon className="h-4 w-4" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
+          {/* Left Column: Contact Info */}
+          <motion.div variants={childVariants} className="space-y-10">
+            <div>
+              <h3 className="text-xl font-semibold mb-6">Contact Details</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-secondary rounded-xl text-primary">
+                    <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground">{item.label}</p>
-                    {item.href ? (
-                      <a href={item.href} className="text-sm font-medium hover:text-primary transition-colors">
-                        {item.value}
-                      </a>
-                    ) : (
-                      <span className="text-sm font-medium">{item.value}</span>
-                    )}
+                    <p className="text-sm text-muted-foreground mb-1">Email</p>
+                    <a href="mailto:kishanpokal1111@gmail.com" className="text-foreground hover:text-primary transition-colors text-lg">
+                      kishanpokal1111@gmail.com
+                    </a>
                   </div>
-                </motion.div>
-              ))}
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-secondary rounded-xl text-primary">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Location</p>
+                    <p className="text-foreground text-lg">
+                      Ahmedabad, Gujarat, India
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="pt-5">
-              <h4 className="font-medium mb-3 text-xs text-muted-foreground">Find me on</h4>
-              <div className="flex gap-2.5">
+            <div>
+              <h3 className="text-xl font-semibold mb-6">Connect</h3>
+              <div className="flex gap-4">
                 {[
-                  { icon: Linkedin, label: "LinkedIn", url: "https://www.linkedin.com/in/kishanpokal956/" },
-                  { icon: Github, label: "GitHub", url: "https://github.com/KishanPokal" },
-                  { icon: Instagram, label: "Instagram", url: "https://www.instagram.com/kishan._.pokal/" },
-                ].map((social, index) => (
+                  { icon: Linkedin, url: "https://www.linkedin.com/in/kishanpokal956/", label: "LinkedIn" },
+                  { icon: Github, url: "https://github.com/KishanPokal", label: "GitHub" },
+                  { icon: Instagram, url: "https://www.instagram.com/kishan._.pokal/", label: "Instagram" },
+                ].map((social, idx) => (
                   <motion.a
-                    key={index}
+                    key={idx}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-xl bg-accent/50 hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300"
-                    whileHover={{ scale: 1.12, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
                     aria-label={social.label}
+                    className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-primary transition-colors"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <social.icon className="h-4 w-4" />
+                    <social.icon className="w-5 h-5" />
                   </motion.a>
                 ))}
               </div>
             </div>
-            </div>
-          </SpotlightCard>
+          </motion.div>
 
-          {/* Contact Form */}
-          <SpotlightCard
-            className="p-5 sm:p-7 rounded-2xl bg-card/60 border border-border/50 glass shadow-lg transition-all duration-500 hover:shadow-xl hover:border-primary/30"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-30px" }}
-            variants={cardVariants}
-          >
-            <h3 className="relative z-10 text-lg sm:text-xl font-bold mb-5 flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-primary"></span>
-              Send Me a Message
-            </h3>
+          {/* Right Column: Form */}
+          <motion.div variants={childVariants}>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label htmlFor="name" className="sr-only">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your Name"
+                  required
+                  className="w-full px-5 py-4 bg-transparent border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Your Email"
+                  required
+                  className="w-full px-5 py-4 bg-transparent border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
 
-            <form className="relative z-10 space-y-4" onSubmit={handleSubmit}>
-              {[
-                { id: "name", label: "Your Name", type: "text", placeholder: "John Doe" },
-                { id: "email", label: "Your Email", type: "email", placeholder: "john@example.com" },
-              ].map((field) => (
-                <div key={field.id} className="space-y-1">
-                  <label htmlFor={field.id} className="text-xs sm:text-sm font-medium text-muted-foreground">
-                    {field.label}
-                  </label>
-                  <input
-                    type={field.type}
-                    id={field.id}
-                    name={field.id}
-                    value={formData[field.id]}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-input bg-background/80 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all text-sm placeholder:text-muted-foreground/50"
-                    placeholder={field.placeholder}
-                  />
-                </div>
-              ))}
-
-              <div className="space-y-1">
-                <label htmlFor="message" className="text-xs sm:text-sm font-medium text-muted-foreground">
-                  Your Message
-                </label>
+              <div>
+                <label htmlFor="message" className="sr-only">Message</label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
+                  placeholder="Your Message"
                   required
-                  rows={4}
-                  className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl border border-input bg-background/80 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all resize-none text-sm placeholder:text-muted-foreground/50"
-                  placeholder="Hey, I'd love to collaborate on..."
+                  rows={5}
+                  className="w-full px-5 py-4 bg-transparent border border-border rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground resize-none"
                 />
               </div>
 
@@ -271,28 +235,28 @@ export const ContactSection = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={cn(
-                  "group relative overflow-hidden w-full flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-gradient-to-r from-primary to-cyan-700 text-white font-medium hover:shadow-primary/40 transition-all duration-300 shadow-lg shadow-primary/25 text-sm",
-                  isSubmitting && "opacity-80 cursor-not-allowed"
+                  "w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity",
+                  isSubmitting && "opacity-70 cursor-not-allowed hover:opacity-70"
                 )}
                 whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                 whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                     Sending...
                   </>
                 ) : (
                   <>
                     Send Message
-                    <Send size={15} />
+                    <Send className="w-5 h-5" />
                   </>
                 )}
               </motion.button>
             </form>
-          </SpotlightCard>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

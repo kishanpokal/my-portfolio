@@ -1,347 +1,285 @@
-import { ArrowDown, MousePointerClick, Sparkles, Code, Palette, Rocket, Award, Download, Calendar, Shield, Zap, Users, TrendingUp, Briefcase, Mail } from "lucide-react";
-import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { projects } from "@/data/projects";
-import { Magnetic } from "@/components/ui/Magnetic";
-import { WireframeCubes } from "./WireframeCubes";
+import { useRef, useEffect } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { ArrowRight, ChevronDown, Mail } from "lucide-react";
 
-// Dynamic project count — automatically updates when projects are added/removed
-const PROJECT_COUNT = projects.length;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CUSTOM 3D HERO ANIMATION
+   - Interactive mouse parallax
+   - Glassmorphic ID card
+   - Floating code window
+   - Glowing elements tailored for Kishan Pokal
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const CustomHeroAnimation = () => {
+  const containerRef = useRef(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
+  const rotateX = useSpring(useTransform(mouseY, [-400, 400], [12, -12]), { stiffness: 60, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [-400, 400], [-12, 12]), { stiffness: 60, damping: 20 });
+  const x = useSpring(useTransform(mouseX, [-400, 400], [-25, 25]), { stiffness: 60, damping: 20 });
+  const y = useSpring(useTransform(mouseY, [-400, 400], [-25, 25]), { stiffness: 60, damping: 20 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      mouseX.set(e.clientX - centerX);
+      mouseY.set(e.clientY - centerY);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  return (
+    <div ref={containerRef} className="relative w-full max-w-[450px] aspect-square flex items-center justify-center mx-auto" style={{ perspective: "1200px" }}>
+      {/* Soft background glow tied to the animation */}
+      <div className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
+
+      <motion.div 
+        style={{ rotateX, rotateY, x, y }}
+        className="relative w-full h-full flex items-center justify-center"
+      >
+        {/* Main Floating Profile Card */}
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+          className="absolute z-10 w-[280px] sm:w-[320px] rounded-3xl border border-border/50 bg-card/90 backdrop-blur-2xl p-6 shadow-2xl flex flex-col items-center gap-5"
+        >
+          <div className="w-28 h-28 rounded-full overflow-hidden border border-primary/30 p-1 relative">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/40 to-transparent rounded-full animate-spin-slow" />
+            <div className="w-full h-full rounded-full bg-secondary overflow-hidden relative z-10">
+               <img src="/profile-logo.png" alt="Kishan Pokal" className="w-full h-full object-cover" onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=Kishan+Pokal&background=1C1C1F&color=C8A2FF&size=128" }} />
+            </div>
+          </div>
+          
+          <div className="text-center w-full">
+            <h3 className="font-serif text-3xl text-foreground mb-1">Kishan Pokal</h3>
+            <p className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-400">
+              Software Engineer
+            </p>
+          </div>
+
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-border/80 to-transparent my-1" />
+          
+          <div className="flex gap-2 justify-center w-full flex-wrap">
+            {['Kotlin', 'React', 'Python', 'AI/ML'].map((tech) => (
+              <span key={tech} className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-secondary/60 text-secondary-foreground border border-border/30">
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {/* Floating Status Pill (Attached to Card) */}
+          <motion.div
+            animate={{ y: [0, -6, 0], x: [0, 4, 0] }}
+            transition={{ duration: 5, ease: "easeInOut", repeat: Infinity, delay: 1 }}
+            className="absolute -bottom-4 -left-4 sm:-left-8 rounded-2xl border border-primary/20 bg-card/95 backdrop-blur-xl px-4 py-3 shadow-xl z-20 flex items-center gap-3"
+          >
+            <div className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+            </div>
+            <p className="text-xs font-semibold text-foreground tracking-wide">Available for work</p>
+          </motion.div>
+        </motion.div>
+
+        {/* Floating Code Snippet Window */}
+        <motion.div
+          animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
+          transition={{ duration: 7, ease: "easeInOut", repeat: Infinity, delay: 0.5 }}
+          className="absolute -top-[5%] -right-[20%] sm:-right-[30%] lg:-right-[35%] w-[240px] rounded-xl border border-border/40 bg-card/95 backdrop-blur-xl p-4 shadow-2xl z-20"
+        >
+          <div className="flex gap-1.5 mb-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+            <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green-400/80" />
+          </div>
+          <div className="space-y-1.5 font-mono text-[11px] leading-relaxed text-muted-foreground">
+            <p><span className="text-pink-400">const</span> <span className="text-blue-400">developer</span> = {'{'}</p>
+            <p className="pl-4">name: <span className="text-green-300">'Kishan Pokal'</span>,</p>
+            <p className="pl-4">role: <span className="text-green-300">'AI/ML & App Dev'</span>,</p>
+            <p className="pl-4">coffee: <span className="text-orange-300">true</span></p>
+            <p>{'}'};</p>
+          </div>
+        </motion.div>
+
+
+        {/* Decorative elements */}
+        <motion.div 
+           animate={{ rotate: 360 }}
+           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+           className="absolute top-[10%] left-[10%] text-primary/30"
+        >
+           ✦
+        </motion.div>
+        <motion.div 
+           animate={{ rotate: -360 }}
+           transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+           className="absolute bottom-[10%] right-[10%] text-pink-400/30 text-2xl"
+        >
+           ✧
+        </motion.div>
+
+      </motion.div>
+    </div>
+  );
+};
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO SECTION
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 export const HeroSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const codeSnippets = [
-    "import { AndroidAIMLEngineer } from 'kishan.dev';",
-    "",
-    "const developer = new AndroidAIMLEngineer({",
-    "  name: 'Kishan Pokal',",
-    "  stack: ['Android Development', 'Artificial Intelligence', 'Java', 'Firebase', 'Python'],",
-    "  focus: 'Building Android apps and AI-powered tools that solve real-world problems',",
-    "  status: 'Open to internships and junior developer opportunities'",
-    "});",
-    "",
-    "await developer.launchPortfolio();",
-    "// Featured: Android Apps, AI Tools, Open Source",
-    "",
-    "developer.connect();",
-    "console.log('🚀 Let\\'s build something exceptional together!');"
-  ];
-
-  const achievements = [
-    { number: `${PROJECT_COUNT}+`, label: "Software Projects", icon: <Code className="h-3.5 w-3.5" /> },
-    { number: "Android", label: "App Development", icon: <Zap className="h-3.5 w-3.5" /> },
-    { number: "AI &", label: "Automation", icon: <Sparkles className="h-3.5 w-3.5" /> },
-    { number: "Active", label: "Learner", icon: <Award className="h-3.5 w-3.5" /> }
-  ];
-
-  const handleViewResume = () => {
-    window.open('/Kishan_resume.pdf', '_blank', 'noopener,noreferrer');
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.3 }
-    }
+      transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+    },
   };
 
   const itemVariants = {
-    hidden: { y: 40, opacity: 0 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
-      y: 0,
       opacity: 1,
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
-    }
+      y: 0,
+      transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
+    },
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden bg-transparent" ref={ref}>
-
-      {/* Wireframe Cubes Background */}
-      <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 w-[120%] lg:w-[60%] lg:right-[-5%] -z-10 pointer-events-none mix-blend-screen opacity-50 dark:opacity-30">
-        <WireframeCubes />
-      </div>
-
-      <div className="container max-w-7xl mx-auto w-full mt-8 sm:mt-0">
-        <motion.div
-          className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16"
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={containerVariants}
-        >
-
-          {/* Left - Text Content */}
-          <div className="flex-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary/10 via-background to-background"
+    >
+      <div className="container max-w-7xl mx-auto w-full relative z-10 pt-24 pb-16">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+          {/* Left — Text Content */}
+          <motion.div
+            className="flex-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            {/* Status badge */}
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6 glass-subtle"
               variants={itemVariants}
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-primary/8 border border-primary/15 mb-8"
             >
-              <Briefcase className="h-4 w-4" /> Open to Internship Opportunities
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+              </span>
+              <span className="text-xs font-medium text-primary/90">
+                Open to Opportunities
+              </span>
             </motion.div>
 
+            {/* Heading */}
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight"
               variants={itemVariants}
+              className="font-serif text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.25rem] text-foreground leading-[1.05] tracking-tight mb-6"
             >
-              <span className="block text-foreground">I'm Kishan Pokal</span>
-              <motion.span
-                className="block bg-gradient-to-r from-primary via-cyan-400 to-cyan-300 bg-clip-text text-transparent mt-2"
-                animate={{ backgroundPosition: ['0%', '100%', '0%'] }}
-                transition={{ duration: 8, repeat: Infinity }}
-                style={{ backgroundSize: '200% 100%' }}
-              >
-                AI/ML Engineer
-              </motion.span>
+              I craft intelligent
+              <br />
+              <span className="text-gradient">
+                systems
+              </span>{" "}
+              that{" "}
+              <span className="italic text-foreground/90">matter.</span>
             </motion.h1>
 
+            {/* Subtitle */}
             <motion.p
-              className="text-base sm:text-lg text-muted-foreground mt-6 leading-relaxed max-w-xl mx-auto lg:mx-0"
               variants={itemVariants}
+              className="text-lg md:text-xl text-muted-foreground font-medium mb-3"
             >
-              I am a <span className="text-primary font-semibold">Computer Science student</span> from Gujarat University passionate about building AI-powered tools and intelligent applications. Currently working on advanced AI assistants and intelligent systems while exploring modern machine learning technologies and data-driven solutions.
+              Kishan Pokal — AI/ML Engineer & Developer
             </motion.p>
 
-            {/* Achievements Grid (hidden on mobile to reduce scroll height) */}
-            <motion.div
-              className="hidden sm:grid grid-cols-2 sm:grid-cols-4 gap-3 my-8"
+            {/* Description */}
+            <motion.p
               variants={itemVariants}
+              className="text-muted-foreground mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed"
             >
-              {achievements.map((achievement, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center p-3 sm:p-4 rounded-xl bg-background/60 border border-border/50 glass-subtle hover:border-primary/30 transition-all duration-300 group cursor-default"
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                >
-                  <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                    <span className="text-primary group-hover:scale-110 transition-transform duration-300">{achievement.icon}</span>
-                    <div className="text-xl sm:text-2xl font-bold text-foreground">{achievement.number}</div>
-                  </div>
-                  <div className="text-[11px] sm:text-xs text-muted-foreground font-medium">{achievement.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
- 
-            {/* CTA Buttons (Responsive stacked/side-by-side layout) */}
+              Computer Science graduate from Gujarat University, building
+              performant Android apps and AI-powered experiences that solve real
+              problems.
+            </motion.p>
+
+            {/* CTA buttons */}
             <motion.div
-              className="flex flex-col gap-3 justify-center lg:justify-start w-full sm:w-auto"
               variants={itemVariants}
+              className="flex flex-col sm:flex-row items-center gap-4"
             >
-              <div className="flex flex-col sm:flex-row gap-3 w-full">
-                {/* View Projects - Stays full width / primary */}
-                <Magnetic strength={0.4} className="w-full sm:w-auto">
-                  <motion.a
-                    href="#projects"
-                    className="group relative overflow-hidden w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold bg-gradient-to-r from-primary to-cyan-700 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 text-sm flex items-center justify-center gap-2.5 transition-shadow duration-300"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-                    <Code className="h-4 w-4" />
-                    <span>View Projects</span>
-                    <TrendingUp className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </motion.a>
-                </Magnetic>
- 
-                {/* Secondary Actions - side-by-side on mobile, inline on desktop */}
-                <div className="flex gap-3 w-full sm:w-auto">
-                  <Magnetic strength={0.4} className="w-1/2 sm:w-auto">
-                    <motion.a
-                      href="#contact"
-                      className="group relative overflow-hidden w-full px-5 sm:px-7 py-3.5 rounded-xl font-semibold border border-primary/40 text-foreground hover:border-primary hover:bg-primary/5 transition-all duration-300 bg-background/80 glass-subtle text-sm flex items-center justify-center gap-2"
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <Mail className="h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">Contact</span>
-                    </motion.a>
-                  </Magnetic>
- 
-                  <Magnetic strength={0.4} className="w-1/2 sm:w-auto">
-                    <motion.button
-                      onClick={handleViewResume}
-                      className="group relative overflow-hidden w-full px-5 sm:px-6 py-3.5 rounded-xl font-semibold border border-border text-muted-foreground hover:border-primary/30 hover:text-foreground transition-all duration-300 bg-background/60 glass-subtle text-sm flex items-center justify-center gap-2"
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <Download className="h-4 w-4 group-hover:translate-y-0.5 transition-transform flex-shrink-0" />
-                      <span className="truncate">Resume</span>
-                    </motion.button>
-                  </Magnetic>
-                </div>
-              </div>
+              <motion.a
+                href="#projects"
+                className="group flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-sm
+                           bg-gradient-to-r from-primary via-[#A78BFA] to-[#E879F9]
+                           text-white shadow-lg shadow-primary/25
+                           hover:shadow-xl hover:shadow-primary/40
+                           transition-shadow duration-300
+                           w-full sm:w-auto justify-center"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                View My Work
+                <ArrowRight
+                  size={16}
+                  className="group-hover:translate-x-0.5 transition-transform"
+                />
+              </motion.a>
+
+              <motion.a
+                href="#contact"
+                className="group flex items-center gap-2.5 px-7 py-3.5 rounded-full font-semibold text-sm
+                           border border-border/80 text-foreground
+                           hover:border-primary/40 hover:bg-primary/5
+                           transition-all duration-300
+                           w-full sm:w-auto justify-center"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Get In Touch
+                <Mail size={16} />
+              </motion.a>
             </motion.div>
- 
-            <motion.div
-              className="mt-5 text-center lg:text-left"
-              variants={itemVariants}
-            >
-              <div className="text-sm text-muted-foreground">
-                🚀 <span className="text-primary font-semibold">Available</span> for Internships and Junior Developer Roles
-              </div>
-            </motion.div>
-          </div>
- 
-          {/* Right - Code Terminal (hidden on mobile for compact layout) */}
-          <motion.div
-            className="hidden lg:flex flex-1 justify-end w-full"
-            variants={itemVariants}
-          >
-            <div className="relative w-full max-w-md">
-              <TerminalEmulator codeSnippets={codeSnippets} />
-            </div>
           </motion.div>
-        </motion.div>
+
+          {/* Right — Custom 3D Animation */}
+          <motion.div
+            className="flex-shrink-0 flex items-center justify-center w-full lg:w-1/2"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
+          >
+            <CustomHeroAnimation />
+          </motion.div>
+        </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-24 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: [0, 1, 1, 0], y: [0, 6, 0, -6] }}
-        transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
-        <motion.div
-          className="text-xs text-primary mb-2.5 flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/80 glass border border-border/50 shadow-lg"
-          whileHover={{ scale: 1.05 }}
+        <motion.a
+          href="#about"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
         >
-          <MousePointerClick className="h-3 w-3" />
-          <span>Explore Portfolio</span>
-        </motion.div>
-        <motion.div
-          animate={{ y: [0, 4, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-5 h-8 border-2 border-primary/30 rounded-full flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-1 h-2 bg-primary rounded-full mt-2"
-          />
-        </motion.div>
+          <span className="text-[11px] uppercase tracking-widest font-medium">
+            Scroll
+          </span>
+          <ChevronDown size={18} />
+        </motion.a>
       </motion.div>
     </section>
-  );
-};
-
-const TerminalEmulator = ({ codeSnippets }) => {
-  const [currentCodeLine, setCurrentCodeLine] = useState(0);
-  const [displayedCode, setDisplayedCode] = useState("");
-
-  useEffect(() => {
-    const currentLine = codeSnippets[currentCodeLine];
-    if (displayedCode.length < currentLine.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedCode(currentLine.slice(0, displayedCode.length + 1));
-      }, 30);
-      return () => clearTimeout(timeout);
-    } else {
-      const timeout = setTimeout(() => {
-        if (currentCodeLine < codeSnippets.length - 1) {
-          setCurrentCodeLine(prev => prev + 1);
-          setDisplayedCode("");
-        } else {
-          setTimeout(() => {
-            setCurrentCodeLine(0);
-            setDisplayedCode("");
-          }, 5000);
-        }
-      }, 800);
-      return () => clearTimeout(timeout);
-    }
-  }, [displayedCode, currentCodeLine, codeSnippets]);
-
-  return (
-    <motion.div
-      className="bg-background/90 border border-border/60 rounded-2xl p-6 sm:p-8 glass shadow-2xl w-full group hover:border-primary/20 transition-all duration-500"
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-    >
-      {/* Terminal Header */}
-      <div className="flex items-center gap-4 mb-5">
-        <div className="flex gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-400/80"></div>
-          <div className="w-3 h-3 rounded-full bg-green-400/80"></div>
-        </div>
-        <div className="flex-1 text-center">
-          <div className="text-sm font-mono font-semibold text-muted-foreground">portfolio.js</div>
-        </div>
-        <div className="w-3 h-3 bg-green-400/20 rounded-full animate-pulse"></div>
-      </div>
-
-      {/* Code Block */}
-      <div className="font-mono text-xs sm:text-sm bg-primary/5 rounded-xl border border-primary/10 min-h-[260px] flex">
-        <div className="p-4 sm:p-5 w-full">
-          <div className="grid grid-cols-1 gap-0.5 h-full content-start">
-            {codeSnippets.map((line, index) => (
-              <div
-                key={index}
-                className={`
-                  min-h-[18px] flex items-start
-                  ${index < currentCodeLine ? 'opacity-100' : 'opacity-0'}
-                  ${index === currentCodeLine ? 'opacity-100' : ''}
-                  transition-opacity duration-150 ease-in-out
-                  ${line.includes("import") ? "text-purple-400 font-semibold" :
-                    line.includes("const") || line.includes("new") ? "text-orange-500 font-semibold" :
-                      line.includes("React") || line.includes("Node.js") || line.includes("TypeScript") ? "text-cyan-400" :
-                        line.includes("AndroidAIMLEngineer") ? "text-cyan-400 font-semibold" :
-                          line.includes("//") ? "text-muted-foreground italic" :
-                            line.includes("await") || line.includes("connect") ? "text-yellow-400" :
-                              line.includes("'") ? "text-cyan-400" :
-                                "text-foreground"}
-                `}
-              >
-                {index < currentCodeLine ? line : ''}
-                {index === currentCodeLine ? (
-                  <>
-                    {displayedCode}
-                    <motion.span
-                      animate={{ opacity: [1, 0, 1] }}
-                      transition={{ duration: 0.8, repeat: Infinity }}
-                      className="ml-0.5 text-primary inline-block"
-                    >
-                      ▊
-                    </motion.span>
-                  </>
-                ) : ''}
-                {line === '' && '‎'}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Floating Badges */}
-      <motion.div
-        className="absolute -bottom-3 -right-3 w-12 h-12 bg-gradient-to-br from-primary to-cyan-700 rounded-xl flex items-center justify-center border-2 border-background shadow-xl shadow-primary/30"
-        animate={{ y: [0, -5, 0], rotate: [0, -2, 0], scale: [1, 1.03, 1] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      >
-        <Code className="h-5 w-5 text-white" />
-      </motion.div>
-
-      <motion.div
-        className="absolute -top-3 -left-3 bg-background/90 glass px-3 py-1.5 rounded-xl border border-border/60 shadow-lg flex items-center gap-2"
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ delay: 1.5, type: "spring" }}
-      >
-        <Award className="h-4 w-4 text-cyan-500" />
-        <span className="text-xs font-semibold text-foreground">Solutions</span>
-      </motion.div>
-
-      <motion.div
-        className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-background/90 glass px-3 py-1.5 rounded-xl border border-border/60 shadow-lg text-center"
-        initial={{ scale: 0, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        transition={{ delay: 2, type: "spring" }}
-      >
-        <div className="text-[10px] font-mono text-muted-foreground">Built with</div>
-        <div className="text-xs font-bold text-foreground">Modern Tech</div>
-      </motion.div>
-    </motion.div>
   );
 };
