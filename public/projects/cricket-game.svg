@@ -1,13 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <rect width="600" height="400" fill="#0f172a"/>
-  <!-- Decorative background elements for a cricket game feel -->
-  <circle cx="300" cy="200" r="120" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.1" />
-  <rect x="250" y="100" width="100" height="200" rx="10" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.15" />
-  <circle cx="300" cy="200" r="20" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.15" />
-  <text x="50%" y="45%" font-size="44" fill="#22c55e" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="2">
-    Cricket Game
-  </text>
-  <text x="50%" y="62%" font-size="18" fill="#e2e8f0" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1">
-    Web Interactive Game
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="cg-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14110E" />
+      <stop offset="100%" stop-color="#1D1713" />
+    </linearGradient>
+    <linearGradient id="pitch-field-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#382C22" />
+      <stop offset="100%" stop-color="#241B14" />
+    </linearGradient>
+  </defs>
+
+  <!-- Complete Full-Bleed Background -->
+  <rect x="0" y="0" width="800" height="500" fill="url(#cg-canvas-bg)" />
+
+  <!-- ━━━━━━━━ TOP SCOREBOARD HEADER BAR (0 to 800) ━━━━━━━━ -->
+  <rect x="0" y="0" width="800" height="52" fill="#201A15" />
+  <line x1="0" y1="52" x2="800" y2="52" stroke="#332820" stroke-width="1.5" />
+
+  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
+  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
+  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+
+  <rect x="150" y="12" width="340" height="28" rx="8" fill="#14110E" stroke="#332820" stroke-width="1" />
+  <text x="195" y="30" fill="#F4F3F1" font-size="11" font-family="monospace">CRICKET BUZZ • MULTIPLAYER ARENA</text>
+
+  <rect x="650" y="12" width="125" height="28" rx="8" fill="#10B981" fill-opacity="0.15" stroke="#10B981" stroke-opacity="0.3" stroke-width="1" />
+  <text x="668" y="30" fill="#10B981" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">● LIVE MATCH</text>
+
+  <!-- ━━━━━━━━ MAIN MATCH DISPLAY (0 to 800, 52 to 500) ━━━━━━━━ -->
+  <!-- Left Side: Pitch Visualizer & Match Scores (0 to 480) -->
+  <g transform="translate(24, 70)">
+    <!-- Score Summary Split -->
+    <g>
+      <!-- Team Royals Score -->
+      <rect x="0" y="0" width="220" height="90" rx="14" fill="#221C16" stroke="#382C22" stroke-width="1" />
+      <text x="16" y="28" fill="#94918C" font-size="11" font-family="system-ui, sans-serif">Team Royals (Batting)</text>
+      <text x="16" y="64" fill="#F4F3F1" font-size="28" font-family="system-ui, sans-serif" font-weight="extrabold">178 / 3</text>
+      <text x="125" y="62" fill="#FF6B4A" font-size="11" font-family="monospace">(18.4 Ovs)</text>
+
+      <!-- Opponent Target -->
+      <rect x="236" y="0" width="220" height="90" rx="14" fill="#221C16" stroke="#382C22" stroke-width="1" />
+      <text x="252" y="28" fill="#94918C" font-size="11" font-family="system-ui, sans-serif">Opponent (Target 162)</text>
+      <text x="252" y="64" fill="#F4F3F1" font-size="28" font-family="system-ui, sans-serif" font-weight="extrabold">162 / 7</text>
+      <text x="360" y="62" fill="#F59E0B" font-size="11" font-family="monospace">(20.0 Ovs)</text>
+    </g>
+
+    <!-- Interactive Pitch 2D Map -->
+    <g transform="translate(0, 108)">
+      <rect x="0" y="0" width="456" height="300" rx="16" fill="url(#pitch-field-grad)" stroke="#382C22" stroke-width="1" />
+      
+      <!-- Pitch Strip -->
+      <rect x="198" y="40" width="60" height="220" rx="8" fill="#8C7355" opacity="0.9" />
+      <line x1="198" y1="70" x2="258" y2="70" stroke="#FFF" stroke-width="2" />
+      <line x1="198" y1="230" x2="258" y2="230" stroke="#FFF" stroke-width="2" />
+
+      <!-- Fielders -->
+      <circle cx="228" cy="65" r="8" fill="#F59E0B" stroke="#FFF" stroke-width="2" />
+      <circle cx="228" cy="235" r="8" fill="#FF6B4A" stroke="#FFF" stroke-width="2" />
+      <circle cx="100" cy="110" r="6" fill="#F59E0B" />
+      <circle cx="350" cy="120" r="6" fill="#F59E0B" />
+      <circle cx="120" cy="220" r="6" fill="#F59E0B" />
+      <circle cx="340" cy="210" r="6" fill="#F59E0B" />
+
+      <rect x="18" y="16" width="135" height="26" rx="6" fill="#000000" opacity="0.5" />
+      <text x="28" y="33" fill="#FFFFFF" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">● LIVE RADAR VIEW</text>
+    </g>
+  </g>
+
+  <!-- Right Side: Matchmaking & Lobby (500 to 800) -->
+  <g transform="translate(500, 70)">
+    <rect x="0" y="0" width="276" height="408" rx="16" fill="#1F1914" stroke="#332820" stroke-width="1" />
+    <text x="20" y="32" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">Live Matchmaking Lobby</text>
+
+    <g transform="translate(20, 52)">
+      <rect x="0" y="0" width="236" height="65" rx="12" fill="#292019" stroke="#382C22" stroke-width="1" />
+      <circle cx="24" cy="32" r="12" fill="#FF6B4A" />
+      <text x="46" y="28" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Kishan (Host)</text>
+      <text x="46" y="46" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Rank: Grandmaster</text>
+
+      <rect x="0" y="78" width="236" height="65" rx="12" fill="#292019" stroke="#382C22" stroke-width="1" />
+      <circle cx="24" cy="110" r="12" fill="#F59E0B" />
+      <text x="46" y="106" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Challenger 99</text>
+      <text x="46" y="124" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Rank: Diamond I</text>
+
+      <rect x="0" y="156" width="236" height="110" rx="12" fill="#17120E" stroke="#2B211A" stroke-width="1" />
+      <text x="14" y="28" fill="#94918C" font-size="10" font-family="monospace">BACKEND: Firebase Realtime</text>
+      <text x="14" y="50" fill="#FF6B4A" font-size="10" font-family="monospace">LOBBY: WebSockets Match</text>
+      <text x="14" y="72" fill="#F59E0B" font-size="10" font-family="monospace">LATENCY: 18ms Ping</text>
+      <text x="14" y="94" fill="#10B981" font-size="10" font-family="monospace">STATUS: In Game (Ovs 18.4)</text>
+    </g>
+  </g>
+
+  <!-- Complete Outer Border Frame -->
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#332820" stroke-width="2" />
 </svg>

@@ -1,17 +1,121 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <rect width="600" height="400" fill="#0f172a"/>
-  <!-- Decorative background elements for a scary horror game feel -->
-  <circle cx="300" cy="200" r="130" fill="none" stroke="#f43f5e" stroke-width="2.5" opacity="0.12" />
-  <circle cx="300" cy="200" r="85" fill="none" stroke="#f43f5e" stroke-width="1.5" opacity="0.18" />
-  <line x1="170" y1="200" x2="430" y2="200" stroke="#f43f5e" stroke-width="1" opacity="0.08" />
-  <line x1="300" y1="70" x2="300" y2="330" stroke="#f43f5e" stroke-width="1" opacity="0.08" />
-  <text x="50%" y="42%" font-size="44" fill="#f43f5e" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="4">
-    MAUNAM
-  </text>
-  <text x="50%" y="54%" font-size="18" fill="#e2e8f0" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="2" opacity="0.85">
-    THE SILENT GOD
-  </text>
-  <text x="50%" y="67%" font-size="14" fill="#cbd5e1" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1" opacity="0.7">
-    3D Mobile Horror FP Game
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="m-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B090E" />
+      <stop offset="50%" stop-color="#120E16" />
+      <stop offset="100%" stop-color="#1A1118" />
+    </linearGradient>
+    <radialGradient id="entity-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Complete Full-Bleed Background -->
+  <rect x="0" y="0" width="800" height="500" fill="url(#m-canvas-bg)" />
+
+  <!-- ━━━━━━━━ TOP HUD HEADER BAR (0 to 800) ━━━━━━━━ -->
+  <rect x="0" y="0" width="800" height="52" fill="#161018" />
+  <line x1="0" y1="52" x2="800" y2="52" stroke="#2D1F2E" stroke-width="1.5" />
+
+  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
+  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
+  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+
+  <rect x="150" y="12" width="340" height="28" rx="8" fill="#0B090E" stroke="#2D1F2E" stroke-width="1" />
+  <text x="210" y="30" fill="#F4F3F1" font-size="11" font-family="monospace">MAUNAM: THE SILENT GOD • UNITY</text>
+
+  <rect x="650" y="12" width="125" height="28" rx="8" fill="#FF6B4A" fill-opacity="0.15" stroke="#FF6B4A" stroke-opacity="0.3" stroke-width="1" />
+  <text x="665" y="30" fill="#FF6B4A" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">● 3D HORROR AI</text>
+
+  <!-- Atmospheric Fog & Glow -->
+  <circle cx="400" cy="240" r="260" fill="url(#entity-glow)" />
+
+  <!-- 3D Environment Silhouettes -->
+  <g opacity="0.25" fill="#FF6B4A">
+    <polygon points="80,420 120,160 160,420" />
+    <polygon points="200,430 240,120 280,430" />
+    <polygon points="520,430 560,110 600,430" />
+    <polygon points="640,440 680,180 720,440" />
+  </g>
+
+  <!-- Ominous Entity Eye in Center -->
+  <g transform="translate(400, 190)">
+    <ellipse cx="0" cy="0" rx="55" ry="16" fill="#FF6B4A" opacity="0.3" />
+    <circle cx="0" cy="0" r="8" fill="#FF6B4A" />
+    <circle cx="0" cy="0" r="3" fill="#FFFFFF" />
+  </g>
+
+  <!-- ━━━━━━━━ CONNECTED BOTTOM ACOUSTIC DETECTOR (0 to 800, 360 to 500) ━━━━━━━━ -->
+  <rect x="0" y="360" width="800" height="140" fill="#130D18" />
+  <line x1="0" y1="360" x2="800" y2="360" stroke="#2D1F2E" stroke-width="1.5" />
+
+  <g transform="translate(30, 380)">
+    <text x="0" y="20" fill="#FF6B4A" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" letter-spacing="1">
+      REAL-TIME MICROPHONE ACOUSTIC SPECTRUM
+    </text>
+    <text x="650" y="20" fill="#F59E0B" font-size="12" font-family="monospace" font-weight="bold">
+      38.4 dB [SAFE]
+    </text>
+
+    <!-- Waveform Frequency Bars (Connected) -->
+    <g transform="translate(0, 40)">
+      <rect x="0" y="15" width="8" height="25" rx="3" fill="#F59E0B" />
+      <rect x="14" y="8" width="8" height="32" rx="3" fill="#F59E0B" />
+      <rect x="28" y="2" width="8" height="38" rx="3" fill="#F59E0B" />
+      <rect x="42" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
+      <rect x="56" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
+      <rect x="70" y="5" width="8" height="35" rx="3" fill="#F59E0B" />
+      <rect x="84" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="98" y="6" width="8" height="34" rx="3" fill="#FF6B4A" />
+      <rect x="112" y="14" width="8" height="26" rx="3" fill="#F59E0B" />
+      <rect x="126" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
+      <rect x="140" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="154" y="8" width="8" height="32" rx="3" fill="#FF6B4A" />
+      <rect x="168" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
+      <rect x="182" y="22" width="8" height="18" rx="3" fill="#F59E0B" />
+      <rect x="196" y="5" width="8" height="35" rx="3" fill="#F59E0B" />
+      <rect x="210" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="224" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
+      <rect x="238" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
+      <rect x="252" y="6" width="8" height="34" rx="3" fill="#F59E0B" />
+      <rect x="266" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="280" y="4" width="8" height="36" rx="3" fill="#FF6B4A" />
+      <rect x="294" y="12" width="8" height="28" rx="3" fill="#F59E0B" />
+      <rect x="308" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
+      <rect x="322" y="8" width="8" height="32" rx="3" fill="#F59E0B" />
+      <rect x="336" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
+      <rect x="350" y="6" width="8" height="34" rx="3" fill="#F59E0B" />
+      <rect x="364" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="378" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
+      <rect x="392" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
+      <rect x="406" y="14" width="8" height="26" rx="3" fill="#F59E0B" />
+      <rect x="420" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="434" y="6" width="8" height="34" rx="3" fill="#FF6B4A" />
+      <rect x="448" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
+      <rect x="462" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
+      <rect x="476" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="490" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
+      <rect x="504" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
+      <rect x="518" y="5" width="8" height="35" rx="3" fill="#F59E0B" />
+      <rect x="532" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="546" y="12" width="8" height="28" rx="3" fill="#F59E0B" />
+      <rect x="560" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
+      <rect x="574" y="6" width="8" height="34" rx="3" fill="#FF6B4A" />
+      <rect x="588" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
+      <rect x="602" y="22" width="8" height="18" rx="3" fill="#F59E0B" />
+      <rect x="616" y="4" width="8" height="36" rx="3" fill="#F59E0B" />
+      <rect x="630" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
+      <rect x="644" y="8" width="8" height="32" rx="3" fill="#FF6B4A" />
+      <rect x="658" y="14" width="8" height="26" rx="3" fill="#F59E0B" />
+      <rect x="672" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
+      <rect x="686" y="6" width="8" height="34" rx="3" fill="#F59E0B" />
+      <rect x="700" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
+      <rect x="714" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
+      <rect x="728" y="4" width="8" height="36" rx="3" fill="#FF6B4A" />
+    </g>
+  </g>
+
+  <!-- Complete Outer Border Frame -->
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#2D1F2E" stroke-width="2" />
 </svg>

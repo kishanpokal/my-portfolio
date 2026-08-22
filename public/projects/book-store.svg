@@ -1,12 +1,142 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <rect width="600" height="400" fill="#0f172a"/>
-  <!-- Decorative background elements for an e-commerce book store feel -->
-  <circle cx="300" cy="200" r="120" fill="none" stroke="#f43f5e" stroke-width="2" opacity="0.1" />
-  <rect x="220" y="120" width="160" height="160" rx="20" fill="none" stroke="#f43f5e" stroke-width="1.5" opacity="0.15" transform="rotate(45 300 200)"/>
-  <text x="50%" y="45%" font-size="40" fill="#f43f5e" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1">
-    Book Selling System
-  </text>
-  <text x="50%" y="62%" font-size="18" fill="#e2e8f0" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1">
-    E-Commerce Web Application
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bs-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#110F16" />
+      <stop offset="100%" stop-color="#181420" />
+    </linearGradient>
+    <linearGradient id="book-grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B4A" />
+      <stop offset="100%" stop-color="#D9480F" />
+    </linearGradient>
+    <linearGradient id="book-grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Complete Full-Bleed Background -->
+  <rect x="0" y="0" width="800" height="500" fill="url(#bs-canvas-bg)" />
+
+  <!-- ━━━━━━━━ TOP HEADER BAR (Edge-to-Edge 0 to 800) ━━━━━━━━ -->
+  <rect x="0" y="0" width="800" height="52" fill="#1C1826" />
+  <line x1="0" y1="52" x2="800" y2="52" stroke="#2E283E" stroke-width="1.5" />
+
+  <!-- Window Controls -->
+  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
+  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
+  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+
+  <!-- Search Bar in Header -->
+  <rect x="150" y="12" width="340" height="28" rx="8" fill="#110F16" stroke="#2E283E" stroke-width="1" />
+  <text x="170" y="30" fill="#94918C" font-size="11" font-family="monospace">🔍 Search 10,000+ Titles, Authors, ISBN...</text>
+
+  <!-- Cart in Header -->
+  <rect x="660" y="12" width="115" height="28" rx="8" fill="#FF6B4A" fill-opacity="0.15" stroke="#FF6B4A" stroke-opacity="0.3" stroke-width="1" />
+  <text x="686" y="30" fill="#FF6B4A" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">🛒 Cart (3)</text>
+
+  <!-- ━━━━━━━━ CONNECTED LEFT BOOK CATALOG (0 to 520, 52 to 500) ━━━━━━━━ -->
+  <rect x="0" y="52" width="520" height="448" fill="#14111C" />
+  <line x1="520" y1="52" x2="520" y2="500" stroke="#2E283E" stroke-width="1.5" />
+
+  <g transform="translate(24, 70)">
+    <text x="0" y="18" fill="#F4F3F1" font-size="15" font-family="system-ui, sans-serif" font-weight="bold">
+      ⚡ Bestselling Computer Science &amp; Engineering Titles
+    </text>
+    <text x="360" y="18" fill="#F59E0B" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">
+      🔥 25% OFF
+    </text>
+
+    <!-- Product Cards -->
+    <g transform="translate(0, 35)">
+      <!-- Book 1 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="225" height="310" rx="14" fill="#1D1928" stroke="#322B42" stroke-width="1" />
+        
+        <!-- Book Cover Graphic -->
+        <g transform="translate(16, 16)">
+          <rect x="0" y="0" width="193" height="150" rx="10" fill="url(#book-grad1)" />
+          <rect x="0" y="0" width="14" height="150" rx="4" fill="#000000" opacity="0.25" />
+          <text x="28" y="60" fill="#FFFFFF" font-size="15" font-family="system-ui, sans-serif" font-weight="extrabold" letter-spacing="1">CLEAN</text>
+          <text x="28" y="80" fill="#FFFFFF" font-size="15" font-family="system-ui, sans-serif" font-weight="extrabold" letter-spacing="1">CODE</text>
+          <text x="28" y="105" fill="#FFFFFF" font-size="10" font-family="monospace" opacity="0.85">Robert C. Martin</text>
+          <rect x="125" y="12" width="55" height="20" rx="6" fill="#000000" opacity="0.4" />
+          <text x="135" y="26" fill="#FFFFFF" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">-30%</text>
+        </g>
+        
+        <!-- Metadata -->
+        <text x="16" y="195" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">Clean Architecture</text>
+        <text x="16" y="215" fill="#F59E0B" font-size="11" font-family="system-ui, sans-serif">★★★★★ 4.9 (1.4k)</text>
+        <text x="16" y="244" fill="#FF6B4A" font-size="18" font-family="system-ui, sans-serif" font-weight="extrabold">$34.99</text>
+        <text x="85" y="244" fill="#6B655D" font-size="13" font-family="system-ui, sans-serif" text-decoration="line-through">$49.99</text>
+        
+        <!-- Button -->
+        <rect x="16" y="260" width="193" height="34" rx="8" fill="#FF6B4A" />
+        <text x="75" y="282" fill="#FFFFFF" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">+ Add To Cart</text>
+      </g>
+
+      <!-- Book 2 -->
+      <g transform="translate(245, 0)">
+        <rect x="0" y="0" width="225" height="310" rx="14" fill="#1D1928" stroke="#322B42" stroke-width="1" />
+        
+        <g transform="translate(16, 16)">
+          <rect x="0" y="0" width="193" height="150" rx="10" fill="url(#book-grad2)" />
+          <rect x="0" y="0" width="14" height="150" rx="4" fill="#000000" opacity="0.25" />
+          <text x="28" y="60" fill="#FFFFFF" font-size="15" font-family="system-ui, sans-serif" font-weight="extrabold" letter-spacing="1">ALGORITHM</text>
+          <text x="28" y="80" fill="#FFFFFF" font-size="15" font-family="system-ui, sans-serif" font-weight="extrabold" letter-spacing="1">DESIGN</text>
+          <text x="28" y="105" fill="#FFFFFF" font-size="10" font-family="monospace" opacity="0.85">S. Skiena • CS</text>
+          <rect x="125" y="12" width="55" height="20" rx="6" fill="#000000" opacity="0.4" />
+          <text x="135" y="26" fill="#FFFFFF" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">BEST</text>
+        </g>
+
+        <text x="16" y="195" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">The Algorithm Manual</text>
+        <text x="16" y="215" fill="#F59E0B" font-size="11" font-family="system-ui, sans-serif">★★★★★ 5.0 (980)</text>
+        <text x="16" y="244" fill="#FF6B4A" font-size="18" font-family="system-ui, sans-serif" font-weight="extrabold">$42.50</text>
+        <text x="85" y="244" fill="#6B655D" font-size="13" font-family="system-ui, sans-serif" text-decoration="line-through">$55.00</text>
+
+        <rect x="16" y="260" width="193" height="34" rx="8" fill="#FF6B4A" />
+        <text x="75" y="282" fill="#FFFFFF" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">+ Add To Cart</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ━━━━━━━━ CONNECTED RIGHT CHECKOUT SIDEBAR (520 to 800, 52 to 500) ━━━━━━━━ -->
+  <rect x="520" y="52" width="280" height="448" fill="#171420" />
+
+  <g transform="translate(540, 70)">
+    <text x="0" y="18" fill="#F4F3F1" font-size="15" font-family="system-ui, sans-serif" font-weight="bold">Order Summary</text>
+
+    <!-- Cart items list -->
+    <g transform="translate(0, 35)">
+      <rect x="0" y="0" width="240" height="48" rx="10" fill="#201C2C" stroke="#2E283E" stroke-width="1" />
+      <text x="14" y="22" fill="#F4F3F1" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Clean Architecture</text>
+      <text x="14" y="38" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Qty: 1 • Hardcover</text>
+      <text x="180" y="30" fill="#FF6B4A" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">$34.99</text>
+
+      <rect x="0" y="58" width="240" height="48" rx="10" fill="#201C2C" stroke="#2E283E" stroke-width="1" />
+      <text x="14" y="80" fill="#F4F3F1" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Algorithm Manual</text>
+      <text x="14" y="96" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Qty: 1 • E-Book</text>
+      <text x="180" y="88" fill="#FF6B4A" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">$42.50</text>
+    </g>
+
+    <!-- Price breakdown -->
+    <g transform="translate(0, 165)">
+      <line x1="0" y1="0" x2="240" y2="0" stroke="#2E283E" stroke-width="1" />
+      <text x="0" y="24" fill="#94918C" font-size="11" font-family="system-ui, sans-serif">Subtotal</text>
+      <text x="190" y="24" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">$77.49</text>
+      
+      <text x="0" y="48" fill="#94918C" font-size="11" font-family="system-ui, sans-serif">Express Shipping</text>
+      <text x="200" y="48" fill="#10B981" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">FREE</text>
+
+      <line x1="0" y1="62" x2="240" y2="62" stroke="#2E283E" stroke-width="1" />
+      <text x="0" y="88" fill="#F4F3F1" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">Total Amount</text>
+      <text x="165" y="88" fill="#FF6B4A" font-size="18" font-family="system-ui, sans-serif" font-weight="extrabold">$77.49</text>
+
+      <!-- Instant Checkout CTA -->
+      <rect x="0" y="115" width="240" height="42" rx="10" fill="#FF6B4A" />
+      <text x="65" y="141" fill="#FFFFFF" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">🔒 Secure Checkout</text>
+    </g>
+  </g>
+
+  <!-- Complete Outer Border Frame (0 to 800) -->
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#2E283E" stroke-width="2" />
 </svg>

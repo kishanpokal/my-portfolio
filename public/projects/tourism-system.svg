@@ -1,12 +1,138 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <rect width="600" height="400" fill="#0f172a"/>
-  <!-- Decorative background elements for a booking/web app feel -->
-  <circle cx="300" cy="200" r="120" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.1" />
-  <rect x="220" y="120" width="160" height="160" rx="20" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.15" transform="rotate(45 300 200)"/>
-  <text x="50%" y="45%" font-size="40" fill="#a855f7" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1">
-    Tourism System
-  </text>
-  <text x="50%" y="62%" font-size="18" fill="#e2e8f0" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1">
-    Java Web Booking System
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="ts-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F131A" />
+      <stop offset="100%" stop-color="#141A24" />
+    </linearGradient>
+    <linearGradient id="sunset-island-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B4A" />
+      <stop offset="45%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="lagoon-water" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#082F49" stop-opacity="0.95" />
+    </linearGradient>
+  </defs>
+
+  <!-- Complete Full-Bleed Background -->
+  <rect x="0" y="0" width="800" height="500" fill="url(#ts-canvas-bg)" />
+
+  <!-- ━━━━━━━━ TOP HEADER BAR (Edge-to-Edge 0 to 800) ━━━━━━━━ -->
+  <rect x="0" y="0" width="800" height="52" fill="#171E2B" />
+  <line x1="0" y1="52" x2="800" y2="52" stroke="#253245" stroke-width="1.5" />
+
+  <!-- Window Controls -->
+  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
+  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
+  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+
+  <!-- App Title & Route in Top Bar -->
+  <rect x="150" y="12" width="340" height="28" rx="8" fill="#10151E" stroke="#253245" stroke-width="1" />
+  <text x="170" y="30" fill="#F4F3F1" font-size="11" font-family="monospace" font-weight="600">tourism-management-system.dev</text>
+
+  <!-- Live System Status in Top Bar -->
+  <rect x="660" y="12" width="115" height="28" rx="8" fill="#10B981" fill-opacity="0.15" stroke="#10B981" stroke-opacity="0.3" stroke-width="1" />
+  <text x="676" y="30" fill="#10B981" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">● LIVE BOOKING</text>
+
+  <!-- ━━━━━━━━ CONNECTED LEFT RADAR SIDEBAR (0 to 280, 52 to 500) ━━━━━━━━ -->
+  <rect x="0" y="52" width="280" height="448" fill="#121822" />
+  <line x1="280" y1="52" x2="280" y2="500" stroke="#253245" stroke-width="1.5" />
+
+  <!-- Sidebar: Flight & Hotel Radar -->
+  <g transform="translate(18, 70)">
+    <text x="0" y="16" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">Flight &amp; Hotel Radar</text>
+    
+    <!-- Flight Boarding Pass -->
+    <rect x="0" y="30" width="244" height="92" rx="12" fill="#192230" stroke="#28374D" stroke-width="1" />
+    <text x="14" y="52" fill="#94918C" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">FLIGHT: EK-504</text>
+    <text x="165" y="52" fill="#10B981" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">CONFIRMED</text>
+
+    <text x="14" y="84" fill="#F4F3F1" font-size="18" font-family="system-ui, sans-serif" font-weight="extrabold">BOM</text>
+    <text x="80" y="80" fill="#FF6B4A" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">✈ 3h 15m ✈</text>
+    <text x="190" y="84" fill="#F4F3F1" font-size="18" font-family="system-ui, sans-serif" font-weight="extrabold">MLE</text>
+    
+    <text x="14" y="108" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Gate B12 • Seat 4A</text>
+    <text x="160" y="108" fill="#F59E0B" font-size="10" font-family="system-ui, sans-serif">Direct Flight</text>
+
+    <!-- Inclusions List -->
+    <g transform="translate(0, 138)">
+      <rect x="0" y="0" width="244" height="40" rx="10" fill="#192230" stroke="#28374D" stroke-width="1" />
+      <text x="14" y="24" fill="#F4F3F1" font-size="11" font-family="system-ui, sans-serif">🏨 Water Villa Suite</text>
+      <text x="175" y="24" fill="#10B981" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">Reserved</text>
+
+      <rect x="0" y="48" width="244" height="40" rx="10" fill="#192230" stroke="#28374D" stroke-width="1" />
+      <text x="14" y="72" fill="#F4F3F1" font-size="11" font-family="system-ui, sans-serif">🛥 Speedboat Transfer</text>
+      <text x="175" y="72" fill="#10B981" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">Included</text>
+
+      <rect x="0" y="96" width="244" height="40" rx="10" fill="#192230" stroke="#28374D" stroke-width="1" />
+      <text x="14" y="120" fill="#F4F3F1" font-size="11" font-family="system-ui, sans-serif">🤿 Coral Reef Scuba</text>
+      <text x="175" y="120" fill="#10B981" font-size="10" font-family="system-ui, sans-serif" font-weight="bold">Included</text>
+    </g>
+
+    <!-- Architecture Spec Badge -->
+    <g transform="translate(0, 292)">
+      <rect x="0" y="0" width="244" height="60" rx="10" fill="#10151E" stroke="#253245" stroke-width="1" />
+      <text x="12" y="24" fill="#94918C" font-size="10" font-family="monospace">TECH: Java JSP &amp; Servlets</text>
+      <text x="12" y="46" fill="#FF6B4A" font-size="10" font-family="monospace">DB: MySQL Relational Engine</text>
+    </g>
+  </g>
+
+  <!-- ━━━━━━━━ CONNECTED RIGHT MAIN STAGE (280 to 800, 52 to 500) ━━━━━━━━ -->
+  <g transform="translate(304, 70)">
+    <!-- Scenic Resort Banner Graphic -->
+    <g>
+      <rect x="0" y="0" width="472" height="195" rx="16" fill="url(#sunset-island-grad)" />
+      
+      <!-- Sun in sky -->
+      <circle cx="390" cy="65" r="30" fill="#FFFBEB" opacity="0.9" />
+      
+      <!-- Mountains -->
+      <polygon points="60,195 180,75 300,195" fill="#241B18" opacity="0.6" />
+      <polygon points="220,195 340,55 460,195" fill="#1E1614" opacity="0.75" />
+
+      <!-- Palm Tree Silhouette -->
+      <g transform="translate(70, 95)">
+        <path d="M 18,100 Q 22,45 38,0" stroke="#1A120B" stroke-width="6" fill="none" stroke-linecap="round" />
+        <path d="M 38,0 Q 12,-25 -6, -6" stroke="#1A120B" stroke-width="5" fill="none" stroke-linecap="round" />
+        <path d="M 38,0 Q 30,-38 56, -30" stroke="#1A120B" stroke-width="5" fill="none" stroke-linecap="round" />
+        <path d="M 38,0 Q 70,-18 82, 12" stroke="#1A120B" stroke-width="5" fill="none" stroke-linecap="round" />
+        <path d="M 38,0 Q 0, -6 -18, 20" stroke="#1A120B" stroke-width="5" fill="none" stroke-linecap="round" />
+      </g>
+
+      <!-- Water Overlay Bottom -->
+      <rect x="0" y="145" width="472" height="50" rx="8" fill="url(#lagoon-water)" />
+      <line x1="30" y1="160" x2="160" y2="160" stroke="#FFF" stroke-width="1.5" opacity="0.3" stroke-linecap="round" />
+      <line x1="200" y1="172" x2="380" y2="172" stroke="#FFF" stroke-width="1.5" opacity="0.3" stroke-linecap="round" />
+
+      <!-- Floating Badge on Banner -->
+      <rect x="18" y="16" width="130" height="28" rx="8" fill="#000000" opacity="0.55" />
+      <text x="30" y="34" fill="#FFFFFF" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">★ LUXURY RETREAT</text>
+    </g>
+
+    <!-- Resort Details Row -->
+    <g transform="translate(4, 215)">
+      <text x="0" y="18" fill="#F4F3F1" font-size="18" font-family="system-ui, sans-serif" font-weight="extrabold">
+        Maldives Overwater Lagoon &amp; Resort
+      </text>
+      <text x="0" y="38" fill="#94918C" font-size="12" font-family="system-ui, sans-serif">
+        5 Days / 4 Nights • All-Inclusive Villa + Private Seaplane Transfer
+      </text>
+
+      <g transform="translate(0, 58)">
+        <text x="0" y="16" fill="#F59E0B" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">★★★★★ 4.98 (420 Reviews)</text>
+        <text x="300" y="16" fill="#FF6B4A" font-size="22" font-family="system-ui, sans-serif" font-weight="extrabold">$1,450</text>
+        <text x="385" y="16" fill="#94918C" font-size="12" font-family="system-ui, sans-serif">/ person</text>
+      </g>
+
+      <!-- Instant Booking Button -->
+      <rect x="0" y="90" width="464" height="44" rx="12" fill="#FF6B4A" />
+      <text x="155" y="117" fill="#FFFFFF" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">
+        🌴 Book Complete Holiday Package
+      </text>
+    </g>
+  </g>
+
+  <!-- Complete Outer Border Frame (0 to 800) -->
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#253245" stroke-width="2" />
 </svg>

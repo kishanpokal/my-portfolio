@@ -1,12 +1,98 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400">
-  <rect width="600" height="400" fill="#0f172a"/>
-  <!-- Decorative background elements for a tech feel -->
-  <circle cx="300" cy="200" r="120" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.1" />
-  <rect x="220" y="120" width="160" height="160" rx="20" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.15" transform="rotate(45 300 200)"/>
-  <text x="50%" y="45%" font-size="44" fill="#38bdf8" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="2">
-    TrackEasy
-  </text>
-  <text x="50%" y="62%" font-size="18" fill="#e2e8f0" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1">
-    Smart Expense Tracker App
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="te-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121217" />
+      <stop offset="100%" stop-color="#181822" />
+    </linearGradient>
+    <linearGradient id="flame-accent-te" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B4A" />
+      <stop offset="100%" stop-color="#EA580C" />
+    </linearGradient>
+    <linearGradient id="amber-accent-te" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Complete Full-Bleed Background -->
+  <rect x="0" y="0" width="800" height="500" fill="url(#te-canvas-bg)" />
+
+  <!-- ━━━━━━━━ TOP HEADER BAR (Edge-to-Edge 0 to 800) ━━━━━━━━ -->
+  <rect x="0" y="0" width="800" height="52" fill="#1B1B24" />
+  <line x1="0" y1="52" x2="800" y2="52" stroke="#2B2B38" stroke-width="1.5" />
+
+  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
+  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
+  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+
+  <rect x="150" y="12" width="340" height="28" rx="8" fill="#121217" stroke="#2B2B38" stroke-width="1" />
+  <text x="215" y="30" fill="#94918C" font-size="11" font-family="monospace">trackeasy.android.native</text>
+
+  <rect x="650" y="12" width="125" height="28" rx="8" fill="#FF6B4A" fill-opacity="0.15" stroke="#FF6B4A" stroke-opacity="0.3" stroke-width="1" />
+  <text x="664" y="30" fill="#FF6B4A" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">● PLAY STORE</text>
+
+  <!-- ━━━━━━━━ CONNECTED MAIN INTERFACE (0 to 800, 52 to 500) ━━━━━━━━ -->
+  <!-- Left Column: Total Balance & Weekly Trend (0 to 450) -->
+  <g transform="translate(24, 70)">
+    <!-- Main Card -->
+    <rect x="0" y="0" width="450" height="150" rx="16" fill="#181822" stroke="#2B2B38" stroke-width="1" />
+    <text x="24" y="34" fill="#94918C" font-size="12" font-family="system-ui, sans-serif">Total Net Balance</text>
+    <text x="24" y="78" fill="#F4F3F1" font-size="34" font-family="system-ui, sans-serif" font-weight="extrabold">$4,850.00</text>
+    <rect x="24" y="98" width="95" height="26" rx="8" fill="#FF6B4A" fill-opacity="0.15" />
+    <text x="36" y="115" fill="#FF6B4A" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">+14.2% month</text>
+
+    <!-- Weekly Breakdown Chart Connected -->
+    <g transform="translate(0, 168)">
+      <rect x="0" y="0" width="450" height="240" rx="16" fill="#181822" stroke="#2B2B38" stroke-width="1" />
+      <text x="24" y="32" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">Weekly Expense Activity</text>
+
+      <g transform="translate(24, 55)">
+        <line x1="0" y1="140" x2="400" y2="140" stroke="#2B2B38" stroke-width="1" />
+        <line x1="0" y1="80" x2="400" y2="80" stroke="#2B2B38" stroke-dasharray="4,4" stroke-width="1" />
+
+        <rect x="20" y="60" width="36" height="80" rx="6" fill="#2E2E3E" />
+        <rect x="75" y="40" width="36" height="100" rx="6" fill="#2E2E3E" />
+        <rect x="130" y="15" width="36" height="125" rx="6" fill="url(#flame-accent-te)" />
+        <rect x="185" y="50" width="36" height="90" rx="6" fill="#2E2E3E" />
+        <rect x="240" y="10" width="36" height="130" rx="6" fill="url(#amber-accent-te)" />
+        <rect x="295" y="35" width="36" height="105" rx="6" fill="#2E2E3E" />
+        <rect x="350" y="5" width="36" height="135" rx="6" fill="url(#flame-accent-te)" />
+      </g>
+    </g>
+  </g>
+
+  <!-- Right Column: Real-time Feed & Architecture Connected (490 to 800) -->
+  <g transform="translate(490, 70)">
+    <rect x="0" y="0" width="286" height="408" rx="16" fill="#181822" stroke="#2B2B38" stroke-width="1" />
+    <text x="20" y="32" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">Recent Ledger Entries</text>
+
+    <g transform="translate(20, 52)">
+      <rect x="0" y="0" width="246" height="58" rx="10" fill="#1F1F2C" stroke="#2E2E40" stroke-width="1" />
+      <text x="14" y="26" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Cloud Server Infra</text>
+      <text x="14" y="44" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Firebase Sync • Today</text>
+      <text x="185" y="36" fill="#FF6B4A" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">-$120</text>
+
+      <rect x="0" y="68" width="246" height="58" rx="10" fill="#1F1F2C" stroke="#2E2E40" stroke-width="1" />
+      <text x="14" y="94" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Client Project Fee</text>
+      <text x="14" y="112" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Direct Credit • Yesterday</text>
+      <text x="180" y="104" fill="#10B981" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">+$850</text>
+
+      <rect x="0" y="136" width="246" height="58" rx="10" fill="#1F1F2C" stroke="#2E2E40" stroke-width="1" />
+      <text x="14" y="162" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Domain Renewals</text>
+      <text x="14" y="180" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">Subscription • 2d ago</text>
+      <text x="190" y="172" fill="#FF6B4A" font-size="14" font-family="system-ui, sans-serif" font-weight="bold">-$45</text>
+    </g>
+
+    <!-- Bottom System Architecture Badge -->
+    <g transform="translate(20, 275)">
+      <rect x="0" y="0" width="246" height="95" rx="12" fill="#121218" stroke="#2A2A38" stroke-width="1" />
+      <text x="14" y="24" fill="#94918C" font-size="10" font-family="monospace">ARCHITECTURE: MVVM + Coroutines</text>
+      <text x="14" y="44" fill="#FF6B4A" font-size="10" font-family="monospace">UI: Jetpack Compose Declarative</text>
+      <text x="14" y="64" fill="#F59E0B" font-size="10" font-family="monospace">DB: Firebase Cloud Firestore</text>
+      <text x="14" y="84" fill="#10B981" font-size="10" font-family="monospace">TESTS: 100% Passing</text>
+    </g>
+  </g>
+
+  <!-- Complete Outer Border Frame -->
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#2B2B38" stroke-width="2" />
 </svg>
