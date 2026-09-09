@@ -1,90 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
   <defs>
-    <linearGradient id="aa-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#101015" />
-      <stop offset="100%" stop-color="#161622" />
+    <!-- Dark Minimal Background Gradient -->
+    <linearGradient id="ama-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D0E12" />
+      <stop offset="50%" stop-color="#111218" />
+      <stop offset="100%" stop-color="#161720" />
     </linearGradient>
-    <linearGradient id="aa-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF6B4A" />
-      <stop offset="100%" stop-color="#F59E0B" />
-    </linearGradient>
+
+    <!-- Subtle Ambient Accent Glow -->
+    <radialGradient id="ama-glow" cx="85%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.14" />
+      <stop offset="100%" stop-color="#FF6B4A" stop-opacity="0" />
+    </radialGradient>
   </defs>
 
-  <!-- Complete Full-Bleed Background -->
-  <rect x="0" y="0" width="800" height="500" fill="url(#aa-canvas-bg)" />
+  <!-- Background Base -->
+  <rect width="800" height="500" fill="url(#ama-bg)" />
+  <rect width="800" height="500" fill="url(#ama-glow)" />
 
-  <!-- ━━━━━━━━ TOP HEADER BAR (Edge-to-Edge 0 to 800) ━━━━━━━━ -->
-  <rect x="0" y="0" width="800" height="52" fill="#1A1A24" />
-  <line x1="0" y1="52" x2="800" y2="52" stroke="#2B2B38" stroke-width="1.5" />
+  <!-- Subtle Minimal Frame -->
+  <rect x="24" y="24" width="752" height="452" rx="20" fill="none" stroke="#232430" stroke-width="1.5" />
 
-  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
-  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
-  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+  <!-- Content Container -->
+  <g transform="translate(70, 95)">
+    <!-- Category Badge -->
+    <rect x="0" y="0" width="180" height="30" rx="15" fill="#1A1B25" stroke="#2C2E3E" stroke-width="1" />
+    <circle cx="15" cy="15" r="4" fill="#FF6B4A" />
+    <text x="28" y="19" fill="#FF6B4A" font-size="11" font-family="monospace" font-weight="700" letter-spacing="1">ANDROID APPLICATION</text>
 
-  <rect x="150" y="12" width="340" height="28" rx="8" fill="#101015" stroke="#2B2B38" stroke-width="1" />
-  <text x="210" y="30" fill="#94918C" font-size="11" font-family="monospace">attendmate.student.android</text>
+    <!-- Project Title -->
+    <text x="0" y="95" fill="#F4F3F1" font-size="52" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" letter-spacing="-1.5">
+      AttendMate Android
+    </text>
 
-  <rect x="660" y="12" width="115" height="28" rx="8" fill="#FF6B4A" fill-opacity="0.15" stroke="#FF6B4A" stroke-opacity="0.3" stroke-width="1" />
-  <text x="675" y="30" fill="#FF6B4A" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">● ANDROID</text>
+    <!-- Minimal Accent Line -->
+    <line x1="0" y1="125" x2="48" y2="125" stroke="#FF6B4A" stroke-width="3.5" stroke-linecap="round" />
 
-  <!-- ━━━━━━━━ MAIN INTERFACE (0 to 800, 52 to 500) ━━━━━━━━ -->
-  <!-- Left Side: Attendance Score & Metric Summary (0 to 420) -->
-  <g transform="translate(24, 70)">
-    <rect x="0" y="0" width="420" height="190" rx="16" fill="#181822" stroke="#2B2B38" stroke-width="1" />
-    
-    <!-- Circular Attendance Ring Visual -->
-    <circle cx="95" cy="95" r="55" fill="none" stroke="#282836" stroke-width="12" />
-    <circle cx="95" cy="95" r="55" fill="none" stroke="url(#aa-ring-grad)" stroke-width="12" stroke-dasharray="345" stroke-dashoffset="48" stroke-linecap="round" transform="rotate(-90 95 95)" />
-    <text x="95" y="103" fill="#F4F3F1" font-size="22" font-family="system-ui, sans-serif" font-weight="extrabold" text-anchor="middle">88%</text>
+    <!-- Clean Typography Description -->
+    <text x="0" y="175" fill="#9B9995" font-size="17" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" letter-spacing="0.1">
+      Student attendance tracking and lecture monitoring mobile application
+    </text>
+    <text x="0" y="205" fill="#9B9995" font-size="17" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" letter-spacing="0.1">
+      featuring real-time Firebase synchronization and offline status view.
+    </text>
 
-    <!-- Ring Details -->
-    <text x="180" y="65" fill="#F4F3F1" font-size="16" font-family="system-ui, sans-serif" font-weight="bold">Good Standing</text>
-    <text x="180" y="88" fill="#94918C" font-size="12" font-family="system-ui, sans-serif">Lectures Attended: 44 / 50</text>
-    <rect x="180" y="102" width="120" height="26" rx="8" fill="#FF6B4A" fill-opacity="0.15" />
-    <text x="194" y="119" fill="#FF6B4A" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Safe Threshold</text>
+    <!-- Minimal Tech Pills -->
+    <g transform="translate(0, 260)">
+      <rect x="0" y="0" width="80" height="32" rx="8" fill="#171822" stroke="#282A3A" stroke-width="1" />
+      <text x="17" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">Kotlin</text>
 
-    <!-- Lower Summary Card -->
-    <g transform="translate(0, 210)">
-      <rect x="0" y="0" width="420" height="198" rx="16" fill="#181822" stroke="#2B2B38" stroke-width="1" />
-      <text x="24" y="32" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">Firebase Cloud Real-Time Status</text>
+      <rect x="92" y="0" width="125" height="32" rx="8" fill="#171822" stroke="#282A3A" stroke-width="1" />
+      <text x="107" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">Android Studio</text>
 
-      <g transform="translate(24, 52)">
-        <text x="0" y="16" fill="#94918C" font-size="11" font-family="monospace">AUTHENTICATION: Firebase Auth</text>
-        <text x="0" y="42" fill="#94918C" font-size="11" font-family="monospace">DATABASE: Cloud Firestore Rules</text>
-        <text x="0" y="68" fill="#FF6B4A" font-size="11" font-family="monospace">OFFLINE CACHE: Room SQLite Local</text>
-        <text x="0" y="94" fill="#10B981" font-size="11" font-family="monospace">SYNC LATENCY: sub-20ms</text>
-      </g>
+      <rect x="229" y="0" width="95" height="32" rx="8" fill="#171822" stroke="#282A3A" stroke-width="1" />
+      <text x="245" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">Firebase</text>
     </g>
   </g>
-
-  <!-- Right Side: Subjects Breakdown List (460 to 800) -->
-  <g transform="translate(460, 70)">
-    <rect x="0" y="0" width="316" height="408" rx="16" fill="#181822" stroke="#2B2B38" stroke-width="1" />
-    <text x="20" y="32" fill="#F4F3F1" font-size="13" font-family="system-ui, sans-serif" font-weight="bold">Subject Attendance Breakdown</text>
-
-    <g transform="translate(20, 52)">
-      <rect x="0" y="0" width="276" height="72" rx="12" fill="#1F1F2C" stroke="#2E2E40" stroke-width="1" />
-      <text x="14" y="28" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Data Structures &amp; Algo</text>
-      <text x="14" y="48" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">18 / 20 Lectures Attended</text>
-      <text x="215" y="38" fill="#FF6B4A" font-size="16" font-family="system-ui, sans-serif" font-weight="extrabold">90%</text>
-
-      <rect x="0" y="82" width="276" height="72" rx="12" fill="#1F1F2C" stroke="#2E2E40" stroke-width="1" />
-      <text x="14" y="110" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Machine Learning Systems</text>
-      <text x="14" y="130" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">14 / 16 Lectures Attended</text>
-      <text x="215" y="120" fill="#FF6B4A" font-size="16" font-family="system-ui, sans-serif" font-weight="extrabold">87%</text>
-
-      <rect x="0" y="164" width="276" height="72" rx="12" fill="#1F1F2C" stroke="#2E2E40" stroke-width="1" />
-      <text x="14" y="192" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Database Management (SQL)</text>
-      <text x="14" y="212" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">12 / 14 Lectures Attended</text>
-      <text x="215" y="202" fill="#FF6B4A" font-size="16" font-family="system-ui, sans-serif" font-weight="extrabold">85%</text>
-
-      <rect x="0" y="246" width="276" height="72" rx="12" fill="#1F1F2C" stroke="#2E2E40" stroke-width="1" />
-      <text x="14" y="274" fill="#F4F3F1" font-size="12" font-family="system-ui, sans-serif" font-weight="bold">Object Oriented Systems</text>
-      <text x="14" y="294" fill="#94918C" font-size="10" font-family="system-ui, sans-serif">15 / 16 Lectures Attended</text>
-      <text x="215" y="284" fill="#10B981" font-size="16" font-family="system-ui, sans-serif" font-weight="extrabold">93%</text>
-    </g>
-  </g>
-
-  <!-- Complete Outer Border Frame -->
-  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#2B2B38" stroke-width="2" />
 </svg>

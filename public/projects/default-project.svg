@@ -1,66 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
   <defs>
-    <linearGradient id="def-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#121217" />
-      <stop offset="100%" stop-color="#1A1A22" />
+    <!-- Dark Minimal Background Gradient -->
+    <linearGradient id="def-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0F14" />
+      <stop offset="50%" stop-color="#111218" />
+      <stop offset="100%" stop-color="#161720" />
     </linearGradient>
-    <linearGradient id="def-accent-flame" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF6B4A" />
-      <stop offset="100%" stop-color="#F59E0B" />
-    </linearGradient>
+
+    <!-- Subtle Ambient Accent Glow -->
+    <radialGradient id="def-glow" cx="85%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.14" />
+      <stop offset="100%" stop-color="#FF6B4A" stop-opacity="0" />
+    </radialGradient>
   </defs>
 
-  <!-- Complete Full-Bleed Background -->
-  <rect x="0" y="0" width="800" height="500" fill="url(#def-canvas-bg)" />
+  <!-- Background Base -->
+  <rect width="800" height="500" fill="url(#def-bg)" />
+  <rect width="800" height="500" fill="url(#def-glow)" />
 
-  <!-- ━━━━━━━━ TOP HEADER BAR (Edge-to-Edge 0 to 800) ━━━━━━━━ -->
-  <rect x="0" y="0" width="800" height="52" fill="#1C1C24" />
-  <line x1="0" y1="52" x2="800" y2="52" stroke="#2D2D3A" stroke-width="1.5" />
+  <!-- Subtle Minimal Frame -->
+  <rect x="24" y="24" width="752" height="452" rx="20" fill="none" stroke="#232430" stroke-width="1.5" />
 
-  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
-  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
-  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+  <!-- Content Container -->
+  <g transform="translate(70, 95)">
+    <!-- Category Badge -->
+    <rect x="0" y="0" width="190" height="30" rx="15" fill="#1A1B25" stroke="#2C2E3E" stroke-width="1" />
+    <circle cx="15" cy="15" r="4" fill="#FF6B4A" />
+    <text x="28" y="19" fill="#FF6B4A" font-size="11" font-family="monospace" font-weight="700" letter-spacing="1">ENGINEERING SHOWCASE</text>
 
-  <rect x="150" y="12" width="340" height="28" rx="8" fill="#121217" stroke="#2D2D3A" stroke-width="1" />
-  <text x="215" y="30" fill="#94918C" font-size="11" font-family="monospace">kishanpokal.dev/architecture</text>
-
-  <rect x="660" y="12" width="115" height="28" rx="8" fill="#10B981" fill-opacity="0.15" stroke="#10B981" stroke-opacity="0.3" stroke-width="1" />
-  <text x="680" y="30" fill="#10B981" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">● PRODUCTION</text>
-
-  <!-- Main Content Layout (Connected 0 to 800) -->
-  <g transform="translate(30, 80)">
-    <text x="0" y="24" fill="#F4F3F1" font-size="20" font-family="system-ui, sans-serif" font-weight="bold">
-      Production Application Interface &amp; Architecture
-    </text>
-    <text x="0" y="48" fill="#94918C" font-size="13" font-family="system-ui, sans-serif">
-      Engineered with Kotlin, AI Machine Learning Pipelines &amp; Modern Reactive Stacks
+    <!-- Project Title -->
+    <text x="0" y="95" fill="#F4F3F1" font-size="52" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" letter-spacing="-1.5">
+      Software Project
     </text>
 
-    <!-- 3 Connected Service Cards -->
-    <g transform="translate(0, 75)">
-      <rect x="0" y="0" width="230" height="270" rx="14" fill="#181822" stroke="#2D2D3A" stroke-width="1" />
-      <rect x="18" y="18" width="194" height="120" rx="10" fill="url(#def-accent-flame)" opacity="0.15" />
-      <text x="18" y="175" fill="#F4F3F1" font-size="15" font-family="system-ui, sans-serif" font-weight="bold">Clean Architecture</text>
-      <text x="18" y="198" fill="#94918C" font-size="12" font-family="system-ui, sans-serif">Unidirectional Data Flow</text>
-      <rect x="18" y="220" width="194" height="32" rx="8" fill="#FF6B4A" />
-      <text x="75" y="241" fill="#FFFFFF" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Active Core</text>
+    <!-- Minimal Accent Line -->
+    <line x1="0" y1="125" x2="48" y2="125" stroke="#FF6B4A" stroke-width="3.5" stroke-linecap="round" />
 
-      <rect x="255" y="0" width="230" height="270" rx="14" fill="#181822" stroke="#2D2D3A" stroke-width="1" />
-      <rect x="273" y="18" width="194" height="120" rx="10" fill="url(#def-accent-flame)" opacity="0.15" />
-      <text x="273" y="175" fill="#F4F3F1" font-size="15" font-family="system-ui, sans-serif" font-weight="bold">Real-time Data Sync</text>
-      <text x="273" y="198" fill="#94918C" font-size="12" font-family="system-ui, sans-serif">Cloud Firestore &amp; Room</text>
-      <rect x="273" y="220" width="194" height="32" rx="8" fill="#F59E0B" />
-      <text x="325" y="241" fill="#FFFFFF" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Cloud Linked</text>
+    <!-- Clean Typography Description -->
+    <text x="0" y="175" fill="#9B9995" font-size="17" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" letter-spacing="0.1">
+      Production software application architecture, full-stack systems
+    </text>
+    <text x="0" y="205" fill="#9B9995" font-size="17" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" letter-spacing="0.1">
+      engineering, cloud integration, and verified test suites.
+    </text>
 
-      <rect x="510" y="0" width="230" height="270" rx="14" fill="#181822" stroke="#2D2D3A" stroke-width="1" />
-      <rect x="528" y="18" width="194" height="120" rx="10" fill="url(#def-accent-flame)" opacity="0.15" />
-      <text x="528" y="175" fill="#F4F3F1" font-size="15" font-family="system-ui, sans-serif" font-weight="bold">Security &amp; Auth</text>
-      <text x="528" y="198" fill="#94918C" font-size="12" font-family="system-ui, sans-serif">AES-256 Token Auth</text>
-      <rect x="528" y="220" width="194" height="32" rx="8" fill="#10B981" />
-      <text x="575" y="241" fill="#FFFFFF" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">Verified 100%</text>
+    <!-- Minimal Tech Pills -->
+    <g transform="translate(0, 260)">
+      <rect x="0" y="0" width="100" height="32" rx="8" fill="#171822" stroke="#282A3A" stroke-width="1" />
+      <text x="16" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">Full-Stack</text>
+
+      <rect x="112" y="0" width="145" height="32" rx="8" fill="#171822" stroke="#282A3A" stroke-width="1" />
+      <text x="127" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">Clean Architecture</text>
+
+      <rect x="269" y="0" width="95" height="32" rx="8" fill="#171822" stroke="#282A3A" stroke-width="1" />
+      <text x="285" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">REST APIs</text>
     </g>
   </g>
-
-  <!-- Complete Outer Border Frame -->
-  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#2D2D3A" stroke-width="2" />
 </svg>

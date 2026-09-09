@@ -1,121 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
   <defs>
-    <linearGradient id="m-canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0B090E" />
-      <stop offset="50%" stop-color="#120E16" />
-      <stop offset="100%" stop-color="#1A1118" />
+    <!-- Dark Minimal Background Gradient -->
+    <linearGradient id="mau-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0C10" />
+      <stop offset="50%" stop-color="#120E15" />
+      <stop offset="100%" stop-color="#181018" />
     </linearGradient>
-    <radialGradient id="entity-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.35" />
-      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+
+    <!-- Subtle Ambient Accent Glow -->
+    <radialGradient id="mau-glow" cx="85%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#E11D48" stop-opacity="0.14" />
+      <stop offset="100%" stop-color="#E11D48" stop-opacity="0" />
     </radialGradient>
   </defs>
 
-  <!-- Complete Full-Bleed Background -->
-  <rect x="0" y="0" width="800" height="500" fill="url(#m-canvas-bg)" />
+  <!-- Background Base -->
+  <rect width="800" height="500" fill="url(#mau-bg)" />
+  <rect width="800" height="500" fill="url(#mau-glow)" />
 
-  <!-- ━━━━━━━━ TOP HUD HEADER BAR (0 to 800) ━━━━━━━━ -->
-  <rect x="0" y="0" width="800" height="52" fill="#161018" />
-  <line x1="0" y1="52" x2="800" y2="52" stroke="#2D1F2E" stroke-width="1.5" />
+  <!-- Subtle Minimal Frame -->
+  <rect x="24" y="24" width="752" height="452" rx="20" fill="none" stroke="#2A1B24" stroke-width="1.5" />
 
-  <circle cx="28" cy="26" r="5" fill="#EF4444" opacity="0.85" />
-  <circle cx="44" cy="26" r="5" fill="#F59E0B" opacity="0.85" />
-  <circle cx="60" cy="26" r="5" fill="#10B981" opacity="0.85" />
+  <!-- Content Container -->
+  <g transform="translate(70, 95)">
+    <!-- Category Badge -->
+    <rect x="0" y="0" width="165" height="30" rx="15" fill="#1F131B" stroke="#361D2B" stroke-width="1" />
+    <circle cx="15" cy="15" r="4" fill="#E11D48" />
+    <text x="28" y="19" fill="#E11D48" font-size="11" font-family="monospace" font-weight="700" letter-spacing="1">GAME DEVELOPMENT</text>
 
-  <rect x="150" y="12" width="340" height="28" rx="8" fill="#0B090E" stroke="#2D1F2E" stroke-width="1" />
-  <text x="210" y="30" fill="#F4F3F1" font-size="11" font-family="monospace">MAUNAM: THE SILENT GOD • UNITY</text>
-
-  <rect x="650" y="12" width="125" height="28" rx="8" fill="#FF6B4A" fill-opacity="0.15" stroke="#FF6B4A" stroke-opacity="0.3" stroke-width="1" />
-  <text x="665" y="30" fill="#FF6B4A" font-size="11" font-family="system-ui, sans-serif" font-weight="bold">● 3D HORROR AI</text>
-
-  <!-- Atmospheric Fog & Glow -->
-  <circle cx="400" cy="240" r="260" fill="url(#entity-glow)" />
-
-  <!-- 3D Environment Silhouettes -->
-  <g opacity="0.25" fill="#FF6B4A">
-    <polygon points="80,420 120,160 160,420" />
-    <polygon points="200,430 240,120 280,430" />
-    <polygon points="520,430 560,110 600,430" />
-    <polygon points="640,440 680,180 720,440" />
-  </g>
-
-  <!-- Ominous Entity Eye in Center -->
-  <g transform="translate(400, 190)">
-    <ellipse cx="0" cy="0" rx="55" ry="16" fill="#FF6B4A" opacity="0.3" />
-    <circle cx="0" cy="0" r="8" fill="#FF6B4A" />
-    <circle cx="0" cy="0" r="3" fill="#FFFFFF" />
-  </g>
-
-  <!-- ━━━━━━━━ CONNECTED BOTTOM ACOUSTIC DETECTOR (0 to 800, 360 to 500) ━━━━━━━━ -->
-  <rect x="0" y="360" width="800" height="140" fill="#130D18" />
-  <line x1="0" y1="360" x2="800" y2="360" stroke="#2D1F2E" stroke-width="1.5" />
-
-  <g transform="translate(30, 380)">
-    <text x="0" y="20" fill="#FF6B4A" font-size="12" font-family="system-ui, sans-serif" font-weight="bold" letter-spacing="1">
-      REAL-TIME MICROPHONE ACOUSTIC SPECTRUM
-    </text>
-    <text x="650" y="20" fill="#F59E0B" font-size="12" font-family="monospace" font-weight="bold">
-      38.4 dB [SAFE]
+    <!-- Project Title -->
+    <text x="0" y="95" fill="#F4F3F1" font-size="46" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" letter-spacing="-1">
+      Maunam: The Silent God
     </text>
 
-    <!-- Waveform Frequency Bars (Connected) -->
-    <g transform="translate(0, 40)">
-      <rect x="0" y="15" width="8" height="25" rx="3" fill="#F59E0B" />
-      <rect x="14" y="8" width="8" height="32" rx="3" fill="#F59E0B" />
-      <rect x="28" y="2" width="8" height="38" rx="3" fill="#F59E0B" />
-      <rect x="42" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
-      <rect x="56" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
-      <rect x="70" y="5" width="8" height="35" rx="3" fill="#F59E0B" />
-      <rect x="84" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="98" y="6" width="8" height="34" rx="3" fill="#FF6B4A" />
-      <rect x="112" y="14" width="8" height="26" rx="3" fill="#F59E0B" />
-      <rect x="126" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
-      <rect x="140" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="154" y="8" width="8" height="32" rx="3" fill="#FF6B4A" />
-      <rect x="168" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
-      <rect x="182" y="22" width="8" height="18" rx="3" fill="#F59E0B" />
-      <rect x="196" y="5" width="8" height="35" rx="3" fill="#F59E0B" />
-      <rect x="210" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="224" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
-      <rect x="238" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
-      <rect x="252" y="6" width="8" height="34" rx="3" fill="#F59E0B" />
-      <rect x="266" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="280" y="4" width="8" height="36" rx="3" fill="#FF6B4A" />
-      <rect x="294" y="12" width="8" height="28" rx="3" fill="#F59E0B" />
-      <rect x="308" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
-      <rect x="322" y="8" width="8" height="32" rx="3" fill="#F59E0B" />
-      <rect x="336" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
-      <rect x="350" y="6" width="8" height="34" rx="3" fill="#F59E0B" />
-      <rect x="364" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="378" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
-      <rect x="392" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
-      <rect x="406" y="14" width="8" height="26" rx="3" fill="#F59E0B" />
-      <rect x="420" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="434" y="6" width="8" height="34" rx="3" fill="#FF6B4A" />
-      <rect x="448" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
-      <rect x="462" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
-      <rect x="476" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="490" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
-      <rect x="504" y="18" width="8" height="22" rx="3" fill="#F59E0B" />
-      <rect x="518" y="5" width="8" height="35" rx="3" fill="#F59E0B" />
-      <rect x="532" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="546" y="12" width="8" height="28" rx="3" fill="#F59E0B" />
-      <rect x="560" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
-      <rect x="574" y="6" width="8" height="34" rx="3" fill="#FF6B4A" />
-      <rect x="588" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
-      <rect x="602" y="22" width="8" height="18" rx="3" fill="#F59E0B" />
-      <rect x="616" y="4" width="8" height="36" rx="3" fill="#F59E0B" />
-      <rect x="630" y="0" width="8" height="40" rx="3" fill="#FF6B4A" />
-      <rect x="644" y="8" width="8" height="32" rx="3" fill="#FF6B4A" />
-      <rect x="658" y="14" width="8" height="26" rx="3" fill="#F59E0B" />
-      <rect x="672" y="2" width="8" height="38" rx="3" fill="#FF6B4A" />
-      <rect x="686" y="6" width="8" height="34" rx="3" fill="#F59E0B" />
-      <rect x="700" y="16" width="8" height="24" rx="3" fill="#F59E0B" />
-      <rect x="714" y="10" width="8" height="30" rx="3" fill="#F59E0B" />
-      <rect x="728" y="4" width="8" height="36" rx="3" fill="#FF6B4A" />
+    <!-- Minimal Accent Line -->
+    <line x1="0" y1="125" x2="48" y2="125" stroke="#E11D48" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Clean Typography Description -->
+    <text x="0" y="175" fill="#9B9995" font-size="17" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" letter-spacing="0.1">
+      Atmospheric 3D first-person mobile horror game with noise-reactive
+    </text>
+    <text x="0" y="205" fill="#9B9995" font-size="17" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="400" letter-spacing="0.1">
+      mechanics where real-world microphone sounds alert the entity.
+    </text>
+
+    <!-- Minimal Tech Pills -->
+    <g transform="translate(0, 260)">
+      <rect x="0" y="0" width="80" height="32" rx="8" fill="#191118" stroke="#301A27" stroke-width="1" />
+      <text x="20" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">Unity</text>
+
+      <rect x="92" y="0" width="60" height="32" rx="8" fill="#191118" stroke="#301A27" stroke-width="1" />
+      <text x="20" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500" transform="translate(92, 0)">C#</text>
+
+      <rect x="164" y="0" width="140" height="32" rx="8" fill="#191118" stroke="#301A27" stroke-width="1" />
+      <text x="178" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">3D Mobile Game</text>
+
+      <rect x="316" y="0" width="90" height="32" rx="8" fill="#191118" stroke="#301A27" stroke-width="1" />
+      <text x="331" y="20" fill="#C5C3BF" font-size="12.5" font-family="system-ui, sans-serif" font-weight="500">Horror AI</text>
     </g>
   </g>
-
-  <!-- Complete Outer Border Frame -->
-  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#2D1F2E" stroke-width="2" />
 </svg>
