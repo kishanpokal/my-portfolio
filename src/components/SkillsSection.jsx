@@ -28,11 +28,13 @@ const skillsData = [
   { name: "Unity 3D", category: "mobile", icon: "unity", level: "Proficient", desc: "3D physics, spatial audio, particle systems, mobile game deployment." },
 
   // AI & Machine Learning
+  { name: "PyTorch", category: "ai", icon: "pytorch", level: "Proficient", desc: "Autoencoders, neural network architectures, and anomaly detection." },
   { name: "TensorFlow", category: "ai", icon: "tensorflow", level: "Proficient", desc: "Deep learning models, CNNs, neural network training & export." },
   { name: "Scikit-learn", category: "ai", icon: "scikitlearn", level: "Proficient", desc: "Supervised & unsupervised ML, regression, classification pipelines." },
   { name: "Machine Learning", category: "ai", icon: "ai", level: "Proficient", desc: "Data feature engineering, model validation, and evaluation metrics." },
 
   // Backend & Systems
+  { name: "FastAPI", category: "backend", icon: "fastapi", level: "Advanced", desc: "High-performance async REST APIs, WebSockets, and Pydantic schemas." },
   { name: "PHP", category: "backend", icon: "php", level: "Intermediate", desc: "Server-side scripting, authentication & MySQL database integration." },
   { name: "REST APIs", category: "backend", icon: "postman", level: "Advanced", desc: "API endpoint design, JSON serialization, and Postman testing." },
   { name: "Docker", category: "tools", icon: "docker", level: "Intermediate", desc: "Containerized application workflows and reproducible environments." },

@@ -1,6 +1,26 @@
 // Shared project data — used by ProjectsSection and HeroSection (for dynamic count)
 export const projects = [
     {
+        id: 9,
+        title: "ThreatLens AI",
+        category: "AI & Cybersecurity Platform",
+        description: "An autonomous cyber threat intelligence and forensic inspection platform that detects obfuscated phishing URLs via a 69-feature semantic scanner, inspects BEC emails using explainable NLP models, and classifies network intrusions with dual-engine ML and real-time SOC alerts.",
+        image: "/projects/threatlens.svg",
+        tags: ["FastAPI", "PyTorch", "Scikit-Learn", "React 19", "TypeScript", "Docker", "Python"],
+        demoUrl: "#",
+        githubUrl: "https://github.com/kishanpokal/ThreatLens",
+        featured: true,
+        accentColor: "from-emerald-500 to-teal-600",
+        status: "Completed",
+        highlights: [
+            "69-feature URL obfuscation & typosquatting detection engine (100% accuracy on 1M dataset)",
+            "Social Engineering & BEC email forensics with TF-IDF and Explainable AI (XAI) attribution",
+            "Dual-engine network intrusion classifier (NSL-KDD Random Forest + PyTorch Autoencoder)",
+            "Real-time WebSocket SOC alert feed & O(L) dual-root CIDR/domain Trie blocklist",
+            "Autonomous IMAP background worker for automated email forward-to-check verification"
+        ]
+    },
+    {
         id: 1,
         title: "TrackEasy",
         category: "Android Application",

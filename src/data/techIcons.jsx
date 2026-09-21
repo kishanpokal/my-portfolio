@@ -33,6 +33,8 @@ import {
   SiTensorflow,
   SiScikitlearn,
   SiDocker,
+  SiFastapi,
+  SiPytorch,
 } from "react-icons/si";
 import { FaJava, FaDatabase, FaBrain } from "react-icons/fa6";
 import { VscVscode } from "react-icons/vsc";
@@ -73,6 +75,8 @@ export const TECH_ICONS = {
   eclipse: { Icon: SiEclipseide, color: "#2C2255" },
   netbeans: { Icon: SiApachenetbeanside, color: "#1B6AC6" },
   docker: { Icon: SiDocker, color: "#2496ED" },
+  fastapi: { Icon: SiFastapi, color: "#009688" },
+  pytorch: { Icon: SiPytorch, color: "#EE4C2C" },
   premiere: { Icon: SiAdobepremierepro, color: "#9999FF" },
   canva: { Icon: SiCanva, color: "#00C4CC" },
 };

@@ -11,15 +11,17 @@ import {
   Gamepad2,
   BookOpen,
   Box,
+  Shield,
 } from "lucide-react";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { sound } from "@/lib/SoundEngine";
 
 const projectFilters = [
   { id: "all", label: "All Projects" },
+  { id: "ai", label: "AI & Security", match: ["AI", "Security", "Cybersecurity"] },
   { id: "android", label: "Android Apps", match: "Android" },
-  { id: "game", label: "3D Game / AI", match: "Game" },
   { id: "web", label: "Web Apps", match: "Web" },
+  { id: "game", label: "3D Game", match: "Game" },
 ];
 
 export const ProjectsSection = ({ onModalStateChange }) => {
@@ -33,7 +35,15 @@ export const ProjectsSection = ({ onModalStateChange }) => {
   const filteredProjects = projects.filter((p) => {
     if (selectedFilter === "all") return true;
     const filter = projectFilters.find((f) => f.id === selectedFilter);
-    return filter?.match ? p.category.includes(filter.match) : true;
+    if (!filter?.match) return true;
+    if (Array.isArray(filter.match)) {
+      return filter.match.some(
+        (m) =>
+          p.category?.toLowerCase().includes(m.toLowerCase()) ||
+          p.tags?.some((t) => t.toLowerCase().includes(m.toLowerCase()))
+      );
+    }
+    return p.category.includes(filter.match);
   });
 
   const fadeIn = {
@@ -135,6 +145,9 @@ export const ProjectsSection = ({ onModalStateChange }) => {
             {filteredProjects.map((project, index) => {
               const isAndroid = project.category?.toLowerCase().includes("android");
               const isGame = project.category?.toLowerCase().includes("game");
+              const isSecurity =
+                project.category?.toLowerCase().includes("security") ||
+                project.category?.toLowerCase().includes("cyber");
 
               return (
                 <motion.div
@@ -163,9 +176,10 @@ export const ProjectsSection = ({ onModalStateChange }) => {
                     {/* Meta Row: Category & Status */}
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <span className="text-xs font-semibold text-primary flex items-center gap-1.5 uppercase tracking-wider">
-                        {isAndroid && <Smartphone className="w-3.5 h-3.5" />}
-                        {isGame && <Gamepad2 className="w-3.5 h-3.5 text-primary" />}
-                        {!isAndroid && !isGame && <Globe className="w-3.5 h-3.5 text-primary" />}
+                        {isSecurity && <Shield className="w-3.5 h-3.5 text-primary" />}
+                        {!isSecurity && isAndroid && <Smartphone className="w-3.5 h-3.5" />}
+                        {!isSecurity && isGame && <Gamepad2 className="w-3.5 h-3.5 text-primary" />}
+                        {!isSecurity && !isAndroid && !isGame && <Globe className="w-3.5 h-3.5 text-primary" />}
                         {project.category}
                       </span>
 

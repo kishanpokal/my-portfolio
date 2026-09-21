@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Github, CheckCircle2, Layers, Smartphone, Globe, Gamepad2, Sparkles } from "lucide-react";
+import { X, ExternalLink, Github, CheckCircle2, Layers, Smartphone, Globe, Gamepad2, Sparkles, Shield } from "lucide-react";
 import { TECH_ICONS } from "@/data/techIcons";
 import { sound } from "@/lib/SoundEngine";
 
@@ -34,7 +34,10 @@ export const ProjectModal = ({ project, isOpen, onClose }) => {
 
   const isAndroid = project.category?.toLowerCase().includes("android");
   const isGame = project.category?.toLowerCase().includes("game");
-  const isWeb = project.category?.toLowerCase().includes("web");
+  const isSecurity =
+    project.category?.toLowerCase().includes("security") ||
+    project.category?.toLowerCase().includes("cyber");
+  const isWeb = !isSecurity && project.category?.toLowerCase().includes("web");
 
   return (
     <AnimatePresence>
@@ -74,9 +77,10 @@ export const ProjectModal = ({ project, isOpen, onClose }) => {
               {/* Status Badge */}
               <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 sm:gap-2">
                 <span className="px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-background/90 backdrop-blur-md border border-border text-foreground flex items-center gap-1.5 shadow-sm">
-                  {isAndroid && <Smartphone className="w-3 h-3 text-primary" />}
-                  {isWeb && <Globe className="w-3 h-3 text-primary" />}
-                  {isGame && <Gamepad2 className="w-3 h-3 text-primary" />}
+                  {isSecurity && <Shield className="w-3 h-3 text-primary" />}
+                  {!isSecurity && isAndroid && <Smartphone className="w-3 h-3 text-primary" />}
+                  {!isSecurity && isWeb && <Globe className="w-3 h-3 text-primary" />}
+                  {!isSecurity && isGame && <Gamepad2 className="w-3 h-3 text-primary" />}
                   {project.category}
                 </span>
                 {project.status && (
