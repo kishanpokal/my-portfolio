@@ -17,9 +17,9 @@ import {
   X,
   ArrowRight,
   Sparkles,
-  Box,
+  Layers,
 } from "lucide-react";
-import { projects } from "@/data/projects";
+import { flagshipProjects, archivedProjects } from "@/data/projects";
 import { sound } from "@/lib/SoundEngine";
 import { useToast } from "@/hooks/use-toast";
 
@@ -44,7 +44,6 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
     };
   }, [isOpen]);
 
-  // Handle escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isOpen) {
@@ -64,7 +63,7 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
       description: "kishanpokal1111@gmail.com copied to clipboard.",
     });
     setTimeout(() => {
-      setCopiedEmail(false);
+      setCopiedEmail(false),
       onClose();
     }, 1200);
   };
@@ -73,27 +72,20 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
     const res = sound.toggle();
     setSoundEnabled(res);
     toast({
-      title: res ? "Sound effects enabled 🔊" : "Sound effects muted 🔇",
+      title: res ? "Sound effects turned ON 🔊" : "Sound effects turned OFF 🔇",
     });
   };
 
   const navigationItems = [
-    { name: "Home / Overview", href: "#hero", icon: Sparkles, desc: "Go to hero & overview" },
-    { name: "About & Engineering Journey", href: "#about", icon: User, desc: "Read bio, background & timeline" },
-    { name: "Skills & Tech Matrix", href: "#skills", icon: Cpu, desc: "Explore technologies & tools" },
-    { name: "Engineering Approach & Architecture", href: "#approach", icon: Sparkles, desc: "AI pipelines & Android architecture" },
-    { name: "Selected Works & Projects", href: "#projects", icon: FolderGit2, desc: "View all apps & case studies" },
-    { name: "Contact & Collaboration", href: "#contact", icon: Mail, desc: "Send a direct message" },
+    { name: "Overview / Hero", href: "#hero", icon: Sparkles, desc: "Go to top intro & identity" },
+    { name: "Featured Projects", href: "#projects", icon: FolderGit2, desc: "TrackEasy, Maunam & AttendMate" },
+    { name: "Development Process", href: "#approach", icon: Layers, desc: "How I write code & build apps" },
+    { name: "Technical Skills", href: "#skills", icon: Cpu, desc: "Languages, frameworks & tools" },
+    { name: "About Me", href: "#about", icon: User, desc: "Bio, education & live IST clock" },
+    { name: "Contact & Message", href: "#contact", icon: Mail, desc: "Send me a message or copy email" },
   ];
 
   const actions = [
-    {
-      name: "Launch 3D Interactive Portfolio",
-      desc: "Explore virtual interactive universe",
-      icon: Box,
-      href: "https://kishanpokal-3d.vercel.app/",
-      external: true,
-    },
     {
       name: "Copy Email Address",
       desc: "kishanpokal1111@gmail.com",
@@ -109,7 +101,7 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
     },
     {
       name: isDark ? "Switch to Light Mode" : "Switch to Dark Mode",
-      desc: isDark ? "Daylight Architectural Studio" : "Titanium & Solar Flame Luxe",
+      desc: isDark ? "Clean Daylight Studio" : "Deep Obsidian Slate",
       icon: isDark ? Sun : Moon,
       onClick: () => {
         sound.toggleTheme();
@@ -119,9 +111,16 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
     },
     {
       name: soundEnabled ? "Mute UI Sound Effects" : "Enable UI Sound Effects",
-      desc: soundEnabled ? "Turn off audio feedback" : "Turn on delicate synth feedback",
+      desc: soundEnabled ? "Turn off audio feedback" : "Turn on audio feedback",
       icon: soundEnabled ? VolumeX : Volume2,
       onClick: handleToggleSound,
+    },
+    {
+      name: "Google Play Store (TrackEasy)",
+      desc: "Published production Android app",
+      icon: ExternalLink,
+      href: "https://play.google.com/store/apps/details?id=com.kishan.trackeasy",
+      external: true,
     },
     {
       name: "GitHub Profile",
@@ -139,15 +138,17 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
     },
   ];
 
+  const allProjects = [...flagshipProjects, ...archivedProjects];
+
   const filteredNav = navigationItems.filter(
     (i) => i.name.toLowerCase().includes(query.toLowerCase()) || i.desc.toLowerCase().includes(query.toLowerCase())
   );
 
-  const filteredProjects = projects.filter(
+  const filteredProjects = allProjects.filter(
     (p) =>
       p.title.toLowerCase().includes(query.toLowerCase()) ||
-      p.category.toLowerCase().includes(query.toLowerCase()) ||
-      p.tags.some((t) => t.toLowerCase().includes(query.toLowerCase()))
+      (p.category && p.category.toLowerCase().includes(query.toLowerCase())) ||
+      (p.tags && p.tags.some((t) => t.toLowerCase().includes(query.toLowerCase())))
   );
 
   const filteredActions = actions.filter(
@@ -167,53 +168,51 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[200] overflow-y-auto overflow-x-hidden flex items-start justify-center pt-20 sm:pt-24 pb-12 px-4">
-          {/* Backdrop (Crisp light blur in daylight mode, obsidian in dark mode) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/40 dark:bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 bg-black/85 backdrop-blur-md"
           />
 
-          {/* Modal Container */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
-            className="relative w-full max-w-2xl bg-white dark:bg-[#141418] border border-[#E2DBD0] dark:border-[#2B2B36] rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[80vh] my-auto"
+            className="relative w-full max-w-2xl dark:bg-[#111622] bg-white border border-slate-200 dark:border-white/10 rounded-3xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[80vh] my-auto"
           >
             {/* Search Input Bar */}
-            <div className="flex items-center px-5 py-4 border-b border-[#E2DBD0] dark:border-[#2B2B36] bg-[#FAF8F5] dark:bg-[#181820] gap-3">
-              <Search className="w-5 h-5 text-[#6B655D] dark:text-[#94918C] flex-shrink-0" />
+            <div className="flex items-center px-5 py-4 border-b border-slate-200 dark:border-white/10 dark:bg-[#0A0D14] bg-slate-50 gap-3">
+              <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Type a command, 3D portfolio, project, or skill..."
-                className="w-full bg-transparent text-[#1A1918] dark:text-[#F4F3F1] placeholder:text-[#6B655D] dark:placeholder:text-[#94918C] text-base focus:outline-none font-medium"
+                placeholder="Search projects, skills, or quick actions..."
+                className="w-full bg-transparent text-foreground placeholder:text-muted-foreground text-base focus:outline-none font-medium"
               />
               {query && (
                 <button
                   onClick={() => setQuery("")}
-                  className="p-1 rounded-md text-[#6B655D] dark:text-[#94918C] hover:text-[#1A1918] dark:hover:text-[#F4F3F1]"
+                  className="p-1 rounded-md text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-4 h-4" />
                 </button>
               )}
-              <kbd className="hidden sm:inline-flex text-[10px] font-mono font-semibold px-2 py-1 rounded bg-[#EBE5DB] dark:bg-[#24242C] text-[#6B655D] dark:text-[#94918C] border border-[#E2DBD0] dark:border-[#2B2B36]">
+              <kbd className="hidden sm:inline-flex text-[10px] font-mono font-semibold px-2 py-1 rounded dark:bg-white/5 bg-slate-200/80 text-muted-foreground border border-slate-200 dark:border-white/10">
                 ESC
               </kbd>
             </div>
 
             {/* Results List */}
-            <div className="overflow-y-auto p-3.5 space-y-4 max-h-[60vh] bg-white dark:bg-[#141418]">
-              {/* Navigation Group */}
+            <div className="overflow-y-auto p-3.5 space-y-4 max-h-[60vh] dark:bg-[#111622] bg-white">
+              {/* Navigation */}
               {filteredNav.length > 0 && (
                 <div>
-                  <p className="px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B655D] dark:text-[#94918C]">
+                  <p className="px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
                     Navigation
                   </p>
                   <div className="space-y-1 mt-1">
@@ -221,48 +220,48 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
                       <button
                         key={item.name}
                         onClick={() => handleSelectNav(item.href)}
-                        className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-[#F1ECE4] dark:hover:bg-[#1C1C22] text-[#1A1918] dark:text-[#F4F3F1] transition-colors text-left group"
+                        className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/5 text-foreground transition-colors text-left group"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-xl bg-[#F95738]/10 dark:bg-[#FF6B4A]/15 text-[#F95738] dark:text-[#FF6B4A]">
+                          <div className="p-2 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400">
                             <item.icon className="w-4 h-4" />
                           </div>
                           <div>
-                            <p className="text-sm font-semibold text-[#1A1918] dark:text-[#F4F3F1]">{item.name}</p>
-                            <p className="text-xs text-[#6B655D] dark:text-[#94918C]">{item.desc}</p>
+                            <p className="text-sm font-semibold text-foreground">{item.name}</p>
+                            <p className="text-xs text-muted-foreground">{item.desc}</p>
                           </div>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-[#6B655D] dark:text-[#94918C] group-hover:text-[#F95738] dark:group-hover:text-[#FF6B4A] group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-sky-500 group-hover:translate-x-1 transition-all" />
                       </button>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Projects Group */}
+              {/* Projects */}
               {filteredProjects.length > 0 && (
                 <div>
-                  <p className="px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B655D] dark:text-[#94918C]">
+                  <p className="px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
                     Projects ({filteredProjects.length})
                   </p>
                   <div className="space-y-1 mt-1">
-                    {filteredProjects.slice(0, 4).map((p) => (
+                    {filteredProjects.map((p) => (
                       <button
                         key={p.title}
                         onClick={() => handleSelectNav("#projects")}
-                        className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-[#F1ECE4] dark:hover:bg-[#1C1C22] text-[#1A1918] dark:text-[#F4F3F1] transition-colors text-left group"
+                        className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/5 text-foreground transition-colors text-left group"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-xl bg-[#10B981]/15 text-[#10B981]">
+                          <div className="p-2 rounded-xl bg-sky-500/15 text-sky-600 dark:text-sky-400">
                             <FolderGit2 className="w-4 h-4" />
                           </div>
                           <div>
-                            <p className="text-sm font-semibold text-[#1A1918] dark:text-[#F4F3F1]">{p.title}</p>
-                            <p className="text-xs text-[#6B655D] dark:text-[#94918C]">{p.category} • {p.tags.slice(0, 3).join(", ")}</p>
+                            <p className="text-sm font-semibold text-foreground">{p.title}</p>
+                            <p className="text-xs text-muted-foreground">{p.category}</p>
                           </div>
                         </div>
-                        <span className="text-xs font-mono font-medium px-2 py-0.5 rounded-md bg-[#EBE5DB] dark:bg-[#24242C] text-[#6B655D] dark:text-[#94918C] border border-[#E2DBD0] dark:border-[#2B2B36]">
-                          {p.status}
+                        <span className="text-xs font-mono font-medium px-2 py-0.5 rounded-md dark:bg-white/5 bg-sky-50 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20">
+                          {p.status || p.year}
                         </span>
                       </button>
                     ))}
@@ -270,10 +269,10 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
                 </div>
               )}
 
-              {/* Actions Group */}
+              {/* Actions */}
               {filteredActions.length > 0 && (
                 <div>
-                  <p className="px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B655D] dark:text-[#94918C]">
+                  <p className="px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
                     Quick Actions
                   </p>
                   <div className="space-y-1 mt-1">
@@ -289,18 +288,18 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
                               sound.click();
                               onClose();
                             }}
-                            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-[#F1ECE4] dark:hover:bg-[#1C1C22] text-[#1A1918] dark:text-[#F4F3F1] transition-colors text-left group"
+                            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/5 text-foreground transition-colors text-left group"
                           >
                             <div className="flex items-center gap-3">
-                              <div className="p-2 rounded-xl bg-[#EBE5DB] dark:bg-[#24242C] text-[#1A1918] dark:text-[#F4F3F1]">
+                              <div className="p-2 rounded-xl dark:bg-white/5 bg-slate-100 text-foreground">
                                 <action.icon className="w-4 h-4" />
                               </div>
                               <div>
-                                <p className="text-sm font-semibold text-[#1A1918] dark:text-[#F4F3F1]">{action.name}</p>
-                                <p className="text-xs text-[#6B655D] dark:text-[#94918C]">{action.desc}</p>
+                                <p className="text-sm font-semibold text-foreground">{action.name}</p>
+                                <p className="text-xs text-muted-foreground">{action.desc}</p>
                               </div>
                             </div>
-                            <ExternalLink className="w-4 h-4 text-[#6B655D] dark:text-[#94918C] group-hover:text-[#1A1918] dark:group-hover:text-[#F4F3F1] transition-colors" />
+                            <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-sky-500 transition-colors" />
                           </a>
                         );
                       }
@@ -308,18 +307,18 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
                         <button
                           key={action.name}
                           onClick={action.onClick}
-                          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-[#F1ECE4] dark:hover:bg-[#1C1C22] text-[#1A1918] dark:text-[#F4F3F1] transition-colors text-left group"
+                          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/5 text-foreground transition-colors text-left group"
                         >
                           <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-xl bg-[#EBE5DB] dark:bg-[#24242C] text-[#1A1918] dark:text-[#F4F3F1]">
+                            <div className="p-2 rounded-xl dark:bg-white/5 bg-slate-100 text-foreground">
                               <action.icon className="w-4 h-4" />
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-[#1A1918] dark:text-[#F4F3F1]">{action.name}</p>
-                              <p className="text-xs text-[#6B655D] dark:text-[#94918C]">{action.desc}</p>
+                              <p className="text-sm font-semibold text-foreground">{action.name}</p>
+                              <p className="text-xs text-muted-foreground">{action.desc}</p>
                             </div>
                           </div>
-                          <span className="text-xs text-[#F95738] dark:text-[#FF6B4A] font-bold">Execute</span>
+                          <span className="text-xs text-sky-600 dark:text-sky-400 font-bold">Execute</span>
                         </button>
                       );
                     })}
@@ -328,14 +327,14 @@ export const CommandPalette = ({ isOpen, onClose, onToggleTheme, isDark }) => {
               )}
             </div>
 
-            {/* Footer hints */}
-            <div className="px-5 py-3 border-t border-[#E2DBD0] dark:border-[#2B2B36] bg-[#FAF8F5] dark:bg-[#101014] flex items-center justify-between text-xs text-[#6B655D] dark:text-[#94918C]">
+            {/* Footer */}
+            <div className="px-5 py-3 border-t border-slate-200 dark:border-white/10 dark:bg-[#0A0D14] bg-slate-50 flex items-center justify-between text-xs text-muted-foreground">
               <div className="flex items-center gap-4">
-                <span>Navigation &amp; Actions</span>
+                <span>Use keyboard or click</span>
                 <span className="hidden sm:inline">•</span>
-                <span className="hidden sm:inline">Press ESC to dismiss</span>
+                <span className="hidden sm:inline">Press ESC to close</span>
               </div>
-              <span className="font-mono text-[11px] font-bold text-[#F95738] dark:text-[#FF6B4A]">Kishan Pokal</span>
+              <span className="font-mono text-[11px] font-bold text-sky-600 dark:text-sky-400">Kishan Pokal</span>
             </div>
           </motion.div>
         </div>

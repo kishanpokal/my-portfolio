@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, Cambria, serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Instrument Serif", Georgia, serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -19,66 +26,92 @@
   --color-border-hover: var(--border-hover);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface-card: var(--surface-card);
+  --color-surface-hover: var(--surface-hover);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
 }
 
 @layer base {
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     60-30-10 PALETTE ARCHITECTURE:
-     60% Canvas/Base (Warm Alabaster in Light / Deep Carbon Obsidian in Dark)
-     30% Secondary Structure (Warm Sand/Stone Cards & Graphite Borders)
-     10% Accent Precision (Solar Flame / Molten Ember / Radiant Sunset Coral)
+     DUAL THEME: CYBER SKY (DARK) & CRISP STUDIO (LIGHT)
+     No green, no violet, no orange.
+     Both dark and light modes styled with 100% contrast.
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
   :root {
-    /* 60% Base (Daylight Warm Alabaster Studio) */
-    --background: #FAF8F5;
-    --foreground: #1A1918;
+    /* Light Mode: Clean Apple/Vercel Studio */
+    --background: #F8FAFC;
+    --bg-primary: #F8FAFC;
+    --bg-elevated: #F1F5F9;
+    --foreground: #0F172A;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
 
-    /* 30% Secondary Structure (Warm Sandstone & Studio Borders) */
     --card: #FFFFFF;
-    --card-foreground: #1A1918;
+    --surface-card: #FFFFFF;
+    --surface-hover: #F8FAFC;
+    --card-foreground: #0F172A;
     --popover: #FFFFFF;
-    --popover-foreground: #1A1918;
-    --secondary: #F1ECE4;
-    --secondary-foreground: #2A2826;
-    --muted: #EBE5DB;
-    --muted-foreground: #6B655D;
-    --border: #E2DBD0;
-    --border-hover: #D0C6B8;
-    --input: #E2DBD0;
+    --popover-foreground: #0F172A;
+    --secondary: #F1F5F9;
+    --secondary-foreground: #0F172A;
+    --muted: #E2E8F0;
+    --muted-foreground: #64748B;
+    --border: #E2E8F0;
+    --border-subtle: #E2E8F0;
+    --border-hover: #94A3B8;
+    --border-highlight: #38BDF8;
+    --input: #E2E8F0;
 
-    /* 10% Accent (Radiant Solar Flame & Molten Coral) */
-    --primary: #F95738;
+    --primary: #0284C7;
     --primary-foreground: #FFFFFF;
-    --accent: #F4845F;
-    --accent-foreground: #FFFFFF;
-    --ring: #F95738;
+    --accent: #38BDF8;
+    --accent-foreground: #0F172A;
+    --accent-primary: #0284C7;
+    --accent-secondary: #38BDF8;
+    --accent-glow: rgba(2, 132, 199, 0.15);
+    --ring: #0284C7;
     --radius: 1rem;
   }
 
   .dark {
-    /* 60% Base (Deep Carbon Obsidian & Matte Titanium) */
-    --background: #0D0D10;
-    --foreground: #F4F3F1;
+    /* Dark Mode: Deep obsidian slate (rich, not washed out) */
+    --background: #0A0D14;
+    --bg-primary: #0A0D14;
+    --bg-elevated: #0F131D;
+    --foreground: #F8FAFC;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
 
-    /* 30% Secondary Structure (Smoked Slate Cards & Titanium Borders) */
-    --card: #141418;
-    --card-foreground: #F4F3F1;
-    --popover: #141418;
-    --popover-foreground: #F4F3F1;
-    --secondary: #1C1C22;
-    --secondary-foreground: #E5E4E0;
-    --muted: #24242C;
-    --muted-foreground: #94918C;
-    --border: #2B2B36;
-    --border-hover: #3E3E4D;
-    --input: #2B2B36;
+    --card: #111622;
+    --surface-card: #111622;
+    --surface-hover: #161D2D;
+    --card-foreground: #F8FAFC;
+    --popover: #111622;
+    --popover-foreground: #F8FAFC;
+    --secondary: #141A28;
+    --secondary-foreground: #F8FAFC;
+    --muted: #1B2335;
+    --muted-foreground: #94A3B8;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-hover: rgba(56, 189, 248, 0.3);
+    --border-highlight: rgba(56, 189, 248, 0.4);
+    --input: rgba(255, 255, 255, 0.08);
 
-    /* 10% Accent (Solar Flame & Radiant Molten Ember) */
-    --primary: #FF6B4A;
-    --primary-foreground: #0D0D10;
-    --accent: #F4845F;
-    --accent-foreground: #0D0D10;
-    --ring: #FF6B4A;
+    --primary: #38BDF8;
+    --primary-foreground: #0A0D14;
+    --accent: #0284C7;
+    --accent-foreground: #FFFFFF;
+    --accent-primary: #38BDF8;
+    --accent-secondary: #0284C7;
+    --accent-glow: rgba(56, 189, 248, 0.18);
+    --ring: #38BDF8;
   }
 
   * {
@@ -92,30 +125,57 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-sans);
     overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 }
 
+.font-serif {
+  font-family: "Instrument Serif", Georgia, Cambria, serif;
+}
+
+.font-sans {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.font-display {
+  font-family: "Instrument Serif", Georgia, Cambria, serif;
+}
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   60-30-10 AMBIENT MESH & SUBTLE GRID TEXTURES
+   BACKGROUND AMBIENT LIGHTING & DOT GRID
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.bg-noise-grain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Light mode dot grid */
 .bg-grid-pattern {
-  background-size: 40px 40px;
+  background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(249, 87, 56, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(249, 87, 56, 0.04) 1px, transparent 1px);
+    radial-gradient(circle, rgba(15, 23, 42, 0.07) 1px, transparent 1px);
 }
 
+/* Dark mode dot grid */
 .dark .bg-grid-pattern {
-  background-size: 40px 40px;
+  background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(255, 107, 74, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 107, 74, 0.035) 1px, transparent 1px);
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
 }
 
-/* Ambient Studio Lighting (10% Accent Bloom) */
+/* Ambient Sky Blue Center Bloom */
 .mesh-bg {
   position: fixed;
   top: 0;
@@ -124,28 +184,29 @@
   height: 100vh;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.55;
+  opacity: 0.6;
   background: 
-    radial-gradient(circle at 15% 15%, rgba(249, 87, 56, 0.07) 0%, transparent 45%),
-    radial-gradient(circle at 85% 75%, rgba(244, 132, 95, 0.05) 0%, transparent 45%);
+    radial-gradient(circle at 50% 20%, rgba(2, 132, 199, 0.06) 0%, transparent 55%),
+    radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.04) 0%, transparent 50%);
 }
 
 .dark .mesh-bg {
-  opacity: 0.65;
+  opacity: 0.75;
   background: 
-    radial-gradient(circle at 20% 20%, rgba(255, 107, 74, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(244, 132, 95, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 50% 15%, rgba(56, 189, 248, 0.09) 0%, transparent 55%),
+    radial-gradient(circle at 15% 75%, rgba(2, 132, 199, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 85% 65%, rgba(56, 189, 248, 0.04) 0%, transparent 50%);
 }
 
-/* 10% Accent Headline Gradients */
+/* Text Gradient */
 .text-gradient {
-  background: linear-gradient(135deg, #F95738 0%, #EE964B 50%, #F4845F 100%);
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 50%, #0F172A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .dark .text-gradient {
-  background: linear-gradient(135deg, #FF6B4A 0%, #FFA858 50%, #F4845F 100%);
+  background: linear-gradient(135deg, #38BDF8 0%, #60A5FA 50%, #93C5FD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 
 /**
  * Three-layer custom cursor that trails the mouse with spring physics.
- * Adapts dynamically with high-contrast visibility in Light Mode and radiant glow in Dark Mode.
+ * Adapts dynamically with Sky Blue accents.
  */
 export const CursorGlow = () => {
   const [enabled, setEnabled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const glowRef = useRef(null);
   const ringRef = useRef(null);
   const dotRef = useRef(null);
@@ -19,19 +18,9 @@ export const CursorGlow = () => {
   const isHidden = useRef(false);
 
   useEffect(() => {
-    // Detect dark mode changes
-    const checkDark = () => {
-      setIsDarkMode(document.documentElement.classList.contains("dark"));
-    };
-    checkDark();
-
-    const observer = new MutationObserver(checkDark);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-
-    // Only enable for desktop (fine pointers) and respect reduced motion settings
     const fine = window.matchMedia("(pointer: fine)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || reduce) return () => observer.disconnect();
+    if (!fine || reduce) return;
 
     setEnabled(true);
     document.body.classList.add("custom-cursor-enabled");
@@ -66,7 +55,6 @@ export const CursorGlow = () => {
       const targetY = mouseCoords.current.y;
       const dark = document.documentElement.classList.contains("dark");
 
-      // Spring physics
       dotCoords.current.x += (targetX - dotCoords.current.x) * 0.45;
       dotCoords.current.y += (targetY - dotCoords.current.y) * 0.45;
 
@@ -80,10 +68,10 @@ export const CursorGlow = () => {
       if (dotRef.current) {
         dotRef.current.style.opacity = isHidden.current ? "0" : "1";
         dotRef.current.style.transform = `translate3d(${dotCoords.current.x - 3.5}px, ${dotCoords.current.y - 3.5}px, 0)`;
-        dotRef.current.style.backgroundColor = dark ? "#FF6B4A" : "#D9480F";
+        dotRef.current.style.backgroundColor = dark ? "#38BDF8" : "#0284C7";
         dotRef.current.style.boxShadow = dark
-          ? "0 0 10px rgba(255,107,74,0.9)"
-          : "0 0 0 1.5px #1A1918, 0 0 8px rgba(217,72,15,0.7)";
+          ? "0 0 10px rgba(56,189,248,0.9)"
+          : "0 0 0 1.5px #0A0D14, 0 0 8px rgba(2,132,199,0.7)";
       }
 
       // Update Ring
@@ -93,12 +81,12 @@ export const CursorGlow = () => {
           isHovered.current ? 1.4 : 1.0
         })`;
         ringRef.current.style.borderColor = dark
-          ? isHovered.current ? "rgba(255, 107, 74, 0.9)" : "rgba(255, 107, 74, 0.4)"
-          : isHovered.current ? "rgba(217, 72, 15, 0.95)" : "rgba(26, 25, 24, 0.65)";
+          ? isHovered.current ? "rgba(56, 189, 248, 0.9)" : "rgba(56, 189, 248, 0.4)"
+          : isHovered.current ? "rgba(2, 132, 199, 0.95)" : "rgba(10, 13, 20, 0.65)";
         ringRef.current.style.borderWidth = dark ? "1.5px" : "2px";
         ringRef.current.style.backgroundColor = dark
-          ? isHovered.current ? "rgba(255, 107, 74, 0.12)" : "transparent"
-          : isHovered.current ? "rgba(217, 72, 15, 0.15)" : "transparent";
+          ? isHovered.current ? "rgba(56, 189, 248, 0.12)" : "transparent"
+          : isHovered.current ? "rgba(2, 132, 199, 0.15)" : "transparent";
       }
 
       // Update Glow
@@ -106,8 +94,8 @@ export const CursorGlow = () => {
         glowRef.current.style.opacity = isHidden.current ? "0" : "1";
         glowRef.current.style.transform = `translate3d(${glowCoords.current.x - 45}px, ${glowCoords.current.y - 45}px, 0)`;
         glowRef.current.style.background = dark
-          ? "radial-gradient(circle, rgba(255, 107, 74, 0.15) 0%, transparent 70%)"
-          : "radial-gradient(circle, rgba(217, 72, 15, 0.2) 0%, transparent 70%)";
+          ? "radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, transparent 70%)"
+          : "radial-gradient(circle, rgba(2, 132, 199, 0.2) 0%, transparent 70%)";
       }
 
       animationFrameId = requestAnimationFrame(tick);
@@ -116,7 +104,6 @@ export const CursorGlow = () => {
     animationFrameId = requestAnimationFrame(tick);
 
     return () => {
-      observer.disconnect();
       document.body.classList.remove("custom-cursor-enabled");
       window.removeEventListener("pointermove", onMouseMove);
       window.removeEventListener("mouseover", onMouseOver);
@@ -128,33 +115,12 @@ export const CursorGlow = () => {
 
   return (
     <>
-      <style>{`
-        .custom-cursor-enabled,
-        .custom-cursor-enabled *:not(input, textarea) {
-          cursor: none !important;
-        }
-      `}</style>
-
-      {/* Layer 1: Ambient Glow */}
+      {/* Subtle Ambient Mouse Glow (Follows pointer naturally, zero intrusive rings) */}
       <div
         ref={glowRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[99997] h-[90px] w-[90px] rounded-full will-change-transform"
-        style={{ filter: "blur(6px)" }}
-      />
-
-      {/* Layer 2: Interactive Outer Ring */}
-      <div
-        ref={ringRef}
-        aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[99998] h-[36px] w-[36px] rounded-full will-change-transform transition-all duration-150 ease-out"
-      />
-
-      {/* Layer 3: Center Dot */}
-      <div
-        ref={dotRef}
-        aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[99999] h-[7px] w-[7px] rounded-full will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-30 h-[120px] w-[120px] rounded-full will-change-transform"
+        style={{ filter: "blur(20px)" }}
       />
     </>
   );

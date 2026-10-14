@@ -1,169 +1,83 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { projects } from "@/data/projects";
+import { flagshipProjects, archivedProjects } from "@/data/projects";
 import {
   ArrowUpRight,
   Github,
   ExternalLink,
   Sparkles,
   Smartphone,
-  Globe,
   Gamepad2,
   BookOpen,
-  Box,
-  Shield,
+  ChevronDown,
+  ChevronUp,
+  Code2,
 } from "lucide-react";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { sound } from "@/lib/SoundEngine";
 
-const projectFilters = [
-  { id: "all", label: "All Projects" },
-  { id: "ai", label: "AI & Security", match: ["AI", "Security", "Cybersecurity"] },
-  { id: "android", label: "Android Apps", match: "Android" },
-  { id: "web", label: "Web Apps", match: "Web" },
-  { id: "game", label: "3D Game", match: "Game" },
-];
-
 export const ProjectsSection = ({ onModalStateChange }) => {
-  const [selectedFilter, setSelectedFilter] = useState("all");
   const [activeModalProject, setActiveModalProject] = useState(null);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
   useEffect(() => {
     onModalStateChange?.(!!activeModalProject);
   }, [activeModalProject, onModalStateChange]);
 
-  const filteredProjects = projects.filter((p) => {
-    if (selectedFilter === "all") return true;
-    const filter = projectFilters.find((f) => f.id === selectedFilter);
-    if (!filter?.match) return true;
-    if (Array.isArray(filter.match)) {
-      return filter.match.some(
-        (m) =>
-          p.category?.toLowerCase().includes(m.toLowerCase()) ||
-          p.tags?.some((t) => t.toLowerCase().includes(m.toLowerCase()))
-      );
-    }
-    return p.category.includes(filter.match);
-  });
-
   const fadeIn = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   return (
     <section id="projects" className="py-24 sm:py-32 px-4 sm:px-6 bg-background relative">
       <div className="container max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Section Header (Simple English) */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16"
+          className="mb-12 sm:mb-16 max-w-3xl"
         >
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Selected Works</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-bold text-foreground tracking-tight">
-              Featured engineering projects.
-            </h2>
-            <p className="mt-2 text-base text-muted-foreground max-w-xl">
-              Android applications shipped to the Google Play Store, 3D interactive games, and full-stack web platforms.
-            </p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold uppercase tracking-widest mb-3">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Featured Work</span>
           </div>
-
-          {/* Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-            {projectFilters.map((filter) => (
-              <button
-                key={filter.id}
-                onClick={() => {
-                  sound.click();
-                  setSelectedFilter(filter.id);
-                }}
-                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  selectedFilter === filter.id
-                    ? "bg-primary text-primary-foreground shadow-md"
-                    : "bg-secondary/70 hover:bg-secondary text-muted-foreground hover:text-foreground border border-border/60"
-                }`}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground tracking-tight font-sans">
+            Featured <span className="font-serif italic font-normal text-gradient text-4xl sm:text-6xl">Projects</span>.
+          </h2>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground leading-relaxed">
+            Here are my 3 main projects: a personal finance app on the Google Play Store, a 3D horror game, and a student attendance mobile tool.
+          </p>
         </motion.div>
 
-        {/* 3D Interactive Portfolio Feature Card — 60-30-10 Radiant Accent */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeIn}
-          className="mb-10 sm:mb-12 rounded-3xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-rose-500/5 border border-primary/30 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm hover:border-primary/50 transition-all"
-        >
-          <div className="flex items-start gap-4">
-            <div className="p-3.5 rounded-2xl bg-primary/15 text-primary border border-primary/30 flex-shrink-0">
-              <Box className="w-7 h-7 animate-pulse" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/15 px-2.5 py-0.5 rounded-full border border-primary/30">
-                  Featured 3D Experience
-                </span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                Interactive 3D Virtual Showcase
-              </h3>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-xl leading-relaxed">
-                Step into an immersive 3D virtual environment featuring spatial physics, acoustic audio mechanics, and interactive project stages.
-              </p>
-            </div>
-          </div>
-
-          <a
-            href="https://kishanpokal-3d.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => sound.click()}
-            className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm shadow-md hover:scale-105 active:scale-95 transition-all"
-          >
-            <span>Launch 3D Portfolio</span>
-            <ExternalLink className="w-4 h-4" />
-          </a>
-        </motion.div>
-
-        {/* Projects Cards Grid (30% Card Containers) */}
-        <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        {/* 3 Main Display Cards Grid */}
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
           <AnimatePresence>
-            {filteredProjects.map((project, index) => {
-              const isAndroid = project.category?.toLowerCase().includes("android");
+            {flagshipProjects.map((project, index) => {
+              const isPlayStore = project.status?.toLowerCase().includes("google play");
               const isGame = project.category?.toLowerCase().includes("game");
-              const isSecurity =
-                project.category?.toLowerCase().includes("security") ||
-                project.category?.toLowerCase().includes("cyber");
 
               return (
                 <motion.div
                   layout
                   key={project.id || index}
-                  initial={{ opacity: 0, scale: 0.95 }}
+                  initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.25 }}
-                  className="group rounded-3xl bg-card border border-border hover:border-border-hover p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+                  className="group rounded-3xl dark:bg-[#111622]/90 bg-white border border-slate-200/90 dark:border-white/10 hover:border-sky-500/40 dark:hover:border-sky-500/40 p-6 flex flex-col justify-between shadow-lg dark:shadow-xl backdrop-blur-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
                 >
                   <div>
-                    {/* Device Mockup Visual Window (Fits complete square/rectangular shape edge-to-edge) */}
-                    <div className="relative rounded-2xl bg-secondary/80 border border-border/90 overflow-hidden aspect-[16/10] mb-6 flex items-center justify-center group-hover:scale-[1.01] transition-transform duration-500 shadow-inner">
+                    {/* Project Preview Image */}
+                    <div className="relative rounded-2xl dark:bg-[#0A0D14] bg-slate-100 border border-slate-200 dark:border-white/5 overflow-hidden aspect-[16/10] mb-5 flex items-center justify-center group-hover:border-sky-500/30 transition-all duration-500 shadow-inner">
                       <img
-                        src={project.image || project.thumbnail || "/projects/default-project.svg"}
+                        src={project.image || "/projects/default-project.svg"}
                         alt={project.title}
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
                         onError={(e) => {
@@ -173,70 +87,66 @@ export const ProjectsSection = ({ onModalStateChange }) => {
                       />
                     </div>
 
-                    {/* Meta Row: Category & Status */}
+                    {/* Category & Status */}
                     <div className="flex items-center justify-between gap-3 mb-3">
-                      <span className="text-xs font-semibold text-primary flex items-center gap-1.5 uppercase tracking-wider">
-                        {isSecurity && <Shield className="w-3.5 h-3.5 text-primary" />}
-                        {!isSecurity && isAndroid && <Smartphone className="w-3.5 h-3.5" />}
-                        {!isSecurity && isGame && <Gamepad2 className="w-3.5 h-3.5 text-primary" />}
-                        {!isSecurity && !isAndroid && !isGame && <Globe className="w-3.5 h-3.5 text-primary" />}
+                      <span className="text-xs font-semibold text-sky-600 dark:text-sky-400 flex items-center gap-1.5 uppercase tracking-wider">
+                        {isGame ? <Gamepad2 className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
                         {project.category}
                       </span>
 
                       {project.status && (
                         <span
-                          className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${
-                            project.status.toLowerCase() === "completed"
-                              ? "bg-primary/15 text-primary border-primary/30"
-                              : "bg-secondary text-muted-foreground border-border"
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border uppercase tracking-wider flex items-center gap-1 ${
+                            isPlayStore
+                              ? "dark:bg-sky-500/20 bg-sky-50 text-sky-700 dark:text-sky-300 border-sky-500/30"
+                              : "dark:bg-white/5 bg-slate-100 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-white/10"
                           }`}
                         >
+                          <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
                           {project.status}
                         </span>
                       )}
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-sky-500 transition-colors">
                       {project.title}
                     </h3>
 
-                    {/* Description */}
-                    <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed mb-5">
+                    {/* Simple English Description */}
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5 font-normal">
                       {project.description}
                     </p>
 
                     {/* Tech Badges */}
                     <div className="flex flex-wrap gap-1.5 mb-6">
-                      {project.tags?.slice(0, 4).map((tag, i) => (
+                      {project.tags?.map((tag, i) => (
                         <span
                           key={i}
-                          className="px-2.5 py-1 rounded-md bg-secondary text-foreground text-xs font-medium border border-border/60"
+                          className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 text-xs font-mono font-medium border border-slate-200 dark:border-white/10"
                         >
                           {tag}
                         </span>
                       ))}
-                      {project.tags && project.tags.length > 4 && (
-                        <span className="px-2 py-1 rounded-md bg-secondary/50 text-muted-foreground text-xs">
-                          +{project.tags.length - 4} more
-                        </span>
-                      )}
                     </div>
                   </div>
 
-                  {/* Card Actions Bottom */}
-                  <div className="pt-4 border-t border-border/60 flex flex-wrap items-center justify-between gap-3">
+                  {/* Bottom Actions */}
+                  <div className="pt-4 border-t border-slate-200/90 dark:border-white/10 flex items-center justify-between gap-2">
+                    {/* View Details Button */}
                     <button
                       onClick={() => {
                         sound.click();
                         setActiveModalProject(project);
                       }}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors py-1 group/btn"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
-                      <span>Case Study & Architecture</span>
+                      <span>Project Details</span>
+                      <ArrowUpRight className="w-3 h-3 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                     </button>
 
+                    {/* Primary Button */}
                     <div className="flex items-center gap-2">
                       {project.githubUrl && project.githubUrl !== "#" && (
                         <a
@@ -244,21 +154,22 @@ export const ProjectsSection = ({ onModalStateChange }) => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => sound.click()}
-                          className="p-2 rounded-xl bg-secondary hover:bg-secondary/80 border border-border text-foreground transition-colors"
-                          aria-label="View Source Code"
+                          className="p-2 rounded-xl dark:bg-[#0A0D14] bg-slate-100 hover:bg-slate-200 dark:hover:bg-[#161D2D] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+                          title="View GitHub Code"
                         >
                           <Github className="w-4 h-4" />
                         </a>
                       )}
-                      {project.demoUrl && project.demoUrl !== "#" && (
+
+                      {isPlayStore && project.demoUrl && (
                         <a
                           href={project.demoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => sound.click()}
-                          className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-sky-400 hover:bg-sky-300 text-[#0A0D14] text-xs font-bold shadow-md shadow-sky-500/20 transition-all hover:scale-105 active:scale-95"
                         >
-                          <span>{isAndroid ? "Play Store" : "Live Demo"}</span>
+                          <span>Play Store</span>
                           <ArrowUpRight className="w-3 h-3" />
                         </a>
                       )}
@@ -270,43 +181,131 @@ export const ProjectsSection = ({ onModalStateChange }) => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Global CTA Banner */}
+        {/* Collapsible Project Archive (The other builds go here) */}
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-50px" }}
           variants={fadeIn}
-          className="mt-20 sm:mt-28 rounded-3xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-orange-500/10 border border-primary/20 p-8 sm:p-12 text-center flex flex-col items-center"
+          className="mt-12 sm:mt-16 rounded-3xl dark:bg-[#111622]/80 bg-white border border-slate-200/90 dark:border-white/10 shadow-lg dark:shadow-none overflow-hidden"
         >
-          <h3 className="text-2xl sm:text-4xl font-bold text-foreground mb-3">
-            Have a project or vision in mind?
-          </h3>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mb-8 leading-relaxed">
-            I'm currently available for software engineering roles, mobile app development, and AI integration projects.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <a
-              href="#contact"
-              onClick={() => sound.click()}
-              className="px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-all shadow-lg shadow-primary/25"
-            >
-              Let's Discuss Opportunities
-            </a>
-            <a
-              href="https://github.com/KishanPokal"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => sound.click()}
-              className="px-6 py-3.5 rounded-full bg-card hover:bg-secondary border border-border text-foreground font-semibold text-sm transition-colors flex items-center justify-center gap-2"
-            >
-              <Github className="w-4 h-4" />
-              <span>Explore GitHub Repositories</span>
-            </a>
-          </div>
+          {/* Drawer Trigger */}
+          <button
+            onClick={() => {
+              sound.click();
+              setIsArchiveOpen(!isArchiveOpen);
+            }}
+            className="w-full px-6 sm:px-8 py-5 flex items-center justify-between text-left hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl dark:bg-white/5 bg-sky-50 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-white/10 group-hover:border-sky-500/30 transition-colors">
+                <Code2 className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-sm sm:text-base font-bold text-foreground">
+                  View More Projects ({archivedProjects.length} Earlier Builds)
+                </h4>
+                <p className="text-xs text-muted-foreground">
+                  Habit Tracker (HabitFlow), ThreatLens AI, Cricket Game, Book Store, and more
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs font-mono font-medium text-slate-500 dark:text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+              <span>{isArchiveOpen ? "Hide Earlier Projects" : "Show All Earlier Projects"}</span>
+              {isArchiveOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </div>
+          </button>
+
+          {/* Drawer Content */}
+          <AnimatePresence>
+            {isArchiveOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="border-t border-slate-200 dark:border-white/10 overflow-hidden"
+              >
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] text-slate-600 dark:text-slate-400 font-mono text-[11px] uppercase tracking-wider">
+                        <th className="py-3.5 px-6">Year</th>
+                        <th className="py-3.5 px-6">Project Name</th>
+                        <th className="py-3.5 px-6 hidden md:table-cell">Stack</th>
+                        <th className="py-3.5 px-6 hidden sm:table-cell">What It Does</th>
+                        <th className="py-3.5 px-6 text-right">Links</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-white/5 font-normal text-slate-700 dark:text-slate-300">
+                      {archivedProjects.map((arch, idx) => (
+                        <tr
+                          key={idx}
+                          className="hover:bg-slate-50/80 dark:hover:bg-white/[0.02] transition-colors group/row"
+                        >
+                          <td className="py-4 px-6 font-mono text-sky-600 dark:text-sky-400 font-medium">
+                            {arch.year}
+                          </td>
+                          <td className="py-4 px-6 font-bold text-foreground whitespace-nowrap">
+                            {arch.title}
+                          </td>
+                          <td className="py-4 px-6 hidden md:table-cell">
+                            <div className="flex flex-wrap gap-1">
+                              {arch.stack.map((s, i) => (
+                                <span
+                                  key={i}
+                                  className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 text-[10px] font-mono text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10"
+                                >
+                                  {s}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                          <td className="py-4 px-6 text-muted-foreground hidden sm:table-cell max-w-sm">
+                            {arch.summary}
+                          </td>
+                          <td className="py-4 px-6 text-right whitespace-nowrap">
+                            <div className="inline-flex items-center gap-2 justify-end">
+                              {arch.githubUrl && arch.githubUrl !== "#" && (
+                                <a
+                                  href={arch.githubUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={() => sound.click()}
+                                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 transition-colors"
+                                  title="View GitHub Code"
+                                >
+                                  <Github className="w-3.5 h-3.5" />
+                                </a>
+                              )}
+                              {arch.demoUrl && arch.demoUrl !== "#" && (
+                                <a
+                                  href={arch.demoUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={() => sound.click()}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sky-50 dark:bg-white/5 hover:bg-sky-100 dark:hover:bg-white/10 text-sky-600 dark:text-sky-400 border border-sky-200/60 dark:border-white/10 transition-colors text-[11px] font-medium"
+                                  title="Open Demo"
+                                >
+                                  <span>Demo</span>
+                                  <ArrowUpRight className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </div>
 
-      {/* Project Case Study Deep-Dive Modal */}
+      {/* Project Details Modal */}
       <ProjectModal
         project={activeModalProject}
         isOpen={!!activeModalProject}

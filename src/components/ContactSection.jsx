@@ -13,8 +13,8 @@ import {
   Sparkles,
   MessageSquare,
   Clock,
-  Box,
-  ExternalLink,
+  ArrowUpRight,
+  GitBranch,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sound } from "@/lib/SoundEngine";
@@ -34,7 +34,7 @@ export const ContactSection = () => {
     navigator.clipboard.writeText("kishanpokal1111@gmail.com");
     setCopiedEmail(true);
     toast({
-      title: "Email address copied! 📋",
+      title: "Email copied! 📋",
       description: "kishanpokal1111@gmail.com copied to clipboard.",
     });
     setTimeout(() => setCopiedEmail(false), 2000);
@@ -42,16 +42,16 @@ export const ContactSection = () => {
 
   const validateForm = () => {
     if (!formData.name.trim()) {
-      toast({ title: "Name is required", variant: "destructive" });
+      toast({ title: "Please enter your name", variant: "destructive" });
       return false;
     }
     if (!formData.email.trim() || !/^\S+@\S+\.\S+$/.test(formData.email)) {
-      toast({ title: "Valid email is required", variant: "destructive" });
+      toast({ title: "Please enter a valid email", variant: "destructive" });
       return false;
     }
     if (!formData.message.trim() || formData.message.length < 10) {
       toast({
-        title: "Message must be at least 10 characters",
+        title: "Please write at least 10 characters",
         variant: "destructive",
       });
       return false;
@@ -83,8 +83,8 @@ export const ContactSection = () => {
       if (response.ok) {
         sound.playBeep(880, 0.08, "sine");
         toast({
-          title: "Message dispatched! 🎉",
-          description: "Thank you! I will reply to you promptly within 24 hours.",
+          title: "Message sent! 🎉",
+          description: "Thank you! I will reply to your email within 24 hours.",
         });
         setFormData({ name: "", email: "", message: "" });
       } else {
@@ -92,7 +92,7 @@ export const ContactSection = () => {
       }
     } catch {
       toast({
-        title: "Message submission issue",
+        title: "Could not send message",
         description: "Please email me directly at kishanpokal1111@gmail.com",
         variant: "destructive",
       });
@@ -106,53 +106,50 @@ export const ContactSection = () => {
       name: "LinkedIn",
       url: "https://www.linkedin.com/in/kishanpokal956/",
       icon: Linkedin,
-      color: "hover:text-primary",
     },
     {
       name: "GitHub",
       url: "https://github.com/KishanPokal",
       icon: Github,
-      color: "hover:text-foreground",
     },
     {
       name: "Instagram",
       url: "https://www.instagram.com/kishan._.pokal/",
       icon: Instagram,
-      color: "hover:text-primary",
     },
   ];
 
   return (
-    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-6 bg-background relative">
+    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-6 bg-background relative transition-colors duration-200">
       <div className="container max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-14 sm:mb-20 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-3">
+        <div className="mb-12 sm:mb-16 max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs font-semibold uppercase tracking-widest mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Collaboration</span>
+            <span>Contact Me</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold text-foreground tracking-tight">
-            Let's build something exceptional.
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground tracking-tight font-sans">
+            Let's <span className="font-serif italic font-normal text-gradient text-4xl sm:text-6xl">Connect</span> Together.
           </h2>
-          <p className="mt-3 text-base sm:text-lg text-muted-foreground">
-            Whether you have an Android app to build, an AI model to train, or a position on your team, I'd love to connect.
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground leading-relaxed">
+            Have a project in mind, an Android or software engineering role, or just want to say hi? Send me a message!
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-          {/* Left Column: Direct Info & Social Hub (5 cols - 30% Cards) */}
-          <div className="lg:col-span-5 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Left Column: Direct Info & Socials (5 cols) */}
+          <div className="lg:col-span-5 space-y-5">
             {/* Email Card with 1-Click Copy */}
-            <div className="p-6 rounded-3xl bg-card border border-border hover:border-border-hover transition-all shadow-sm">
+            <div className="p-6 rounded-3xl dark:bg-[#111622]/90 bg-white dark:border-white/10 border-slate-200/90 hover:border-sky-400/50 transition-all shadow-lg dark:shadow-xl backdrop-blur-xl">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 rounded-2xl bg-primary/10 text-primary">
+                <div className="p-3 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                   <Mail className="w-5 h-5" />
                 </div>
                 <button
                   onClick={handleCopyEmail}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-secondary text-xs font-medium text-foreground hover:bg-secondary/80 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-white/5 bg-slate-100 hover:bg-slate-200 dark:hover:bg-white/10 text-xs font-medium text-foreground border dark:border-white/10 border-slate-200 transition-colors"
                 >
-                  {copiedEmail ? <Check className="w-3.5 h-3.5 text-primary" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedEmail ? <Check className="w-3.5 h-3.5 text-sky-500" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedEmail ? "Copied!" : "Copy Email"}</span>
                 </button>
               </div>
@@ -160,54 +157,65 @@ export const ContactSection = () => {
               <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Email Address</p>
               <a
                 href="mailto:kishanpokal1111@gmail.com"
-                className="text-base sm:text-lg font-bold text-foreground hover:text-primary transition-colors mt-1 block break-all"
+                className="text-base sm:text-lg font-bold text-foreground hover:text-sky-500 transition-colors mt-1 block break-all font-mono"
               >
                 kishanpokal1111@gmail.com
               </a>
             </div>
 
-            {/* Location & Timezone Card */}
-            <div className="p-6 rounded-3xl bg-card border border-border hover:border-border-hover transition-all shadow-sm">
-              <div className="p-3 w-fit rounded-2xl bg-primary/10 text-primary mb-4">
-                <MapPin className="w-5 h-5" />
+            {/* GitHub Card */}
+            <div className="p-6 rounded-3xl dark:bg-[#111622]/90 bg-white dark:border-white/10 border-slate-200/90 hover:border-sky-400/50 transition-all shadow-lg dark:shadow-xl backdrop-blur-xl group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 rounded-2xl dark:bg-white/5 bg-slate-100 text-foreground border dark:border-white/10 border-slate-200 group-hover:text-sky-500 transition-colors">
+                  <Github className="w-5 h-5" />
+                </div>
+                <span className="text-[11px] font-mono text-sky-600 dark:text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2.5 py-0.5 rounded-full font-medium">
+                  Source Code
+                </span>
               </div>
 
-              <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Location & Timezone</p>
-              <h4 className="text-base sm:text-lg font-bold text-foreground mt-1">
-                Ahmedabad, Gujarat, India
-              </h4>
-              <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-primary" />
-                <span>IST (UTC+5:30) • Open for Remote, Hybrid & Relocation</span>
+              <h4 className="text-base font-bold text-foreground">GitHub Repositories</h4>
+              <p className="text-xs text-muted-foreground mt-1 mb-4 leading-relaxed">
+                Check out all my project repositories, source code, and commit history on GitHub.
               </p>
-            </div>
 
-            {/* 3D Portfolio Box — 10% Accent Button */}
-            <div className="p-6 rounded-3xl bg-card border border-border hover:border-border-hover transition-all shadow-sm">
-              <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-3">
-                Interactive 3D Portfolio
-              </p>
               <a
-                href="https://kishanpokal-3d.vercel.app/"
+                href="https://github.com/KishanPokal"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => sound.click()}
-                className="inline-flex items-center justify-between w-full p-3.5 rounded-2xl bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary text-sm font-bold transition-all shadow-sm group"
+                className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-2xl dark:bg-white/5 bg-slate-50 hover:bg-slate-100 dark:hover:bg-white/10 border dark:border-white/10 border-slate-200 text-foreground text-xs font-semibold transition-all group-hover:border-sky-400"
               >
-                <span className="flex items-center gap-2.5">
-                  <Box className="w-4 h-4 text-primary animate-pulse" />
-                  <span>Launch 3D Virtual Experience</span>
+                <span className="flex items-center gap-2">
+                  <GitBranch className="w-3.5 h-3.5 text-sky-500" />
+                  <span>github.com/KishanPokal</span>
                 </span>
-                <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ArrowUpRight className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </div>
 
-            {/* Social Channels */}
-            <div className="p-6 rounded-3xl bg-card border border-border hover:border-border-hover transition-all shadow-sm">
-              <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-4">
-                Professional Networks
+            {/* Location & Timezone */}
+            <div className="p-6 rounded-3xl dark:bg-[#111622]/90 bg-white dark:border-white/10 border-slate-200/90 hover:border-sky-400/50 transition-all shadow-lg dark:shadow-xl backdrop-blur-xl">
+              <div className="p-3 w-fit rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 mb-3">
+                <MapPin className="w-5 h-5" />
+              </div>
+
+              <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Location &amp; Work Status</p>
+              <h4 className="text-base font-bold text-foreground mt-1">
+                Ahmedabad, Gujarat, India
+              </h4>
+              <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-sky-500" />
+                <span>IST (UTC+5:30) • Open for Remote &amp; On-Site Roles</span>
               </p>
-              <div className="flex gap-3">
+            </div>
+
+            {/* Professional Networks */}
+            <div className="p-6 rounded-3xl dark:bg-[#111622]/90 bg-white dark:border-white/10 border-slate-200/90 shadow-lg dark:shadow-xl backdrop-blur-xl">
+              <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-4">
+                Social Profiles
+              </p>
+              <div className="flex gap-2.5">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
                   return (
@@ -218,7 +226,7 @@ export const ContactSection = () => {
                       rel="noopener noreferrer"
                       onClick={() => sound.click()}
                       aria-label={social.name}
-                      className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-secondary border border-border/80 text-muted-foreground ${social.color} hover:bg-secondary/80 transition-all font-medium text-xs`}
+                      className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl dark:bg-white/5 bg-slate-50 hover:bg-slate-100 dark:hover:bg-white/10 border dark:border-white/10 border-slate-200 text-muted-foreground hover:text-foreground transition-all font-medium text-xs shadow-xs"
                     >
                       <Icon className="w-4 h-4" />
                       <span>{social.name}</span>
@@ -229,15 +237,15 @@ export const ContactSection = () => {
             </div>
           </div>
 
-          {/* Right Column: Interactive Form (7 cols) */}
+          {/* Right Column: Direct Message Form (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border shadow-sm">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="p-2 rounded-xl bg-primary/10 text-primary">
+            <div className="p-6 sm:p-8 rounded-3xl dark:bg-[#111622]/90 bg-white dark:border-white/10 border-slate-200/90 shadow-lg dark:shadow-xl backdrop-blur-xl">
+              <div className="flex items-center gap-2.5 mb-6">
+                <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                   <MessageSquare className="w-4 h-4" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-foreground">
-                  Send a Direct Message
+                  Send Me a Message
                 </h3>
               </div>
 
@@ -254,7 +262,7 @@ export const ContactSection = () => {
                     onChange={handleChange}
                     placeholder="e.g. John Doe"
                     required
-                    className="w-full px-4 py-3 rounded-2xl bg-secondary/60 border border-border text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
+                    className="w-full px-4 py-3 rounded-2xl dark:bg-[#0A0D14] bg-slate-50 border dark:border-white/10 border-slate-200 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20 transition-all"
                   />
                 </div>
 
@@ -268,41 +276,41 @@ export const ContactSection = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="e.g. john@company.com"
+                    placeholder="e.g. name@company.com"
                     required
-                    className="w-full px-4 py-3 rounded-2xl bg-secondary/60 border border-border text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
+                    className="w-full px-4 py-3 rounded-2xl dark:bg-[#0A0D14] bg-slate-50 border dark:border-white/10 border-slate-200 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20 transition-all"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-xs font-semibold text-foreground mb-1.5">
-                    Project Details / Message
+                    Your Message
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    rows={5}
+                    rows={6}
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Tell me about your project, timeline, or opportunities..."
+                    placeholder="Tell me about your project, job opportunity, or question..."
                     required
-                    className="w-full px-4 py-3 rounded-2xl bg-secondary/60 border border-border text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-2xl dark:bg-[#0A0D14] bg-slate-50 border dark:border-white/10 border-slate-200 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/20 transition-all resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-primary text-primary-foreground font-semibold text-sm hover:opacity-95 shadow-lg shadow-primary/25 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-sky-500 hover:bg-sky-400 text-white dark:text-[#0A0D14] font-bold text-sm shadow-lg shadow-sky-500/25 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Transmitting Message...</span>
+                      <span>Sending Message...</span>
                     </>
                   ) : (
                     <>
-                      <span>Transmit Message</span>
+                      <span>Send Message</span>
                       <Send className="w-4 h-4" />
                     </>
                   )}

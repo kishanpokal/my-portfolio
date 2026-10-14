@@ -1,167 +1,127 @@
-// Shared project data — used by ProjectsSection and HeroSection (for dynamic count)
-export const projects = [
-    {
-        id: 9,
-        title: "ThreatLens AI",
-        category: "AI & Cybersecurity Platform",
-        description: "An autonomous cyber threat intelligence and forensic inspection platform that detects obfuscated phishing URLs via a 69-feature semantic scanner, inspects BEC emails using explainable NLP models, and classifies network intrusions with dual-engine ML and real-time SOC alerts.",
-        image: "/projects/threatlens.svg",
-        tags: ["FastAPI", "PyTorch", "Scikit-Learn", "React 19", "TypeScript", "Docker", "Python"],
-        demoUrl: "#",
-        githubUrl: "https://github.com/kishanpokal/ThreatLens",
-        featured: true,
-        accentColor: "from-emerald-500 to-teal-600",
-        status: "Completed",
-        highlights: [
-            "69-feature URL obfuscation & typosquatting detection engine (100% accuracy on 1M dataset)",
-            "Social Engineering & BEC email forensics with TF-IDF and Explainable AI (XAI) attribution",
-            "Dual-engine network intrusion classifier (NSL-KDD Random Forest + PyTorch Autoencoder)",
-            "Real-time WebSocket SOC alert feed & O(L) dual-root CIDR/domain Trie blocklist",
-            "Autonomous IMAP background worker for automated email forward-to-check verification"
-        ]
-    },
-    {
-        id: 1,
-        title: "TrackEasy",
-        category: "Android Application",
-        description: "TrackEasy is an Android application designed to help users track daily activities such as expenses and personal data in an organized way. The app focuses on simplicity and usability while allowing users to record information quickly and monitor their records efficiently.",
-        image: "/projects/trackeasy.svg",
-        tags: ["Kotlin", "Android Studio", "Firebase", "Jetpack Compose"],
-        demoUrl: "https://play.google.com/store/apps/details?id=com.kishan.trackeasy",
-        githubUrl: "",
-        featured: true,
-        accentColor: "from-cyan-500 to-blue-600",
-        status: "Completed",
-        highlights: [
-            "Simple and intuitive expense/activity tracking interface",
-            "Real-time data storage using Firebase",
-            "Modern Android UI built with Jetpack Compose"
-        ]
-    },
-    {
-        id: 2,
-        title: "Maunam: The Silent God",
-        category: "Game Development",
-        description: "Maunam: The Silent God is a 3D mobile first-person horror game. Built to deliver a terrifying experience, it features atmospheric environments and unique microphone-based mechanics where real-life noise alerts the entity.",
-        image: "/projects/maunam.svg",
-        tags: ["Unity", "C#", "3D Mobile Game", "Horror"],
-        demoUrl: "#",
-        githubUrl: "",
-        featured: true,
-        accentColor: "from-red-500 to-rose-600",
-        status: "In Development",
-        highlights: [
-            "First-person 3D mobile horror experience",
-            "Unique microphone detection gameplay mechanics",
-            "Atmospheric audio design and immersive environments"
-        ]
-    },
-    {
-        id: 7,
-        title: "AttendMate Web",
-        category: "Web Application",
-        description: "AttendMate Web is a web-based attendance management system designed for tracking and managing student attendance records. It provides an interface for maintaining attendance data and monitoring attendance performance.",
-        image: "/projects/attendmate-web.svg",
-        tags: ["JavaScript", "Web Development", "Frontend Development"],
-        demoUrl: "https://attendmateweb.vercel.app/",
-        githubUrl: "https://github.com/kishanpokal/attendmate-web",
-        featured: false,
-        accentColor: "from-violet-500 to-purple-600",
-        status: "Completed",
-        highlights: [
-            "Attendance management through web interface",
-            "Simple dashboard for attendance records",
-            "Organized data display for students and administrators"
-        ]
-    },
-    {
-        id: 3,
-        title: "AttendMate Android",
-        category: "Android Application",
-        description: "AttendMate is an Android application that helps students track and manage their attendance records. The app provides a simple interface for monitoring attendance status and organizing academic attendance data efficiently.",
-        image: "/projects/attendmate-android.svg",
-        tags: ["Kotlin", "Android Studio", "Firebase"],
-        demoUrl: "#",
-        githubUrl: "https://github.com/kishanpokal/AttendMate2",
-        featured: true,
-        accentColor: "from-blue-500 to-cyan-600",
-        status: "Completed",
-        highlights: [
-            "Student attendance tracking system",
-            "Clean Android UI for easy attendance monitoring",
-            "Data storage and retrieval using Firebase"
-        ]
-    },
-    {
-        id: 5,
-        title: "Habit Tracker Web",
-        category: "Web Application",
-        description: "Habit Tracker Web is a productivity web application that helps users build positive habits by tracking daily activities and monitoring progress over time. The application focuses on simplicity and helping users stay consistent with their routines.",
-        image: "/projects/habit-tracker.svg",
-        tags: ["JavaScript", "Frontend Development", "Web App"],
-        demoUrl: "https://habitflowweb.vercel.app/",
-        githubUrl: "https://github.com/kishanpokal/habit-tracker-web",
-        featured: false,
-        accentColor: "from-cyan-500 to-blue-600",
-        status: "Completed",
-        highlights: [
-            "Track daily habits and routines",
-            "Progress monitoring and habit tracking system",
-            "Simple and responsive web interface"
-        ]
-    },
-    {
-        id: 8,
-        title: "Multiplayer Cricket Game",
-        category: "Web Game",
-        description: "A real-time multiplayer browser-based cricket game featuring a matchmaking lobby, live coin toss, and interactive gameplay. It includes user authentication, player profiles, and global leaderboards.",
-        image: "/projects/cricket-game.svg",
-        tags: ["React 19", "TypeScript", "Firebase", "TailwindCSS v4"],
-        demoUrl: "https://cricketbuzz-web.vercel.app/",
-        githubUrl: "https://github.com/kishanpokal/Cricket-Game",
-        featured: false,
-        accentColor: "from-cyan-500 to-blue-600",
-        status: "Completed",
-        highlights: [
-            "Firebase Auth and Matchmaking Lobby",
-            "Real-time Coin Toss and Live Game Board",
-            "Player Profiles and Global Leaderboards"
-        ]
-    },
-    {
-        id: 6,
-        title: "Online Book Selling System",
-        category: "Web Application",
-        description: "An e-commerce web application that allows users to browse books, add items to a shopping cart, and purchase books online. The system includes product management and a simple checkout process.",
-        image: "/projects/book-store.svg",
-        tags: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
-        demoUrl: "#",
-        githubUrl: "https://github.com/kishanpokal/Online_Book_Selling_System",
-        featured: false,
-        accentColor: "from-rose-500 to-pink-600",
-        status: "Completed",
-        highlights: [
-            "Book catalog browsing and product listings",
-            "Shopping cart and checkout functionality",
-            "User authentication system"
-        ]
-    },
-    {
-        id: 4,
-        title: "Tourism Management System",
-        category: "Java Web Application",
-        description: "A tourism booking web application that allows users to explore travel packages and book services such as hotel rooms, food, and transportation. The system provides an integrated booking experience for travelers.",
-        image: "/projects/tourism-system.svg",
-        tags: ["Java", "JSP", "Servlet", "MySQL", "Bootstrap"],
-        demoUrl: "#",
-        githubUrl: "https://github.com/kishanpokal/TourismManagementSystem-JSP",
-        featured: false,
-        accentColor: "from-purple-500 to-indigo-600",
-        status: "Completed",
-        highlights: [
-            "Hotel room booking with dynamic image display",
-            "Integrated booking system for rooms, food, and transport",
-            "Database-driven travel package management"
-        ]
-    }
+// 3 Main Flagship Projects on Display (Simple English, No 3D link)
+export const flagshipProjects = [
+  {
+    id: "trackeasy",
+    title: "TrackEasy",
+    category: "Android App",
+    badge: "Live on Google Play",
+    status: "Live on Google Play",
+    isProductionApp: true,
+    description:
+      "A personal expense and budget tracking app published on the Google Play Store. Built with Kotlin and Jetpack Compose, it saves data locally for offline use and syncs with Firebase in real time.",
+    image: "/projects/trackeasy.svg",
+    tags: ["Kotlin", "Jetpack Compose", "Firebase", "Room DB"],
+    demoUrl: "https://play.google.com/store/apps/details?id=com.kishan.trackeasy",
+    githubUrl: "",
+    featured: true,
+    highlights: [
+      "Published and available on the official Google Play Store",
+      "Modern and easy-to-use UI built with Jetpack Compose",
+      "Works completely offline and syncs with Firebase when online",
+      "Clean MVVM code architecture with Kotlin Coroutines",
+      "Fast, lightweight, and zero crashes in production"
+    ]
+  },
+  {
+    id: "maunam",
+    title: "Maunam: The Silent God",
+    category: "3D Mobile Horror Game",
+    badge: "In Development",
+    status: "In Development",
+    description:
+      "A 3D mobile horror game developed in Unity and C#. It uses your phone's microphone to detect real-life noise—if you make a sound in real life, the in-game monster hears you and hunts you down.",
+    image: "/projects/maunam.svg",
+    tags: ["Unity 3D", "C#", "Game AI", "Mic Acoustics"],
+    demoUrl: "",
+    githubUrl: "",
+    featured: true,
+    highlights: [
+      "First-person 3D mobile horror experience built in Unity",
+      "Real-time microphone noise detection makes player silence critical",
+      "Smart monster AI with patrol, alert, and hunting behaviors",
+      "3D spatial sound and dark atmospheric lighting",
+      "Optimized for smooth performance on mobile phones"
+    ]
+  },
+  {
+    id: "attendmate-android",
+    title: "AttendMate Android",
+    category: "Android App",
+    badge: "Completed",
+    status: "Completed",
+    description:
+      "An Android app that helps college students track their daily class attendance, view percentage stats, and receive warning alerts when attendance drops below minimum requirements.",
+    image: "/projects/attendmate-android.svg",
+    tags: ["Kotlin", "Android Studio", "Firebase", "Clean UI"],
+    demoUrl: "",
+    githubUrl: "https://github.com/kishanpokal/AttendMate2",
+    featured: true,
+    highlights: [
+      "Daily attendance tracking for all subjects and lectures",
+      "Automatic attendance percentage calculation and safe-bunk tracker",
+      "Low attendance alerts to help students maintain minimum criteria",
+      "Real-time cloud database backup with Firebase",
+      "Clean, modern Android interface that is easy to navigate"
+    ]
+  }
 ];
+
+// Project Archive: Earlier Builds & Web Projects
+export const archivedProjects = [
+  {
+    year: "2024",
+    title: "Habit Tracker (HabitFlow)",
+    category: "Web App",
+    stack: ["React", "JavaScript", "Tailwind CSS"],
+    summary: "Simple web app to build positive daily habits, track streaks, and view progress over time.",
+    githubUrl: "https://github.com/kishanpokal/habit-tracker-web",
+    demoUrl: "https://habitflowweb.vercel.app/"
+  },
+  {
+    year: "2024",
+    title: "ThreatLens AI",
+    category: "AI Web Platform",
+    stack: ["Python", "FastAPI", "PyTorch", "React"],
+    summary: "AI tool that scans web links and emails to detect phishing scams and cyber security threats.",
+    githubUrl: "https://github.com/kishanpokal/ThreatLens",
+    demoUrl: ""
+  },
+  {
+    year: "2024",
+    title: "Multiplayer Cricket Game",
+    category: "Web Game",
+    stack: ["React", "TypeScript", "Firebase"],
+    summary: "Online multiplayer cricket game playable in the browser with match lobbies and live scores.",
+    githubUrl: "https://github.com/kishanpokal/Cricket-Game",
+    demoUrl: "https://cricketbuzz-web.vercel.app/"
+  },
+  {
+    year: "2024",
+    title: "AttendMate Web",
+    category: "Web App",
+    stack: ["JavaScript", "HTML5", "CSS3"],
+    summary: "Web dashboard for students and teachers to view and manage class attendance records.",
+    githubUrl: "https://github.com/kishanpokal/attendmate-web",
+    demoUrl: "https://attendmateweb.vercel.app/"
+  },
+  {
+    year: "2023",
+    title: "Online Book Store",
+    category: "Web App",
+    stack: ["PHP", "MySQL", "JavaScript"],
+    summary: "E-commerce book shopping website with cart, checkout, book catalog, and user accounts.",
+    githubUrl: "https://github.com/kishanpokal/Online_Book_Selling_System",
+    demoUrl: ""
+  },
+  {
+    year: "2023",
+    title: "Tourism Booking System",
+    category: "Java App",
+    stack: ["Java", "JSP", "MySQL"],
+    summary: "Travel website for booking hotel rooms, tour packages, and transport.",
+    githubUrl: "https://github.com/kishanpokal/TourismManagementSystem-JSP",
+    demoUrl: ""
+  }
+];
+
+export const projects = [...flagshipProjects];

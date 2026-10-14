@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
 import { HeroSection } from "../components/HeroSection";
-import { AboutSection } from "../components/AboutSection";
-import { SkillsSection } from "../components/SkillsSection";
-import { MyApproach } from "../components/MyApproach";
 import { ProjectsSection } from "../components/ProjectsSection";
+import { MyApproach } from "../components/MyApproach";
+import { SkillsSection } from "../components/SkillsSection";
+import { AboutSection } from "../components/AboutSection";
 import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
 import { CommandPalette } from "../components/ui/CommandPalette";
@@ -48,7 +48,10 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative selection:bg-primary/20 selection:text-foreground">
-      {/* Top Scroll Indicator */}
+      {/* Global Fixed Film-Grain Noise Texture */}
+      <div className="bg-noise-grain" aria-hidden="true" />
+
+      {/* Top Scroll Progress Indicator */}
       <ScrollProgress />
 
       {/* Desktop Fluid Cursor Glow */}
@@ -65,13 +68,24 @@ export const Home = () => {
         isModalOpen={isCaseStudyOpen || isCommandPaletteOpen}
       />
 
-      {/* Main Flow Sections */}
+      {/* Main Flow Sections: 15-Second Executive Sequencing */}
       <main className="relative z-10 flex flex-col">
+        {/* 1. Identity & Perspective Hero */}
         <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <MyApproach />
+
+        {/* 2. Selected Works (Flagship Proof of Work) */}
         <ProjectsSection onModalStateChange={setIsCaseStudyOpen} />
+
+        {/* 3. Methodology & Architecture (Engineering Pipelines) */}
+        <MyApproach />
+
+        {/* 4. Tech Stack Bento Grid (4-Domain Architectural Grid) */}
+        <SkillsSection />
+
+        {/* 5. Engineering DNA (About & Academic Foundation) */}
+        <AboutSection />
+
+        {/* 6. Collaboration (Unified Contact & Inquiry Hub) */}
         <ContactSection />
       </main>
 

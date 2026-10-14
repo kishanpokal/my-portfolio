@@ -3,24 +3,28 @@ import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from
 import {
   ArrowRight,
   ChevronDown,
+  FileText,
+  Smartphone,
+  GraduationCap,
   Mail,
-  Box,
   ExternalLink,
+  Code2,
+  Sparkles,
 } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   3D HERO INTERACTIVE STAGE (60-30-10 Design)
+   UNIFIED DEVELOPER CARD (Single clean card, NO overlapping windows)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-const InteractiveHeroCard = ({ activeLens }) => {
+const DeveloperCard = ({ activeLens }) => {
   const containerRef = useRef(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [10, -10]), { stiffness: 80, damping: 22 });
-  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-10, 10]), { stiffness: 80, damping: 22 });
-  const x = useSpring(useTransform(mouseX, [-300, 300], [-15, 15]), { stiffness: 80, damping: 22 });
-  const y = useSpring(useTransform(mouseY, [-300, 300], [-15, 15]), { stiffness: 80, damping: 22 });
+  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [6, -6]), { stiffness: 90, damping: 25 });
+  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-6, 6]), { stiffness: 90, damping: 25 });
+  const x = useSpring(useTransform(mouseX, [-300, 300], [-10, 10]), { stiffness: 90, damping: 25 });
+  const y = useSpring(useTransform(mouseY, [-300, 300], [-10, 10]), { stiffness: 90, damping: 25 });
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -39,135 +43,136 @@ const InteractiveHeroCard = ({ activeLens }) => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[420px] aspect-square flex items-center justify-center mx-auto"
+      className="relative w-full max-w-[440px] flex items-center justify-center mx-auto"
       style={{ perspective: "1000px" }}
     >
-      {/* 10% Ambient lighting glow */}
-      <div className="absolute inset-0 bg-primary/12 blur-[90px] rounded-full pointer-events-none" />
+      {/* Subtle Sky Blue Ambient Glow */}
+      <div className="absolute inset-0 bg-sky-500/10 blur-[80px] rounded-full pointer-events-none" />
 
       <motion.div
         style={{ rotateX, rotateY, x, y }}
-        className="relative w-full h-full flex items-center justify-center"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 5, ease: "easeInOut", repeat: Infinity }}
+        className="relative z-10 w-full rounded-3xl border border-slate-200/90 dark:border-white/10 dark:bg-[#111622]/95 bg-white backdrop-blur-2xl p-6 sm:p-7 shadow-2xl hover:border-sky-500/30 transition-all"
       >
-        {/* Main Floating Profile Card (30% Secondary Card Structure) */}
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 5, ease: "easeInOut", repeat: Infinity }}
-          className="relative z-10 w-[290px] sm:w-[320px] rounded-3xl border border-border bg-card/95 backdrop-blur-2xl p-6 shadow-2xl flex flex-col items-center gap-4"
-        >
-          {/* Avatar with real photo & 10% Accent Rim */}
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-primary/50 p-1 relative shadow-md bg-secondary">
-            <div className="absolute inset-0 bg-gradient-to-tr from-orange-500 via-amber-500 to-rose-500 rounded-full animate-spin-slow opacity-40" />
-            <div className="w-full h-full rounded-full bg-card overflow-hidden relative z-10 flex items-center justify-center">
-              <img
-                src="/profile-logo.png"
-                alt="Kishan Pokal"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = "/profile-logo.svg";
-                }}
-              />
+        {/* Top Window Bar */}
+        <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-200 dark:border-white/10">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-rose-500/80" />
+            <div className="w-3 h-3 rounded-full bg-amber-500/80" />
+            <div className="w-3 h-3 rounded-full bg-sky-400/80" />
+          </div>
+          <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">KishanPokal.kt</span>
+        </div>
+
+        {/* Profile Header (Avatar + Name + Status in ONE clear layout) */}
+        <div className="flex items-center gap-4 mb-5">
+          <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl overflow-hidden border-2 border-sky-400/50 p-0.5 shadow-md dark:bg-[#0A0D14] bg-slate-100 flex-shrink-0">
+            <img
+              src="/profile-logo.png"
+              alt="Kishan Pokal"
+              className="w-full h-full object-cover rounded-xl"
+              onError={(e) => {
+                e.target.src = "/profile-logo.svg";
+              }}
+            />
+          </div>
+          <div>
+            <h3 className="text-xl sm:text-2xl font-bold text-foreground">Kishan Pokal</h3>
+            <p className="text-xs sm:text-sm font-semibold text-sky-600 dark:text-sky-400 mt-0.5">
+              Android &amp; AI Developer
+            </p>
+            <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
+              </span>
+              <span>Available for Roles • Ahmedabad, IN</span>
             </div>
           </div>
+        </div>
 
-          <div className="text-center w-full">
-            <h3 className="text-xl sm:text-2xl font-bold text-foreground">Kishan Pokal</h3>
-            <p className="text-xs sm:text-sm font-semibold text-primary">
-              AI/ML & Android Engineer
-            </p>
+        {/* Clean Kotlin Data Class (No overlapping window!) */}
+        <div className="p-4 rounded-2xl dark:bg-[#0A0D14] bg-slate-900 border border-slate-800 dark:border-white/5 font-mono text-[11px] leading-relaxed text-slate-300">
+          <div>
+            <span className="text-sky-400 font-semibold">data class</span>{" "}
+            <span className="text-white font-semibold">Developer</span>(
           </div>
-
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent my-0.5" />
-
-          {/* Dynamic Lens Tags */}
-          <div className="flex gap-1.5 justify-center w-full flex-wrap">
-            {activeLens === "recruiter" && (
-              <>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/30">
-                  B.Sc CS (2025)
-                </span>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-secondary text-foreground border border-border">
-                  8+ Shipped Projects
-                </span>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-secondary text-foreground border border-border">
-                  Play Store Dev
-                </span>
-              </>
-            )}
-
-            {activeLens === "engineer" && (
-              <>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/30">
-                  Kotlin / Jetpack
-                </span>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-secondary text-foreground border border-border">
-                  Python & TensorFlow
-                </span>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-secondary text-foreground border border-border">
-                  React & Full-Stack
-                </span>
-              </>
-            )}
-
-            {activeLens === "creator" && (
-              <>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/30">
-                  Unity 3D Engine
-                </span>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-secondary text-foreground border border-border">
-                  Audio Mic Acoustics
-                </span>
-                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-md bg-secondary text-foreground border border-border">
-                  Interactive Design
-                </span>
-              </>
-            )}
+          <div className="pl-3 text-slate-400">
+            name = <span className="text-sky-300">"Kishan Pokal"</span>,
           </div>
+          <div className="pl-3 text-slate-400">
+            degree = <span className="text-sky-300">"B.Sc Computer Science"</span>,
+          </div>
+          <div className="pl-3 text-slate-400">
+            focus = <span className="text-sky-300">"Android + PostgreSQL + Docker"</span>,
+          </div>
+          <div className="pl-3 text-slate-400">
+            playStoreApp = <span className="text-sky-400 font-semibold">"TrackEasy"</span>
+          </div>
+          <div>)</div>
+        </div>
 
-          {/* Floating Status Pill */}
-          <div className="w-full flex items-center justify-between pt-1 text-[11px] text-muted-foreground border-t border-border/50">
-            <span className="flex items-center gap-1.5 font-medium text-foreground">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+        {/* Dynamic Proof Badges Based on Active Lens */}
+        <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t border-slate-200 dark:border-white/5">
+          {activeLens === "engineer" && (
+            <>
+              <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                Kotlin
               </span>
-              Available for work
-            </span>
-            <span className="font-mono text-[10px]">Ahmedabad, IN</span>
-          </div>
-        </motion.div>
+              <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                Jetpack Compose
+              </span>
+              <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                PostgreSQL
+              </span>
+              <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                Docker
+              </span>
+              <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                Python AI
+              </span>
+            </>
+          )}
 
-        {/* Floating Mini Code Snippet Pill (Desktop Only) */}
-        <motion.div
-          animate={{ y: [0, 10, 0], x: [0, -4, 0] }}
-          transition={{ duration: 6, ease: "easeInOut", repeat: Infinity, delay: 0.5 }}
-          className="hidden sm:block absolute -top-4 -right-6 lg:-right-10 w-[210px] rounded-xl border border-border bg-card/95 backdrop-blur-xl p-3 shadow-xl z-20"
-        >
-          <div className="flex gap-1.5 mb-2">
-            <div className="w-2 h-2 rounded-full bg-primary/80" />
-            <div className="w-2 h-2 rounded-full bg-muted" />
-            <div className="w-2 h-2 rounded-full bg-border" />
-          </div>
-          <div className="space-y-1 font-mono text-[10px] leading-relaxed text-muted-foreground">
-            <p>
-              <span className="text-primary font-semibold">val</span> developer = {"{"}
-            </p>
-            <p className="pl-3">name: <span className="text-foreground">'Kishan'</span>,</p>
-            <p className="pl-3">stack: <span className="text-foreground">'AI + Mobile'</span>,</p>
-            <p className="pl-3">available: <span className="text-primary">true</span></p>
-            <p>{"}"}</p>
-          </div>
-        </motion.div>
+          {activeLens === "recruiter" && (
+            <>
+              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-700 dark:text-sky-400 border border-sky-500/30">
+                Google Play Publisher
+              </span>
+              <span className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                B.Sc CS (2025)
+              </span>
+              <span className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                8+ Shipped Builds
+              </span>
+            </>
+          )}
+
+          {activeLens === "creator" && (
+            <>
+              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-700 dark:text-sky-400 border border-sky-500/30">
+                Maunam: Horror Game
+              </span>
+              <span className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                Unity Engine
+              </span>
+              <span className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                Mic Sound Detection
+              </span>
+            </>
+          )}
+        </div>
       </motion.div>
     </div>
   );
 };
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   HERO SECTION
+   HERO SECTION (Clear, Simple English, No 3D Link)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 export const HeroSection = () => {
-  const [activeLens, setActiveLens] = useState("engineer"); // "recruiter" | "engineer" | "creator"
+  const [activeLens, setActiveLens] = useState("engineer"); // "engineer" | "recruiter" | "creator"
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -178,34 +183,48 @@ export const HeroSection = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 24 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   const lensData = {
-    recruiter: {
-      heading: "Building reliable software that scales.",
-      sub: "B.Sc Computer Science graduate with proven experience delivering production-grade Android apps to the Google Play Store and full-stack solutions.",
-    },
     engineer: {
-      heading: "Architecting intelligent systems & native mobile experiences.",
-      sub: "Specializing in Kotlin & Jetpack Compose for Android, Python & TensorFlow for Machine Learning, and modern reactive full-stack web platforms.",
+      heading: "Building clean Android apps & intelligent systems.",
+      sub: "I'm a software developer specialized in Kotlin and Jetpack Compose for Android, machine learning with Python, and interactive mobile experiences.",
+    },
+    recruiter: {
+      heading: "Reliable developer for mobile & software projects.",
+      sub: "Computer Science graduate (2025) with a live production app published on the Google Play Store. Ready to contribute immediately to engineering teams.",
     },
     creator: {
-      heading: "Crafting next-gen 3D horror games & interactive tech.",
-      sub: "Creator of 'Maunam: The Silent God', implementing real-time microphone acoustics and advanced interactive gameplay in Unity Engine.",
+      heading: "Creating 3D mobile games with sound mechanics.",
+      sub: "Developer of 'Maunam: The Silent God' — a 3D horror game in Unity where making noise into your phone microphone alerts in-game monsters.",
     },
   };
 
   return (
     <section
       id="hero"
-      className="relative min-h-[92vh] flex items-center justify-center pt-24 sm:pt-28 pb-16 px-4 sm:px-6 bg-grid-pattern overflow-hidden"
+      className="relative min-h-[92vh] flex items-center justify-center pt-24 sm:pt-28 pb-16 px-4 sm:px-6 overflow-hidden"
     >
+      {/* Upgraded Hero Background: Deep Radial Spotlight & Soft Ambient Dots */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Soft Center-Top Spotlight Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-gradient-to-b from-sky-500/12 via-sky-500/5 to-transparent blur-[90px] rounded-full" />
+        {/* Subtle dot matrix with radial fade */}
+        <div
+          className="absolute inset-0 bg-grid-pattern opacity-60"
+          style={{
+            maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+            WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+          }}
+        />
+      </div>
+
       <div className="container max-w-7xl mx-auto w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
           {/* Left Text Column */}
@@ -215,18 +234,18 @@ export const HeroSection = () => {
             animate="visible"
             variants={containerVariants}
           >
-            {/* Perspective Lens Selector */}
+            {/* Perspective Selector (Simple English) */}
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center p-1 rounded-full bg-secondary/80 border border-border backdrop-blur-md mb-6 shadow-sm flex-wrap justify-center"
+              className="inline-flex items-center p-1 rounded-full dark:bg-[#111622]/90 bg-white border border-slate-200 dark:border-white/10 backdrop-blur-md mb-6 shadow-sm flex-wrap justify-center"
             >
-              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground px-2.5 hidden sm:inline">
-                Perspective:
+              <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 px-3 hidden sm:inline">
+                View Mode:
               </span>
               {[
-                { id: "engineer", label: "⚡ Engineer" },
+                { id: "engineer", label: "⚡ Developer" },
                 { id: "recruiter", label: "👔 Recruiter" },
-                { id: "creator", label: "🎨 Creator" },
+                { id: "creator", label: "🎮 Game Creator" },
               ].map((lens) => (
                 <button
                   key={lens.id}
@@ -234,16 +253,16 @@ export const HeroSection = () => {
                     sound.click();
                     setActiveLens(lens.id);
                   }}
-                  className={`relative px-3 py-1 text-xs font-semibold rounded-full transition-all ${
+                  className={`relative px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all ${
                     activeLens === lens.id
-                      ? "text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-[#0A0D14] font-bold shadow-md"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
                   {activeLens === lens.id && (
                     <motion.div
                       layoutId="active-lens-pill"
-                      className="absolute inset-0 bg-primary rounded-full"
+                      className="absolute inset-0 bg-sky-400 rounded-full"
                       transition={{ type: "spring", stiffness: 380, damping: 28 }}
                     />
                   )}
@@ -252,122 +271,192 @@ export const HeroSection = () => {
               ))}
             </motion.div>
 
-            {/* Dynamic Animated Headline */}
+            {/* Dynamic Headline in Plain Simple English */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeLens}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.35 }}
+                transition={{ duration: 0.3 }}
               >
-                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-foreground leading-[1.1] tracking-tight mb-4">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-foreground leading-[1.18] tracking-tight mb-4 font-sans">
                   {activeLens === "engineer" && (
                     <>
-                      Architecting{" "}
-                      <span className="text-gradient">Intelligent Systems</span> & Native Apps.
+                      Building Clean{" "}
+                      <span className="font-serif italic font-normal text-gradient text-4xl sm:text-6xl md:text-7xl">
+                        Android Apps
+                      </span>{" "}
+                      &amp; Systems.
                     </>
                   )}
                   {activeLens === "recruiter" && (
                     <>
                       Proven Results in{" "}
-                      <span className="text-gradient">AI Engineering</span> & App Delivery.
+                      <span className="font-serif italic font-normal text-gradient text-4xl sm:text-6xl md:text-7xl">
+                        Software &amp; Android
+                      </span>{" "}
+                      Engineering.
                     </>
                   )}
                   {activeLens === "creator" && (
                     <>
-                      Crafting Next-Gen{" "}
-                      <span className="text-gradient">3D Horror Games</span> & Mechanics.
+                      Creating 3D{" "}
+                      <span className="font-serif italic font-normal text-gradient text-4xl sm:text-6xl md:text-7xl">
+                        Mobile Horror Games
+                      </span>{" "}
+                      in Unity.
                     </>
                   )}
                 </h1>
 
-                <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed mb-6 max-w-xl mx-auto lg:mx-0">
                   {lensData[activeLens].sub}
                 </p>
+
+                {/* Recruiter Quick Proof Bar */}
+                {activeLens === "recruiter" && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mb-8 p-3.5 rounded-2xl dark:bg-[#111622]/90 bg-white border border-sky-500/30 shadow-md flex flex-wrap items-center justify-between gap-3 text-xs"
+                  >
+                    <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                      <GraduationCap className="w-4 h-4 text-sky-500 flex-shrink-0" />
+                      <span>B.Sc Computer Science (2025)</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <a
+                        href="/Kishan_resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-sky-500/15 text-sky-700 dark:text-sky-400 hover:bg-sky-500/25 border border-sky-500/30 font-semibold transition-all"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Resume (PDF) ↗</span>
+                      </a>
+                      <a
+                        href="https://play.google.com/store/apps/details?id=com.kishan.trackeasy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/10 font-semibold transition-all"
+                      >
+                        <Smartphone className="w-3.5 h-3.5 text-sky-500" />
+                        <span>Play Store ↗</span>
+                      </a>
+                    </div>
+                  </motion.div>
+                )}
               </motion.div>
             </AnimatePresence>
 
-            {/* Call To Action Buttons (60-30-10 Accent Execution) */}
+            {/* Call To Action Buttons (Clean & Direct) */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row items-center gap-3.5 justify-center lg:justify-start flex-wrap"
+              className="flex flex-col sm:flex-row items-center gap-3.5 justify-center lg:justify-start flex-wrap mb-10"
             >
-              {/* Primary Work Button (10% Accent) */}
+              {/* Primary: View Projects */}
               <a
                 href="#projects"
                 onClick={() => sound.click()}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm shadow-lg shadow-primary/25 hover:opacity-95 hover:scale-105 active:scale-95 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-sky-400 hover:bg-sky-300 text-[#0A0D14] font-bold text-sm shadow-lg shadow-sky-500/25 hover:scale-105 active:scale-95 transition-all"
               >
-                <span>Explore Featured Work</span>
+                <span>View My Projects</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
-              {/* 3D Interactive Portfolio Button (Clean Attractive Link) */}
+              {/* Secondary: Download Resume */}
               <a
-                href="https://kishanpokal-3d.vercel.app/"
+                href="/Kishan_resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => sound.click()}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 font-semibold text-sm hover:scale-105 active:scale-95 transition-all shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full dark:bg-[#111622] bg-white hover:bg-slate-100 dark:hover:bg-[#161D2D] text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/10 font-semibold text-sm hover:border-sky-500/40 hover:scale-105 active:scale-95 transition-all shadow-md group"
               >
-                <Box className="w-4 h-4 text-primary animate-pulse" />
-                <span>Launch 3D Portfolio</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+                <FileText className="w-4 h-4 text-sky-500" />
+                <span>Download Resume</span>
               </a>
 
-              {/* Contact Button */}
+              {/* Direct Email link */}
               <a
                 href="#contact"
                 onClick={() => sound.click()}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-secondary hover:bg-secondary/80 border border-border text-foreground font-semibold text-sm hover:scale-105 active:scale-95 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-transparent hover:bg-slate-100 dark:hover:bg-white/5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-transparent hover:border-slate-200 dark:hover:border-white/10 text-sm font-medium transition-all"
               >
-                <Mail className="w-4 h-4" />
-                <span>Contact</span>
+                <Mail className="w-4 h-4 text-slate-400" />
+                <span>Contact Me</span>
               </a>
             </motion.div>
 
-            {/* Live Metrics Ticker */}
+            {/* Proof Metrics (Simple & Concrete) */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-3 gap-3 sm:gap-6 pt-10 mt-10 border-t border-border/60 max-w-lg mx-auto lg:mx-0"
+              className="grid grid-cols-3 gap-3 sm:gap-6 pt-8 border-t border-slate-200 dark:border-white/10 max-w-lg mx-auto lg:mx-0"
             >
-              <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-foreground">8+</p>
-                <p className="text-xs text-muted-foreground font-medium">Shipped Projects</p>
+              {/* Metric 1 */}
+              <a
+                href="https://play.google.com/store/apps/details?id=com.kishan.trackeasy"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => sound.click()}
+                className="group block text-left"
+              >
+                <div className="flex items-center gap-1 text-sky-400">
+                  <p className="text-xl sm:text-2xl font-extrabold tracking-tight group-hover:underline">
+                    Google Play
+                  </p>
+                  <ExternalLink className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100" />
+                </div>
+                <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                  Published Production App
+                </p>
+              </a>
+
+              {/* Metric 2 */}
+              <div className="text-left">
+                <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight">
+                  Android &amp; AI
+                </p>
+                <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                  Fast On-Device Models
+                </p>
               </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-foreground">10+</p>
-                <p className="text-xs text-muted-foreground font-medium">Core Tech Stacks</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-foreground">100%</p>
-                <p className="text-xs text-muted-foreground font-medium">Passion & Quality</p>
+
+              {/* Metric 3 */}
+              <div className="text-left">
+                <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight">
+                  8+ Projects
+                </p>
+                <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                  Apps, Web &amp; Games Built
+                </p>
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Right Interactive 3D Stage */}
+          {/* Right Visual Stage (ONE Unified Card, NO overlapping windows!) */}
           <motion.div
             className="flex-shrink-0 flex items-center justify-center w-full lg:w-1/2"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           >
-            <InteractiveHeroCard activeLens={activeLens} />
+            <DeveloperCard activeLens={activeLens} />
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator pointing to #projects */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden md:block">
         <a
-          href="#about"
+          href="#projects"
           onClick={() => sound.click()}
-          className="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-sky-400 transition-colors"
         >
-          <span className="font-mono text-[10px] uppercase tracking-widest">Scroll Down</span>
-          <ChevronDown className="w-4 h-4 animate-bounce" />
+          <span className="font-mono text-[10px] uppercase tracking-widest">View Projects</span>
+          <ChevronDown className="w-4 h-4 animate-bounce text-sky-400" />
         </a>
       </div>
     </section>

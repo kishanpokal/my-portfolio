@@ -1,226 +1,191 @@
-import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { TECH_ICONS } from "@/data/techIcons";
-import { Search, Sparkles, Filter, X, Check } from "lucide-react";
+import {
+  Sparkles,
+  Smartphone,
+  Cpu,
+  Globe,
+  Terminal,
+  Server,
+  Layers,
+} from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
-const skillsData = [
-  // Programming
-  { name: "Java", category: "programming", icon: "java", level: "Advanced", desc: "Object-oriented programming, core Java patterns & Android backends." },
-  { name: "Kotlin", category: "mobile", icon: "kotlin", level: "Advanced", desc: "Primary language for Android, coroutines, and Jetpack Compose." },
-  { name: "Python", category: "ai", icon: "python", level: "Advanced", desc: "AI/ML modeling, automation scripts, and data preprocessing." },
-  { name: "C++", category: "programming", icon: "cpp", level: "Intermediate", desc: "System performance, low-level data structures & game algorithms." },
-  { name: "C", category: "programming", icon: "c", level: "Intermediate", desc: "Foundational computer science, memory management & pointer logic." },
-  { name: "C#", category: "mobile", icon: "csharp", level: "Proficient", desc: "Core language for Unity 3D game logic and entity state machines." },
-  { name: "JavaScript", category: "frontend", icon: "javascript", level: "Advanced", desc: "Dynamic web apps, DOM manipulation, asynchronous ES6+." },
-  { name: "TypeScript", category: "frontend", icon: "typescript", level: "Proficient", desc: "Strict typing for scalable React applications and robust interfaces." },
+// Helper to resolve icon from TECH_ICONS with fallback
+const SkillBrandIcon = ({ iconKey }) => {
+  const entry = TECH_ICONS[iconKey];
+  if (entry?.Icon) {
+    const IconComp = entry.Icon;
+    return <IconComp className="w-4 h-4 flex-shrink-0" style={{ color: entry.color || "#38BDF8" }} />;
+  }
+  return <Terminal className="w-4 h-4 text-sky-500 flex-shrink-0" />;
+};
 
-  // Frontend
-  { name: "React", category: "frontend", icon: "react", level: "Advanced", desc: "Modern hook-based state management, Framer Motion, responsive SPAs." },
-  { name: "Tailwind CSS", category: "frontend", icon: "tailwind", level: "Advanced", desc: "Modern utility-first styling, design tokens, and responsive UI." },
-  { name: "HTML5", category: "frontend", icon: "html", level: "Expert", desc: "Semantic markup, accessibility standards, and SEO architecture." },
-  { name: "CSS3", category: "frontend", icon: "css", level: "Expert", desc: "Custom animations, grid/flexbox layouts, responsive design." },
-  { name: "Bootstrap", category: "frontend", icon: "bootstrap", level: "Proficient", desc: "Rapid prototyping and responsive grid frameworks." },
-
-  // Mobile & Game
-  { name: "Android Studio", category: "mobile", icon: "androidstudio", level: "Advanced", desc: "Full Android app lifecycle, profiling, Gradle & APK builds." },
-  { name: "Jetpack Compose", category: "mobile", icon: "jetpackcompose", level: "Advanced", desc: "Modern declarative Android UI, material design 3." },
-  { name: "Unity 3D", category: "mobile", icon: "unity", level: "Proficient", desc: "3D physics, spatial audio, particle systems, mobile game deployment." },
-
-  // AI & Machine Learning
-  { name: "PyTorch", category: "ai", icon: "pytorch", level: "Proficient", desc: "Autoencoders, neural network architectures, and anomaly detection." },
-  { name: "TensorFlow", category: "ai", icon: "tensorflow", level: "Proficient", desc: "Deep learning models, CNNs, neural network training & export." },
-  { name: "Scikit-learn", category: "ai", icon: "scikitlearn", level: "Proficient", desc: "Supervised & unsupervised ML, regression, classification pipelines." },
-  { name: "Machine Learning", category: "ai", icon: "ai", level: "Proficient", desc: "Data feature engineering, model validation, and evaluation metrics." },
-
-  // Backend & Systems
-  { name: "FastAPI", category: "backend", icon: "fastapi", level: "Advanced", desc: "High-performance async REST APIs, WebSockets, and Pydantic schemas." },
-  { name: "PHP", category: "backend", icon: "php", level: "Intermediate", desc: "Server-side scripting, authentication & MySQL database integration." },
-  { name: "REST APIs", category: "backend", icon: "postman", level: "Advanced", desc: "API endpoint design, JSON serialization, and Postman testing." },
-  { name: "Docker", category: "tools", icon: "docker", level: "Intermediate", desc: "Containerized application workflows and reproducible environments." },
-
-  // Database
-  { name: "Firebase", category: "database", icon: "firebase", level: "Advanced", desc: "Real-time Firestore, Firebase Auth, Cloud Storage & Analytics." },
-  { name: "MySQL", category: "database", icon: "mysql", level: "Advanced", desc: "Relational database schema design, queries, and optimization." },
-  { name: "SQL", category: "database", icon: "sql", level: "Advanced", desc: "Complex joins, indexing, aggregation, and data modeling." },
-  { name: "PostgreSQL", category: "database", icon: "postgresql", level: "Proficient", desc: "Enterprise-grade relational database management." },
-  { name: "MongoDB", category: "database", icon: "mongodb", level: "Proficient", desc: "Document-oriented NoSQL schema design and CRUD operations." },
-
-  // Tools & DevOps
-  { name: "Git", category: "tools", icon: "git", level: "Advanced", desc: "Version control branching, rebasing, and collaborative workflows." },
-  { name: "GitHub", category: "tools", icon: "github", level: "Advanced", desc: "Repository management, CI/CD actions, and project tracking." },
-  { name: "VS Code", category: "tools", icon: "vscode", level: "Expert", desc: "Primary development IDE with extensions and debugging setup." },
-  { name: "Linux", category: "tools", icon: "linux", level: "Proficient", desc: "Terminal scripting, file permissions, and environment configs." },
-  { name: "Figma", category: "tools", icon: "figma", level: "Proficient", desc: "UI/UX wireframing, component design systems, and prototyping." },
-  { name: "Postman", category: "tools", icon: "postman", level: "Advanced", desc: "API client testing, environment variables, automated request suites." },
-];
-
-const categories = [
-  { id: "all", label: "All Skills" },
-  { id: "mobile", label: "Android & Mobile" },
-  { id: "ai", label: "AI & Data" },
-  { id: "frontend", label: "Frontend & Web" },
-  { id: "backend", label: "Backend & Systems" },
-  { id: "database", label: "Databases" },
-  { id: "tools", label: "Tools & DevOps" },
+const skillCategories = [
+  {
+    id: "mobile",
+    title: "Android & Mobile Development",
+    icon: Smartphone,
+    description: "Building fast, native Android apps with clean UI and real-time cloud sync.",
+    skills: [
+      { name: "Kotlin", icon: "kotlin" },
+      { name: "Jetpack Compose", icon: "jetpackcompose" },
+      { name: "Java", icon: "java" },
+      { name: "Android Studio", icon: "androidstudio" },
+      { name: "Firebase", icon: "firebase" },
+      { name: "Room Database", icon: "sql" },
+      { name: "Coroutines & Flow", icon: "kotlin" },
+      { name: "Material Design 3", icon: "jetpackcompose" },
+    ],
+  },
+  {
+    id: "backend",
+    title: "Backend, Databases & Web",
+    icon: Globe,
+    description: "Building scalable databases, REST endpoints, and modern web applications.",
+    skills: [
+      { name: "PostgreSQL", icon: "postgresql" },
+      { name: "MySQL", icon: "mysql" },
+      { name: "MongoDB", icon: "mongodb" },
+      { name: "REST APIs", icon: "postman" },
+      { name: "React", icon: "react" },
+      { name: "TypeScript", icon: "typescript" },
+      { name: "JavaScript", icon: "javascript" },
+      { name: "Tailwind CSS", icon: "tailwind" },
+    ],
+  },
+  {
+    id: "ai",
+    title: "AI & Machine Learning",
+    icon: Cpu,
+    description: "Training neural network models and optimizing them for fast performance.",
+    skills: [
+      { name: "Python", icon: "python" },
+      { name: "PyTorch", icon: "pytorch" },
+      { name: "TensorFlow", icon: "tensorflow" },
+      { name: "TensorFlow Lite", icon: "tensorflow" },
+      { name: "Scikit-Learn", icon: "scikitlearn" },
+      { name: "FastAPI", icon: "fastapi" },
+      { name: "Pandas & NumPy", icon: "python" },
+      { name: "Model Quantization", icon: "ai" },
+    ],
+  },
+  {
+    id: "devops-tools",
+    title: "DevOps, Tools & Game Dev",
+    icon: Server,
+    description: "Containerization, system scripting, version control, and 3D game engines.",
+    skills: [
+      { name: "Docker", icon: "docker" },
+      { name: "Git & GitHub", icon: "github" },
+      { name: "Linux", icon: "linux" },
+      { name: "Unity 3D", icon: "unity" },
+      { name: "C#", icon: "csharp" },
+      { name: "C / C++", icon: "cpp" },
+      { name: "Postman", icon: "postman" },
+      { name: "Figma", icon: "figma" },
+    ],
+  },
 ];
 
 export const SkillsSection = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const filteredSkills = useMemo(() => {
-    return skillsData.filter((skill) => {
-      const matchesCategory =
-        selectedCategory === "all" ||
-        skill.category === selectedCategory ||
-        (selectedCategory === "frontend" && skill.category === "programming" && (skill.name === "JavaScript" || skill.name === "TypeScript"));
-      const matchesSearch =
-        skill.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        skill.desc.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
-  }, [selectedCategory, searchQuery]);
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
 
   return (
-    <section id="skills" className="py-24 sm:py-32 px-4 sm:px-6 bg-background relative">
+    <section id="skills" className="py-24 sm:py-32 px-4 sm:px-6 bg-background relative transition-colors duration-200">
       <div className="container max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Tech Stack Matrix</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-bold text-foreground tracking-tight">
-              Technologies & toolchains.
-            </h2>
-            <p className="mt-2 text-base text-muted-foreground max-w-xl">
-              Languages, libraries, and frameworks I use to build performant mobile, web, and AI applications.
-            </p>
-          </div>
-
-          {/* Search Input */}
-          <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Filter by skill or keyword..."
-              className="w-full pl-10 pr-9 py-2.5 rounded-2xl bg-secondary/80 border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Category Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => {
-                sound.click();
-                setSelectedCategory(cat.id);
-              }}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                selectedCategory === cat.id
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-secondary/70 hover:bg-secondary text-muted-foreground hover:text-foreground border border-border/60"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Skills Cards Grid */}
+        {/* Section Header */}
         <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={fadeIn}
+          className="mb-12 sm:mb-16 max-w-3xl"
         >
-          <AnimatePresence>
-            {filteredSkills.map((skill) => {
-              const entry = TECH_ICONS[skill.icon];
-              const Icon = entry?.Icon;
-              const brandColor = entry?.color || "#F95738";
-
-              return (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                  key={skill.name}
-                  className="group relative rounded-2xl bg-card border border-border p-5 hover:border-border-hover transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-md overflow-hidden"
-                >
-                  {/* Subtle brand glow on hover */}
-                  <div
-                    className="absolute -right-10 -bottom-10 w-24 h-24 rounded-full opacity-0 group-hover:opacity-15 blur-2xl transition-opacity duration-500 pointer-events-none"
-                    style={{ backgroundColor: brandColor }}
-                  />
-
-                  <div>
-                    {/* Top Row: Icon + Skill Level */}
-                    <div className="flex items-center justify-between mb-3.5">
-                      <div
-                        className="p-2.5 rounded-xl bg-secondary border border-border/80 group-hover:scale-110 transition-transform duration-300 flex items-center justify-center"
-                        style={{ color: brandColor }}
-                      >
-                        {Icon && <Icon className="w-6 h-6" />}
-                      </div>
-                      <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border/60">
-                        {skill.level}
-                      </span>
-                    </div>
-
-                    {/* Name */}
-                    <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
-                      {skill.name}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                      {skill.desc}
-                    </p>
-                  </div>
-
-                  {/* Bottom Category Tag */}
-                  <div className="pt-3 mt-3 border-t border-border/50 flex items-center justify-between text-[11px] text-muted-foreground font-mono">
-                    <span className="capitalize">{skill.category}</span>
-                    <span className="opacity-0 group-hover:opacity-100 text-primary transition-opacity font-sans text-xs flex items-center gap-0.5">
-                      Verified <Check className="w-3 h-3 text-primary" />
-                    </span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs font-semibold uppercase tracking-widest mb-3">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Skills &amp; Tools</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground tracking-tight font-sans">
+            Technical <span className="font-serif italic font-normal text-gradient text-4xl sm:text-6xl">Skills</span> &amp; Tools.
+          </h2>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground leading-relaxed">
+            The programming languages, frameworks, databases, and DevOps tools I work with daily.
+          </p>
         </motion.div>
 
-        {filteredSkills.length === 0 && (
-          <div className="text-center py-16 bg-card border border-border rounded-3xl p-8">
-            <p className="text-foreground font-semibold">No skills found matching "{searchQuery}"</p>
-            <p className="text-xs text-muted-foreground mt-1">Try another keyword or select "All Skills".</p>
-            <button
-              onClick={() => {
-                setSearchQuery("");
-                setSelectedCategory("all");
-              }}
-              className="mt-4 px-4 py-2 rounded-full bg-secondary text-xs font-medium text-foreground hover:bg-secondary/80"
-            >
-              Reset Filters
-            </button>
-          </div>
-        )}
+        {/* 4 Clean Balanced Cards (2x2 Grid, Flawless in Dark & Light modes) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7">
+          {skillCategories.map((cat, idx) => {
+            const IconComponent = cat.icon;
+            return (
+              <motion.div
+                key={cat.id}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] },
+                  },
+                }}
+                className="rounded-3xl dark:bg-[#111622]/90 bg-white dark:border-white/10 border-slate-200/90 p-6 sm:p-7 shadow-lg dark:shadow-2xl backdrop-blur-xl transition-all duration-300 flex flex-col justify-between hover:border-sky-400/50 group"
+              >
+                <div>
+                  {/* Card Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 rounded-2xl dark:bg-white/5 bg-sky-50 dark:border-white/10 border-sky-100 text-sky-600 dark:text-sky-400 group-hover:scale-105 transition-transform">
+                        <IconComponent className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-sky-500 transition-colors">
+                          {cat.title}
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {cat.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Skills Pills Grid */}
+                  <div className="grid grid-cols-2 gap-2.5 pt-3">
+                    {cat.skills.map((skill) => (
+                      <div
+                        key={skill.name}
+                        onMouseEnter={() => sound.hover()}
+                        className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl transition-all shadow-xs cursor-default dark:bg-white/[0.03] bg-slate-50/90 hover:bg-slate-100 dark:hover:bg-white/[0.08] dark:border-white/10 border-slate-200/90 hover:border-sky-400/40"
+                      >
+                        <SkillBrandIcon iconKey={skill.icon} />
+                        <span className="font-medium text-xs truncate text-slate-800 dark:text-slate-200">
+                          {skill.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom Footer */}
+                <div className="pt-4 mt-5 border-t dark:border-white/5 border-slate-200 flex items-center justify-between text-[11px] text-muted-foreground font-mono">
+                  <span>{cat.skills.length} Technologies</span>
+                  <span className="text-sky-600 dark:text-sky-400 font-medium">Production Ready</span>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
