@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, SkipForward, Volume2, VolumeX, Shuffle, Music } from "lucide-react";
+import { Play, Pause, SkipForward, Volume2, VolumeX, Shuffle, Music, X } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
 export const CozyMusicPlayer = () => {
@@ -29,10 +29,12 @@ export const CozyMusicPlayer = () => {
     Math.floor(Math.random() * tracks.length)
   );
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.35); // Gentle cozy background volume
   const [isMuted, setIsMuted] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
   const audioRef = useRef(null);
+  const playerContainerRef = useRef(null);
 
   const currentTrack = tracks[currentTrackIndex];
 
@@ -45,55 +47,103 @@ export const CozyMusicPlayer = () => {
     return nextIndex;
   };
 
-  const handleNextTrack = () => {
-    sound.click();
-    const nextIdx = getRandomNextIndex(currentTrackIndex);
-    setCurrentTrackIndex(nextIdx);
-    if (audioRef.current) {
-      audioRef.current.src = tracks[nextIdx].src;
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+  // Safe playback trigger
+  const playAudio = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.load();
+    const promise = audio.play();
+    if (promise !== undefined) {
+      promise
+        .then(() => setIsPlaying(true))
+        .catch((err) => {
+          console.warn("Audio play prevented:", err);
+          setIsPlaying(false);
+        });
     }
   };
 
-  const togglePlay = () => {
-    sound.click();
-    if (!audioRef.current) return;
+  // When track index changes after user interaction, start playing automatically
+  useEffect(() => {
+    if (!hasInteracted) return;
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
-    }
-  };
+    audio.src = tracks[currentTrackIndex].src;
+    playAudio();
+  }, [currentTrackIndex]);
 
-  const toggleMute = () => {
-    sound.click();
-    if (!audioRef.current) return;
-    const newMuted = !isMuted;
-    setIsMuted(newMuted);
-    audioRef.current.muted = newMuted;
-  };
-
-  // Set up audio element listeners
+  // Audio event listeners
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.volume = volume;
+    audio.volume = 0.35; // Soft comfortable cozy background level
     audio.muted = isMuted;
 
     const handleEnded = () => {
-      // Auto-shuffle on track finish
       const nextIdx = getRandomNextIndex(currentTrackIndex);
       setCurrentTrackIndex(nextIdx);
-      audio.src = tracks[nextIdx].src;
-      audio.play().then(() => setIsPlaying(true)).catch(() => {});
     };
 
+    const handlePause = () => setIsPlaying(false);
+    const handlePlay = () => setIsPlaying(true);
+
     audio.addEventListener("ended", handleEnded);
-    return () => audio.removeEventListener("ended", handleEnded);
-  }, [currentTrackIndex, volume, isMuted]);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("play", handlePlay);
+
+    return () => {
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("play", handlePlay);
+    };
+  }, [currentTrackIndex, isMuted]);
+
+  // Close when clicking outside of the expanded player
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (playerContainerRef.current && !playerContainerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  const togglePlay = () => {
+    sound.click();
+    setHasInteracted(true);
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      audio.src = tracks[currentTrackIndex].src;
+      playAudio();
+    }
+  };
+
+  const handleShuffle = () => {
+    sound.click();
+    setHasInteracted(true);
+    const nextIdx = getRandomNextIndex(currentTrackIndex);
+    setCurrentTrackIndex(nextIdx);
+  };
+
+  const toggleMute = () => {
+    sound.click();
+    const newMuted = !isMuted;
+    setIsMuted(newMuted);
+    if (audioRef.current) {
+      audioRef.current.muted = newMuted;
+    }
+  };
 
   return (
     <>
@@ -101,74 +151,135 @@ export const CozyMusicPlayer = () => {
       <audio
         ref={audioRef}
         src={currentTrack.src}
-        preload="metadata"
+        preload="auto"
       />
 
-      {/* Floating Cozy Music Bar (Bottom-Left) */}
-      <div className="fixed bottom-5 left-5 z-40">
-        <div className="flex items-center gap-2.5 rounded-full border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 px-3.5 py-2 text-xs shadow-xl backdrop-blur-md transition-all duration-200 hover:border-[#ff5a1f]/50">
-          {/* Animated Equalizer Wave / Music Icon */}
+      <div ref={playerContainerRef} className="fixed bottom-5 left-5 z-50">
+        {/* COLLAPSED STATE: Sleek Minimalist Circular Icon */}
+        {!isOpen && (
           <button
             type="button"
-            onClick={togglePlay}
-            className="flex items-center gap-1 text-[#ff5a1f] pr-1 focus:outline-none"
-            title={isPlaying ? "Pause music" : "Play cozy background music"}
+            onClick={() => {
+              sound.click();
+              setIsOpen(true);
+            }}
+            className="group relative flex h-11 w-11 items-center justify-center rounded-full border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#ff5a1f]"
+            title="Cozy Background Music (Click to open)"
+            aria-label="Open Cozy Music Player"
           >
             {isPlaying ? (
-              <div className="flex items-end gap-[2px] h-3.5 w-3.5 pb-0.5">
-                <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-3" />
+              /* Animated Dancing Equalizer Bars */
+              <div className="flex items-end gap-[2.5px] h-4 w-4 pb-0.5">
+                <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-3.5" />
                 <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-2 delay-100" />
-                <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-3.5 delay-200" />
+                <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-4 delay-200" />
               </div>
             ) : (
-              <Music className="w-3.5 h-3.5 text-muted-foreground" />
+              /* Idle Music Note with hover effect */
+              <Music className="w-4 h-4 text-foreground transition-colors group-hover:text-[#ff5a1f]" />
+            )}
+
+            {/* Glowing Accent Indicator if playing */}
+            {isPlaying && (
+              <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff5a1f] opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#ff5a1f]" />
+              </span>
             )}
           </button>
+        )}
 
-          {/* Track Info */}
-          <div className="flex flex-col max-w-[120px] sm:max-w-[160px] truncate leading-tight">
-            <span className="label-mono text-[9px] font-bold text-foreground truncate">
-              {isPlaying ? currentTrack.title : "Cozy Background Music"}
-            </span>
-            <span className="label-mono text-[8px] text-muted-foreground truncate">
-              {isPlaying ? `Track ${currentTrackIndex + 1}/3 • ${currentTrack.artist}` : "Click to shuffle & play"}
-            </span>
+        {/* EXPANDED STATE: Sleek Floating Options Card */}
+        {isOpen && (
+          <div className="w-[280px] sm:w-[320px] rounded-xl border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 p-4 shadow-2xl backdrop-blur-xl transition-all animate-in fade-in zoom-in-95 duration-200">
+            {/* Top Bar with Title & Close Icon */}
+            <div className="flex items-center justify-between border-b border-[#11111110] dark:border-white/10 pb-2.5">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center h-6 w-6 rounded-full bg-[#ff5a1f]/15 text-[#ff5a1f]">
+                  <Music className="w-3.5 h-3.5" />
+                </div>
+                <span className="label-mono text-[10px] font-bold text-foreground">
+                  Cozy Background Music
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  sound.click();
+                  setIsOpen(false);
+                }}
+                className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground"
+                aria-label="Collapse player"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            {/* Current Track Info */}
+            <div className="mt-3.5">
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="headline text-base uppercase font-bold text-foreground truncate">
+                  {currentTrack.title}
+                </p>
+                <span className="label-mono text-[9px] text-[#ff5a1f] shrink-0 font-semibold">
+                  {currentTrackIndex + 1} / {tracks.length}
+                </span>
+              </div>
+              <p className="label-mono text-[10px] text-muted-foreground mt-0.5 truncate">
+                {currentTrack.artist}
+              </p>
+            </div>
+
+            {/* Interactive Control Options */}
+            <div className="mt-4 flex items-center justify-between border-t border-[#11111110] dark:border-white/10 pt-3">
+              {/* Shuffle Button */}
+              <button
+                type="button"
+                onClick={handleShuffle}
+                className="label-mono flex items-center gap-1.5 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2.5 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
+                title="Pick another random cozy track and play"
+              >
+                <Shuffle className="w-3 h-3 text-[#ff5a1f]" />
+                <span>Shuffle</span>
+              </button>
+
+              {/* Main Play / Pause Button */}
+              <button
+                type="button"
+                onClick={togglePlay}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#111111] dark:bg-white text-white dark:text-black shadow-sm transition-transform hover:scale-105 active:scale-95"
+                aria-label={isPlaying ? "Pause music" : "Play music"}
+              >
+                {isPlaying ? (
+                  <Pause className="w-4 h-4" />
+                ) : (
+                  <Play className="w-4 h-4 ml-0.5" />
+                )}
+              </button>
+
+              {/* Mute Toggle */}
+              <button
+                type="button"
+                onClick={toggleMute}
+                className="label-mono flex items-center gap-1.5 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2.5 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
+                title={isMuted ? "Unmute sound" : "Mute sound"}
+              >
+                {isMuted ? (
+                  <>
+                    <VolumeX className="w-3 h-3 text-rose-500" />
+                    <span>Muted</span>
+                  </>
+                ) : (
+                  <>
+                    <Volume2 className="w-3 h-3 text-[#ff5a1f]" />
+                    <span>Mute</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
-
-          <div className="flex items-center gap-1 pl-1 border-l border-[#11111114] dark:border-white/10">
-            {/* Play / Pause Button */}
-            <button
-              type="button"
-              onClick={togglePlay}
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-[#111111] dark:bg-white text-white dark:text-black transition-transform hover:scale-105"
-              aria-label={isPlaying ? "Pause" : "Play"}
-            >
-              {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 ml-0.5" />}
-            </button>
-
-            {/* Random Shuffle / Next Button */}
-            <button
-              type="button"
-              onClick={handleNextTrack}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-[#ff5a1f]"
-              title="Shuffle to another random cozy track"
-              aria-label="Next track"
-            >
-              <Shuffle className="w-3.5 h-3.5" />
-            </button>
-
-            {/* Mute Toggle */}
-            <button
-              type="button"
-              onClick={toggleMute}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-[#ff5a1f]"
-              title={isMuted ? "Unmute" : "Mute"}
-              aria-label="Toggle Mute"
-            >
-              {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-            </button>
-          </div>
-        </div>
+        )}
       </div>
     </>
   );
