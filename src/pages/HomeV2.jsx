@@ -9,6 +9,7 @@ import { AboutV2 } from "../components/v2/AboutV2";
 import { StackV2 } from "../components/v2/StackV2";
 import { ContactV2 } from "../components/v2/ContactV2";
 import { FooterV2 } from "../components/v2/FooterV2";
+import { CozyMusicPlayer } from "../components/v2/CozyMusicPlayer";
 
 export const HomeV2 = () => {
   const [theme, setTheme] = useState(() => {
@@ -95,6 +96,9 @@ export const HomeV2 = () => {
 
       {/* Inverted Editorial Footer */}
       <FooterV2 />
+
+      {/* Floating Cozy Background Music Player (3 Tracks, Random Shuffle) */}
+      <CozyMusicPlayer />
     </div>
   );
 };

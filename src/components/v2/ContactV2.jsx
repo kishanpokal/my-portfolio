@@ -7,7 +7,7 @@ export const ContactV2 = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [sentSuccess, setSentSuccess] = useState(false);
 
-  const email = "kishanpokal956@gmail.com";
+  const email = "kishanpokal1111@gmail.com";
 
   const handleCopyEmail = (e) => {
     e.preventDefault();

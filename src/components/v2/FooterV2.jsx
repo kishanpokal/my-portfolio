@@ -115,7 +115,7 @@ export const FooterV2 = () => {
               </li>
               <li>
                 <a
-                  href="mailto:kishanpokal956@gmail.com"
+                  href="mailto:kishanpokal1111@gmail.com"
                   className="label-mono flex items-center gap-1 text-xs text-[#8a8a85] transition-colors hover:text-white"
                 >
                   <span>Email</span>
