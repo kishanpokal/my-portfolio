@@ -147,6 +147,108 @@
   font-family: "Instrument Serif", Georgia, Cambria, serif;
 }
 
+.font-headline {
+  font-family: "Archivo Black", "Arial Black", -apple-system, sans-serif;
+}
+
+.headline {
+  font-family: "Archivo Black", "Arial Black", -apple-system, sans-serif;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+}
+
+.font-minecraft {
+  font-family: 'Minecraft', 'Silkscreen', 'Press Start 2P', monospace;
+  letter-spacing: 0.02em;
+}
+
+.headline-minecraft {
+  font-family: 'Minecraft', 'Silkscreen', 'Press Start 2P', monospace;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.22);
+}
+
+.dark .headline-minecraft {
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.75);
+}
+
+.label-mono {
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.bg-grid-subtle {
+  background-image: 
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.bg-grid-ink {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.mask-radial-hero {
+  -webkit-mask-image: radial-gradient(90% 70% at 50% 15%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(90% 70% at 50% 15%, #000 35%, transparent 100%);
+}
+
+.mask-radial-fade {
+  -webkit-mask-image: radial-gradient(85% 75% at 50% 30%, #000 20%, transparent 95%);
+  mask-image: radial-gradient(85% 75% at 50% 30%, #000 20%, transparent 95%);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   V2 EDITORIAL THEME TOKENS (Match shehbaz.online precision)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.v2-light {
+  --background: #f2f0ec;
+  --foreground: #111111;
+  --card: #ffffff;
+  --card-foreground: #111111;
+  --secondary: #eae7e1;
+  --secondary-foreground: #111111;
+  --muted: #e5e2da;
+  --muted-foreground: #5a5a54;
+  --border: rgba(17, 17, 17, 0.14);
+  --border-hover: rgba(17, 17, 17, 0.45);
+  --accent: #ff5a1f;
+  background-color: #f2f0ec;
+  color: #111111;
+}
+
+.v2-light ::selection {
+  background-color: #ff5a1f;
+  color: #ffffff;
+}
+
+.v2-dark {
+  --background: #0b0b0b;
+  --foreground: #f2f0ec;
+  --card: #12141a;
+  --card-foreground: #f2f0ec;
+  --secondary: #16181f;
+  --secondary-foreground: #f2f0ec;
+  --muted: #1c1f29;
+  --muted-foreground: #8a8a85;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.3);
+  --accent: #ff5a1f;
+  background-color: #0b0b0b;
+  color: #f2f0ec;
+}
+
+.v2-dark ::selection {
+  background-color: #ff5a1f;
+  color: #0b0b0b;
+}
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    BACKGROUND AMBIENT LIGHTING & DOT GRID
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
