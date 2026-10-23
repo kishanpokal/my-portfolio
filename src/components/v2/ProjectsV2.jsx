@@ -96,40 +96,40 @@ export const ProjectsV2 = () => {
 
   return (
     <>
-      <section id="projects" className="relative z-10 overflow-hidden bg-[#0c0d10] text-[#f2f0ec] py-24 md:py-32">
+      <section id="projects" className="relative z-10 overflow-hidden bg-[#0c0d10] text-[#f2f0ec] py-16 sm:py-24 md:py-32">
         {/* Subtle Hairline Grid Overlay */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-grid-ink mask-radial-fade opacity-60" />
 
-        <div className="relative mx-auto max-w-[1280px] px-6 md:px-10">
+        <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 md:px-10">
           {/* Section Header */}
-          <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-8 sm:flex-row sm:items-end">
+          <div className="flex flex-col justify-between gap-3 sm:gap-4 border-b border-white/10 pb-6 sm:pb-8 sm:flex-row sm:items-end">
             <div>
-              <p className="label-mono text-[#8a8a85]">Portfolio / Flagships</p>
-              <h2 className="headline-minecraft mt-3 text-4xl uppercase tracking-tight md:text-6xl text-white">
+              <p className="label-mono text-xs text-[#8a8a85]">Portfolio / Flagships</p>
+              <h2 className="headline-minecraft mt-2 sm:mt-3 text-3xl sm:text-4xl md:text-6xl uppercase tracking-tight text-white">
                 Projects<span className="text-[#ff5a1f]">.</span>
               </h2>
             </div>
-            <p className="label-mono text-[#8a8a85]">03 Shipped &amp; Active</p>
+            <p className="label-mono text-xs text-[#8a8a85]">03 Shipped &amp; Active</p>
           </div>
 
           {/* Flagship Cards Grid */}
-          <div className="mt-12 grid gap-8 lg:grid-cols-3">
+          <div className="mt-8 sm:mt-12 grid gap-6 sm:gap-8 lg:grid-cols-3">
             {projects.map((proj) => (
               <article
                 key={proj.num}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-sm border border-white/10 bg-[#12141a]/95 p-6 md:p-7 transition-all duration-300 hover:border-[#ff5a1f] hover:-translate-y-1"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-sm border border-white/10 bg-[#12141a]/95 p-5 sm:p-6 md:p-7 transition-all duration-300 hover:border-[#ff5a1f] hover:-translate-y-1"
               >
                 {/* Giant Watermark Number */}
                 <span
                   aria-hidden="true"
-                  className="headline pointer-events-none absolute -right-2 -top-6 select-none text-[120px] font-bold text-white/[0.04] transition-colors duration-200 group-hover:text-white/[0.08]"
+                  className="headline pointer-events-none absolute -right-2 -top-6 select-none text-[100px] sm:text-[120px] font-bold text-white/[0.04] transition-colors duration-200 group-hover:text-white/[0.08]"
                 >
                   {proj.num}
                 </span>
 
                 <div className="relative z-10">
                   {/* Visual Preview Frame */}
-                  <div className="relative mb-5 h-44 w-full overflow-hidden rounded-sm border border-white/10 bg-black/40 flex items-center justify-center p-4">
+                  <div className="relative mb-4 sm:mb-5 h-36 sm:h-44 w-full overflow-hidden rounded-sm border border-white/10 bg-black/40 flex items-center justify-center p-3 sm:p-4">
                     <img
                       src={proj.image}
                       alt={proj.title}
@@ -142,7 +142,7 @@ export const ProjectsV2 = () => {
                   </div>
 
                   {/* Category & Status */}
-                  <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
                     <p className="label-mono text-[#8a8a85] text-[10px]">{proj.category}</p>
                     <span className={`label-mono text-[10px] flex items-center gap-1.5 ${proj.statusColor}`}>
                       <span className="h-1.5 w-1.5 rounded-full bg-current" />
@@ -151,17 +151,17 @@ export const ProjectsV2 = () => {
                   </div>
 
                   {/* Project Title */}
-                  <h3 className="headline mt-4 text-2xl uppercase tracking-tight text-white md:text-3xl">
+                  <h3 className="headline mt-3 sm:mt-4 text-xl sm:text-2xl uppercase tracking-tight text-white md:text-3xl">
                     {proj.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#a0a09b]">
+                  <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm leading-relaxed text-[#a0a09b]">
                     {proj.description}
                   </p>
 
                   {/* Highlights */}
-                  <ul className="mt-4 space-y-1.5 border-t border-white/10 pt-4 text-xs text-[#c4c4be]">
+                  <ul className="mt-3.5 sm:mt-4 space-y-1.5 border-t border-white/10 pt-3.5 sm:pt-4 text-xs text-[#c4c4be]">
                     {proj.highlights.slice(0, 3).map((h, idx) => (
                       <li key={idx} className="flex items-start gap-2">
                         <span className="text-[#ff5a1f] mt-0.5">•</span>
@@ -172,7 +172,7 @@ export const ProjectsV2 = () => {
                 </div>
 
                 {/* Tags & Action Link Buttons */}
-                <div className="relative z-10 mt-6 border-t border-white/10 pt-5">
+                <div className="relative z-10 mt-5 sm:mt-6 border-t border-white/10 pt-4 sm:pt-5">
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {proj.tags.map((tag) => (
                       <span
@@ -192,7 +192,7 @@ export const ProjectsV2 = () => {
                         sound.click();
                         setSelectedProject(proj);
                       }}
-                      className="label-mono inline-flex items-center justify-center gap-1.5 rounded-sm border border-white/20 bg-white/5 px-3 py-2 text-[10px] text-white transition-colors duration-200 hover:border-white hover:bg-white/10"
+                      className="label-mono inline-flex items-center justify-center gap-1.5 rounded-sm border border-white/20 bg-white/5 px-2.5 py-2.5 text-[10px] font-semibold text-white transition-colors duration-200 hover:border-white hover:bg-white/10"
                     >
                       <Layers className="w-3 h-3 text-[#ff5a1f]" />
                       <span>Inspect Specs</span>
@@ -205,13 +205,13 @@ export const ProjectsV2 = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => sound.click()}
-                        className="label-mono inline-flex items-center justify-center gap-1.5 rounded-sm bg-white px-3 py-2 text-[10px] font-bold text-black transition-colors duration-200 hover:bg-[#ff5a1f] hover:text-black"
+                        className="label-mono inline-flex items-center justify-center gap-1.5 rounded-sm bg-white px-2.5 py-2.5 text-[10px] font-bold text-black transition-colors duration-200 hover:bg-[#ff5a1f] hover:text-black"
                       >
                         <span>{proj.primaryLink.label.split(" ")[0]}</span>
                         <ArrowUpRight className="w-3 h-3" />
                       </a>
                     ) : (
-                      <div className="label-mono text-center text-[10px] text-[#8a8a85] py-2 border border-white/5 bg-white/[0.02]">
+                      <div className="label-mono flex items-center justify-center text-[10px] text-[#8a8a85] py-2.5 border border-white/5 bg-white/[0.02]">
                         In Dev
                       </div>
                     )}
@@ -222,22 +222,22 @@ export const ProjectsV2 = () => {
           </div>
 
           {/* Secondary Archive Builds Row */}
-          <div className="mt-16 border-t border-white/10 pt-12">
-            <div className="flex items-center justify-between mb-6">
-              <p className="label-mono text-[#8a8a85]">Additional Builds &amp; Open Source</p>
+          <div className="mt-12 sm:mt-16 border-t border-white/10 pt-8 sm:pt-12">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+              <p className="label-mono text-xs text-[#8a8a85]">Additional Builds &amp; Open Source</p>
               <a
                 href="https://github.com/KishanPokal"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => sound.click()}
-                className="label-mono text-[11px] text-[#ff5a1f] hover:underline flex items-center gap-1"
+                className="label-mono text-xs text-[#ff5a1f] hover:underline flex items-center gap-1"
               >
                 <span>View GitHub profile</span>
                 <span>↗</span>
               </a>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-3.5 sm:gap-4 md:grid-cols-3">
               {archivedBuilds.map((build) => (
                 <a
                   key={build.title}
@@ -245,13 +245,13 @@ export const ProjectsV2 = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sound.click()}
-                  className="group block rounded-sm border border-white/10 bg-[#12141a]/50 p-5 transition-colors duration-200 hover:border-white/30"
+                  className="group block rounded-sm border border-white/10 bg-[#12141a]/50 p-4 sm:p-5 transition-colors duration-200 hover:border-white/30"
                 >
                   <div className="flex items-center justify-between">
                     <span className="label-mono text-[10px] text-[#8a8a85]">{build.category}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-[#8a8a85] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
                   </div>
-                  <h4 className="headline mt-2 text-lg uppercase text-white group-hover:text-[#ff5a1f] transition-colors">
+                  <h4 className="headline mt-2 text-base sm:text-lg uppercase text-white group-hover:text-[#ff5a1f] transition-colors">
                     {build.title}
                   </h4>
                   <p className="mt-1.5 text-xs text-[#a0a09b] leading-relaxed">

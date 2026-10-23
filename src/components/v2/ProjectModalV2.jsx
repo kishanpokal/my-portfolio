@@ -8,7 +8,7 @@ export const ProjectModalV2 = ({ project, onClose }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -27,12 +27,12 @@ export const ProjectModalV2 = ({ project, onClose }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-full max-w-3xl overflow-hidden rounded-sm border border-white/20 bg-[#0e1017] text-[#f2f0ec] shadow-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto"
+          className="relative z-10 w-full max-w-3xl overflow-hidden rounded-sm border border-white/20 bg-[#0e1017] text-[#f2f0ec] shadow-2xl p-4 sm:p-8 max-h-[92vh] overflow-y-auto"
         >
           {/* Top Bar */}
-          <div className="flex items-center justify-between border-b border-white/10 pb-5">
-            <div className="flex items-center gap-3">
-              <span className="label-mono text-xs text-[#8a8a85]">{project.category}</span>
+          <div className="flex items-center justify-between border-b border-white/10 pb-4 sm:pb-5">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <span className="label-mono text-[11px] sm:text-xs text-[#8a8a85]">{project.category}</span>
               <span className={`label-mono text-[10px] flex items-center gap-1.5 ${project.statusColor}`}>
                 <span className="h-1.5 w-1.5 rounded-full bg-current" />
                 {project.status}
@@ -46,18 +46,19 @@ export const ProjectModalV2 = ({ project, onClose }) => {
                 onClose();
               }}
               className="rounded-sm border border-white/10 p-1.5 text-[#8a8a85] transition-colors hover:border-[#ff5a1f] hover:text-[#ff5a1f]"
+              aria-label="Close modal"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Header */}
-          <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="headline text-3xl uppercase tracking-tight text-white sm:text-4xl">
+              <h3 className="headline text-2xl uppercase tracking-tight text-white sm:text-4xl">
                 {project.title}
               </h3>
-              <p className="mt-2 text-sm text-[#a0a09b] max-w-xl leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-[#a0a09b] max-w-xl leading-relaxed">
                 {project.description}
               </p>
             </div>
@@ -67,7 +68,7 @@ export const ProjectModalV2 = ({ project, onClose }) => {
                 href={project.primaryLink.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="label-mono inline-flex items-center gap-2 rounded-sm bg-[#ff5a1f] px-5 py-3 font-bold text-black transition-transform hover:scale-105 shrink-0"
+                className="label-mono inline-flex items-center justify-center gap-2 rounded-sm bg-[#ff5a1f] px-5 py-3 text-xs sm:text-sm font-bold text-black transition-transform hover:scale-105 shrink-0 w-full sm:w-auto"
               >
                 <span>{project.primaryLink.label}</span>
                 <ExternalLink className="w-4 h-4" />

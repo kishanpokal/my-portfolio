@@ -38,16 +38,16 @@ export const HeroV2 = () => {
   };
 
   return (
-    <section id="top" className="relative mx-auto max-w-[1280px] px-6 pb-20 pt-32 md:px-10 md:pb-28 md:pt-40">
+    <section id="top" className="relative mx-auto max-w-[1280px] px-4 sm:px-6 md:px-10 pb-16 pt-28 sm:pb-20 sm:pt-36 md:pb-28 md:pt-40">
       {/* Top Metadata & Availability Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#11111118] dark:border-white/10 pb-6">
-        <div className="flex items-center gap-2 label-mono text-[#5a5a54] dark:text-muted-foreground font-medium">
-          <Clock className="w-3.5 h-3.5 text-[#ff5a1f]" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 border-b border-[#11111118] dark:border-white/10 pb-5">
+        <div className="flex items-center gap-2 label-mono text-xs text-[#5a5a54] dark:text-muted-foreground font-medium">
+          <Clock className="w-3.5 h-3.5 text-[#ff5a1f] shrink-0" />
           <span>Ahmedabad, IN {localTime ? `• ${localTime} IST` : ""}</span>
         </div>
 
-        <p className="label-mono flex items-center gap-2 rounded-full border border-[#11111114] dark:border-white/10 bg-white/80 dark:bg-secondary/50 px-3 py-1 text-xs text-[#111111] dark:text-foreground shadow-xs">
-          <span className="relative flex h-2 w-2">
+        <p className="label-mono inline-flex items-center gap-2 rounded-full border border-[#11111114] dark:border-white/10 bg-white/80 dark:bg-secondary/50 px-3 py-1 text-[11px] sm:text-xs text-[#111111] dark:text-foreground shadow-xs w-fit">
+          <span className="relative flex h-2 w-2 shrink-0">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff5a1f] opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ff5a1f]" />
           </span>
@@ -56,7 +56,7 @@ export const HeroV2 = () => {
       </div>
 
       {/* Kinetic Masked Headline in Minecraft Pixel Typography */}
-      <h1 className="headline-minecraft mt-8 text-[9vw] uppercase leading-[1.05] tracking-tight text-[#111111] dark:text-white md:mt-12 md:text-[clamp(38px,5.6vw,84px)]">
+      <h1 className="headline-minecraft mt-6 sm:mt-8 md:mt-12 text-[clamp(26px,8.2vw,36px)] sm:text-[clamp(34px,7.2vw,54px)] md:text-[clamp(42px,5.6vw,84px)] uppercase leading-[1.08] tracking-tight text-[#111111] dark:text-white">
         <span className="block overflow-hidden pb-[0.06em]">
           <motion.span
             custom={0}
@@ -95,9 +95,9 @@ export const HeroV2 = () => {
       </h1>
 
       {/* Two-Column Editorial Intro & Actions */}
-      <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-start lg:mt-16">
+      <div className="mt-8 sm:mt-12 grid gap-8 sm:gap-10 md:grid-cols-12 md:items-start lg:mt-16">
         {/* Left Column: Quick Credibility Tags & Profile Pill */}
-        <div className="md:col-span-5 space-y-5">
+        <div className="md:col-span-5 space-y-4 sm:space-y-5">
           <div className="flex items-center gap-3.5 rounded-sm border border-[#11111114] dark:border-white/10 bg-white dark:bg-secondary/80 p-3 shadow-xs">
             <div className="h-12 w-12 rounded-xl overflow-hidden border border-[#11111114] dark:border-white/10 bg-slate-100 dark:bg-secondary/80 p-0.5 shadow-xs shrink-0">
               <img
@@ -121,7 +121,7 @@ export const HeroV2 = () => {
 
           <div className="space-y-2">
             <p className="label-mono text-[#71716b] dark:text-muted-foreground text-[10px]">Academic &amp; Build Highlights</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               <span className="label-mono rounded-sm border border-[#11111114] dark:border-white/10 bg-white dark:bg-secondary/50 px-2.5 py-1 text-[10px] text-[#111111] dark:text-foreground font-semibold shadow-xs">
                 Google Play Publisher
               </span>
@@ -139,16 +139,16 @@ export const HeroV2 = () => {
         </div>
 
         {/* Right Column: Bio & Action Buttons */}
-        <div className="md:col-span-7 space-y-6">
-          <p className="text-base sm:text-lg leading-relaxed text-[#1a1a18] dark:text-foreground/90 font-normal">
+        <div className="md:col-span-7 space-y-5 sm:space-y-6">
+          <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#1a1a18] dark:text-foreground/90 font-normal">
             I&#x27;m a software developer focused on building high-performance native Android applications with <span className="text-[#111111] dark:text-white font-semibold">Kotlin &amp; Jetpack Compose</span>, production machine learning workflows, and interactive experiences. Creator of <span className="text-[#ff5a1f] font-semibold">TrackEasy</span> (published on Google Play) and <span className="text-[#ff5a1f] font-semibold">Maunam</span>.
           </p>
 
-          <div className="flex flex-wrap items-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 pt-2">
             <a
               href="#projects"
               onClick={() => sound.click()}
-              className="label-mono inline-flex items-center gap-2 rounded-sm bg-[#111111] dark:bg-foreground px-5 py-3 font-bold text-[#f2f0ec] dark:text-background transition-colors duration-200 hover:bg-[#ff5a1f] hover:text-black shadow-sm"
+              className="label-mono inline-flex items-center justify-center gap-2 rounded-sm bg-[#111111] dark:bg-foreground px-5 py-3 text-xs sm:text-sm font-bold text-[#f2f0ec] dark:text-background transition-colors duration-200 hover:bg-[#ff5a1f] hover:text-black shadow-sm"
             >
               <span>Selected Works</span>
               <ArrowDown className="w-3.5 h-3.5" />
@@ -159,7 +159,7 @@ export const HeroV2 = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => sound.click()}
-              className="label-mono inline-flex items-center gap-2 rounded-sm border border-[#11111124] dark:border-white/10 bg-white dark:bg-background px-4 py-3 text-[#111111] dark:text-foreground font-semibold transition-colors duration-200 hover:border-[#ff5a1f] hover:text-[#ff5a1f] shadow-xs"
+              className="label-mono inline-flex items-center justify-center gap-2 rounded-sm border border-[#11111124] dark:border-white/10 bg-white dark:bg-background px-4 py-3 text-xs sm:text-sm text-[#111111] dark:text-foreground font-semibold transition-colors duration-200 hover:border-[#ff5a1f] hover:text-[#ff5a1f] shadow-xs"
             >
               <Smartphone className="w-3.5 h-3.5" />
               <span>TrackEasy on Play Store</span>
@@ -171,7 +171,7 @@ export const HeroV2 = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => sound.click()}
-              className="label-mono inline-flex items-center gap-2 rounded-sm border border-[#11111124] dark:border-white/10 bg-white dark:bg-background px-4 py-3 text-[#5a5a54] dark:text-muted-foreground font-semibold transition-colors duration-200 hover:border-black hover:text-[#111111] shadow-xs"
+              className="label-mono inline-flex items-center justify-center gap-2 rounded-sm border border-[#11111124] dark:border-white/10 bg-white dark:bg-background px-4 py-3 text-xs sm:text-sm text-[#5a5a54] dark:text-muted-foreground font-semibold transition-colors duration-200 hover:border-black hover:text-[#111111] shadow-xs"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>Resume</span>

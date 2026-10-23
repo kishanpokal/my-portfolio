@@ -381,7 +381,7 @@ export const CozyMusicPlayer = () => {
         preload="auto"
       />
 
-      <div ref={playerContainerRef} className="fixed bottom-5 left-5 z-50">
+      <div ref={playerContainerRef} className="fixed bottom-3.5 left-3.5 sm:bottom-5 sm:left-5 z-50">
         {/* COLLAPSED STATE: Ultra-Creative Spinning Vinyl Turntable Icon */}
         {!isOpen && (
           <button
@@ -390,7 +390,7 @@ export const CozyMusicPlayer = () => {
               sound.click();
               setIsOpen(true);
             }}
-            className="group relative flex h-13 w-13 items-center justify-center rounded-full transition-all duration-300 hover:scale-110 focus:outline-none p-1"
+            className="group relative flex h-12 w-12 sm:h-13 sm:w-13 items-center justify-center rounded-full transition-all duration-300 hover:scale-110 focus:outline-none p-1"
             title="Cozy Ambient Music (Click to open controls)"
             aria-label="Open Cozy Music Player"
           >
@@ -403,8 +403,8 @@ export const CozyMusicPlayer = () => {
             )}
 
             {/* Turntable Platter Base Ring */}
-            <div className="relative flex items-center justify-center rounded-full p-1 bg-black/40 border border-black/40 backdrop-blur-sm shadow-xl">
-              {renderVinylDisc(42)}
+            <div className="relative flex items-center justify-center rounded-full p-0.5 sm:p-1 bg-black/40 border border-black/40 backdrop-blur-sm shadow-xl">
+              {renderVinylDisc(40)}
               {renderTonearm(false)}
             </div>
 
@@ -422,7 +422,7 @@ export const CozyMusicPlayer = () => {
 
         {/* EXPANDED STATE: Sleek Floating Options Card with Animated Deck */}
         {isOpen && (
-          <div className="w-[300px] sm:w-[340px] rounded-2xl border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 p-4 shadow-2xl backdrop-blur-xl transition-all animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-[min(340px,calc(100vw-28px))] rounded-2xl border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 p-3.5 sm:p-4 shadow-2xl backdrop-blur-xl transition-all animate-in fade-in zoom-in-95 duration-200">
             {/* Top Bar with Title & Close Icon */}
             <div className="flex items-center justify-between border-b border-[#11111110] dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-2">

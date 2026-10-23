@@ -44,38 +44,38 @@ export const ExperienceV2 = () => {
   ];
 
   return (
-    <section id="experience" className="relative mx-auto max-w-[1280px] px-6 py-24 md:px-10 md:py-32">
+    <section id="experience" className="relative mx-auto max-w-[1280px] px-4 sm:px-6 md:px-10 py-16 sm:py-24 md:py-32">
       {/* Background Subtle Grid */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-grid-subtle mask-radial-fade opacity-50" />
 
       {/* Section Header */}
-      <div className="flex flex-col justify-between gap-4 border-b border-[#11111118] dark:border-border pb-8 sm:flex-row sm:items-end">
+      <div className="flex flex-col justify-between gap-3 sm:gap-4 border-b border-[#11111118] dark:border-border pb-6 sm:pb-8 sm:flex-row sm:items-end">
         <div>
-          <p className="label-mono text-[#5a5a54] dark:text-muted-foreground">Career / Milestones</p>
-          <h2 className="headline-minecraft mt-3 text-4xl uppercase tracking-tight md:text-6xl text-[#111111] dark:text-foreground">
+          <p className="label-mono text-xs text-[#5a5a54] dark:text-muted-foreground">Career / Milestones</p>
+          <h2 className="headline-minecraft mt-2 sm:mt-3 text-3xl sm:text-4xl md:text-6xl uppercase tracking-tight text-[#111111] dark:text-foreground">
             Experience<span className="text-[#ff5a1f]">.</span>
           </h2>
         </div>
-        <p className="label-mono text-[#5a5a54] dark:text-muted-foreground font-semibold">03 Key Milestones</p>
+        <p className="label-mono text-xs text-[#5a5a54] dark:text-muted-foreground font-semibold">03 Key Milestones</p>
       </div>
 
       {/* Timeline Articles with Crisp White Paper Cards in Light Mode */}
-      <div className="mt-12 space-y-6">
+      <div className="mt-8 sm:mt-12 space-y-4 sm:space-y-6">
         {experiences.map((exp, idx) => (
           <article
             key={idx}
-            className="group relative rounded-sm border border-[#11111114] dark:border-white/10 bg-white dark:bg-[#12141a]/90 p-6 shadow-[0_2px_10px_rgba(0,0,0,0.03)] dark:shadow-none transition-all duration-200 hover:border-[#111111] dark:hover:border-white md:p-8"
+            className="group relative rounded-sm border border-[#11111114] dark:border-white/10 bg-white dark:bg-[#12141a]/90 p-5 sm:p-6 md:p-8 shadow-[0_2px_10px_rgba(0,0,0,0.03)] dark:shadow-none transition-all duration-200 hover:border-[#111111] dark:hover:border-white"
           >
-            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
               <div>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <span className="label-mono rounded-sm border border-[#11111110] dark:border-white/10 bg-[#eae7e1] dark:bg-secondary px-2.5 py-1 text-[10px] font-bold text-[#111111] dark:text-foreground">
                     {exp.type}
                   </span>
-                  <span className="label-mono text-[#71716b] dark:text-muted-foreground font-medium">{exp.period}</span>
+                  <span className="label-mono text-xs text-[#71716b] dark:text-muted-foreground font-medium">{exp.period}</span>
                 </div>
 
-                <h3 className="headline mt-4 text-2xl uppercase tracking-tight md:text-3xl text-[#111111] dark:text-foreground">
+                <h3 className="headline mt-3 sm:mt-4 text-xl sm:text-2xl uppercase tracking-tight md:text-3xl text-[#111111] dark:text-foreground">
                   {exp.role}
                 </h3>
                 <p className="label-mono mt-1 text-xs text-[#ff5a1f] font-semibold">
@@ -84,14 +84,14 @@ export const ExperienceV2 = () => {
               </div>
             </div>
 
-            <p className="mt-4 text-base leading-relaxed text-[#2d3139] dark:text-foreground/80 max-w-3xl">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed text-[#2d3139] dark:text-foreground/80 max-w-3xl">
               {exp.summary}
             </p>
 
-            <ul className="mt-5 space-y-2 border-t border-[#11111110] dark:border-white/10 pt-4 text-sm text-[#5a5a54] dark:text-muted-foreground max-w-3xl">
+            <ul className="mt-4 sm:mt-5 space-y-2 border-t border-[#11111110] dark:border-white/10 pt-3.5 sm:pt-4 text-xs sm:text-sm text-[#5a5a54] dark:text-muted-foreground max-w-3xl">
               {exp.highlights.map((h, i) => (
                 <li key={i} className="flex items-start gap-2.5">
-                  <span className="text-[#ff5a1f] mt-1 text-xs">■</span>
+                  <span className="text-[#ff5a1f] mt-1 text-xs shrink-0">■</span>
                   <span className="text-[#2d3139] dark:text-muted-foreground">{h}</span>
                 </li>
               ))}

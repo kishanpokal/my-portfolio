@@ -26,10 +26,10 @@ export const NavbarV2 = ({ theme, onToggleTheme }) => {
   };
 
   return (
-    <header className="fixed inset-x-0 top-4 z-50 px-4 md:px-6">
+    <header className="fixed inset-x-0 top-2.5 sm:top-4 z-50 px-3 sm:px-4 md:px-6">
       <nav
         aria-label="Primary"
-        className="mx-auto flex max-w-[1280px] items-center justify-between rounded-sm border border-[#11111118] dark:border-white/10 bg-[#f2f0ec]/90 dark:bg-background/95 px-4 py-2.5 backdrop-blur-md shadow-xs"
+        className="mx-auto flex max-w-[1280px] items-center justify-between rounded-sm border border-[#11111118] dark:border-white/10 bg-[#f2f0ec]/90 dark:bg-background/95 px-3 sm:px-4 py-2 sm:py-2.5 backdrop-blur-md shadow-xs"
       >
         {/* Brand */}
         <a
@@ -131,34 +131,35 @@ export const NavbarV2 = ({ theme, onToggleTheme }) => {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="mx-auto mt-2 max-w-[1280px] rounded-sm border border-[#11111118] dark:border-border bg-[#f2f0ec] dark:bg-background/95 p-5 backdrop-blur-xl shadow-xl lg:hidden">
-          <ul className="flex flex-col gap-3.5">
+        <div className="mx-auto mt-2 max-w-[1280px] rounded-sm border border-[#11111118] dark:border-border bg-[#f2f0ec]/98 dark:bg-background/98 p-4 sm:p-5 backdrop-blur-xl shadow-2xl lg:hidden animate-in fade-in slide-in-from-top-2 duration-200">
+          <ul className="flex flex-col divide-y divide-[#11111110] dark:divide-white/5">
             {navLinks.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}
                   onClick={handleLinkClick}
-                  className="label-mono block py-1.5 text-xs text-[#5a5a54] dark:text-muted-foreground transition-colors hover:text-[#111111] dark:hover:text-foreground"
+                  className="label-mono flex items-center justify-between py-3 text-xs sm:text-sm font-semibold text-[#5a5a54] dark:text-muted-foreground transition-colors hover:text-[#ff5a1f] dark:hover:text-foreground"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  <span className="text-[#ff5a1f] text-xs">→</span>
                 </a>
               </li>
             ))}
-            <li className="pt-2 border-t border-[#11111118] dark:border-border flex items-center justify-between">
+            <li className="pt-3.5 flex items-center justify-between gap-3">
               <a
                 href="https://github.com/KishanPokal"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleLinkClick}
-                className="label-mono flex items-center gap-1.5 text-xs text-[#5a5a54] dark:text-muted-foreground hover:text-[#111111]"
+                className="label-mono flex items-center gap-1.5 text-xs font-semibold text-[#5a5a54] dark:text-muted-foreground hover:text-[#111111] dark:hover:text-foreground"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-4 h-4 text-[#ff5a1f]" />
                 <span>GitHub ↗</span>
               </a>
               <a
                 href="#contact"
                 onClick={handleLinkClick}
-                className="label-mono rounded-sm bg-[#111111] dark:bg-foreground px-3 py-1.5 text-xs font-bold text-[#f2f0ec] dark:text-background"
+                className="label-mono rounded-sm bg-[#111111] dark:bg-foreground px-4 py-2 text-xs font-bold text-[#f2f0ec] dark:text-background hover:bg-[#ff5a1f] hover:text-black transition-colors"
               >
                 Connect ↗
               </a>
