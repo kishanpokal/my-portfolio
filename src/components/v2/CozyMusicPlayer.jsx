@@ -1,26 +1,43 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, SkipForward, Volume2, VolumeX, Shuffle, Music, X } from "lucide-react";
+import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, Shuffle, Music, X } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
 export const CozyMusicPlayer = () => {
   const tracks = [
     {
       id: 1,
-      title: "Magical Moments",
-      artist: "Purrple Cat",
-      src: "/audio/track1-magical-moments.mp3",
+      title: "Snowfall",
+      artist: "Øneheart & reidenshi",
+      mood: "Dreamy & peaceful ambient",
+      src: "/audio/track1-snowfall.mp3",
     },
     {
       id: 2,
-      title: "Cozy Cat Lofi",
-      artist: "Chill Beats",
-      src: "/audio/track2-cozy-cat.mp3",
+      title: "A Walk",
+      artist: "Tycho",
+      mood: "Soft electronic & creative atmosphere",
+      src: "/audio/track2-a-walk.mp3",
     },
     {
       id: 3,
-      title: "Peaceful Mind",
-      artist: "Ambient Chill",
-      src: "/audio/track3-empty-mind.mp3",
+      title: "Resonance",
+      artist: "HOME",
+      mood: "Warm synthwave & nostalgic chill",
+      src: "/audio/track3-resonance.mp3",
+    },
+    {
+      id: 4,
+      title: "Near Light",
+      artist: "Ólafur Arnalds",
+      mood: "Emotional piano & ambient strings",
+      src: "/audio/track4-near-light.mp3",
+    },
+    {
+      id: 5,
+      title: "Time",
+      artist: "Hans Zimmer",
+      mood: "Cinematic & thoughtful crescendo",
+      src: "/audio/track5-time.mp3",
     },
   ];
 
@@ -136,6 +153,24 @@ export const CozyMusicPlayer = () => {
     setCurrentTrackIndex(nextIdx);
   };
 
+  const handleNext = () => {
+    sound.click();
+    setHasInteracted(true);
+    setCurrentTrackIndex((prev) => (prev + 1) % tracks.length);
+  };
+
+  const handlePrev = () => {
+    sound.click();
+    setHasInteracted(true);
+    setCurrentTrackIndex((prev) => (prev - 1 + tracks.length) % tracks.length);
+  };
+
+  const selectTrack = (index) => {
+    sound.click();
+    setHasInteracted(true);
+    setCurrentTrackIndex(index);
+  };
+
   const toggleMute = () => {
     sound.click();
     const newMuted = !isMuted;
@@ -191,7 +226,7 @@ export const CozyMusicPlayer = () => {
 
         {/* EXPANDED STATE: Sleek Floating Options Card */}
         {isOpen && (
-          <div className="w-[280px] sm:w-[320px] rounded-xl border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 p-4 shadow-2xl backdrop-blur-xl transition-all animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-[290px] sm:w-[330px] rounded-xl border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 p-4 shadow-2xl backdrop-blur-xl transition-all animate-in fade-in zoom-in-95 duration-200">
             {/* Top Bar with Title & Close Icon */}
             <div className="flex items-center justify-between border-b border-[#11111110] dark:border-white/10 pb-2.5">
               <div className="flex items-center gap-2">
@@ -226,43 +261,88 @@ export const CozyMusicPlayer = () => {
                   {currentTrackIndex + 1} / {tracks.length}
                 </span>
               </div>
-              <p className="label-mono text-[10px] text-muted-foreground mt-0.5 truncate">
+              <p className="label-mono text-[10.5px] font-semibold text-foreground/80 truncate">
                 {currentTrack.artist}
               </p>
+              {currentTrack.mood && (
+                <p className="label-mono text-[9px] text-muted-foreground mt-0.5 truncate italic">
+                  {currentTrack.mood}
+                </p>
+              )}
+
+              {/* 5-track mini progress / selector dots */}
+              <div className="flex items-center gap-1.5 mt-2.5">
+                {tracks.map((t, idx) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => selectTrack(idx)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      idx === currentTrackIndex
+                        ? "w-6 bg-[#ff5a1f]"
+                        : "w-2 bg-black/15 dark:bg-white/20 hover:bg-[#ff5a1f]/60"
+                    }`}
+                    title={`${t.title} — ${t.artist}`}
+                    aria-label={`Switch to ${t.title}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Interactive Control Options */}
-            <div className="mt-4 flex items-center justify-between border-t border-[#11111110] dark:border-white/10 pt-3">
+            <div className="mt-3.5 flex items-center justify-between border-t border-[#11111110] dark:border-white/10 pt-3">
               {/* Shuffle Button */}
               <button
                 type="button"
                 onClick={handleShuffle}
-                className="label-mono flex items-center gap-1.5 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2.5 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
-                title="Pick another random cozy track and play"
+                className="label-mono flex items-center gap-1 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
+                title="Pick another random cozy track"
               >
                 <Shuffle className="w-3 h-3 text-[#ff5a1f]" />
                 <span>Shuffle</span>
               </button>
 
-              {/* Main Play / Pause Button */}
-              <button
-                type="button"
-                onClick={togglePlay}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#111111] dark:bg-white text-white dark:text-black shadow-sm transition-transform hover:scale-105 active:scale-95"
-                aria-label={isPlaying ? "Pause music" : "Play music"}
-              >
-                {isPlaying ? (
-                  <Pause className="w-4 h-4" />
-                ) : (
-                  <Play className="w-4 h-4 ml-0.5" />
-                )}
-              </button>
+              {/* Prev / Play / Next playback group */}
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className="rounded-full p-1.5 text-foreground/70 hover:text-[#ff5a1f] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                  title="Previous track"
+                  aria-label="Previous track"
+                >
+                  <SkipBack className="w-3.5 h-3.5" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={togglePlay}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[#111111] dark:bg-white text-white dark:text-black shadow-sm transition-transform hover:scale-105 active:scale-95"
+                  aria-label={isPlaying ? "Pause music" : "Play music"}
+                >
+                  {isPlaying ? (
+                    <Pause className="w-4 h-4" />
+                  ) : (
+                    <Play className="w-4 h-4 ml-0.5" />
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="rounded-full p-1.5 text-foreground/70 hover:text-[#ff5a1f] hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                  title="Next track"
+                  aria-label="Next track"
+                >
+                  <SkipForward className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Mute Toggle */}
               <button
                 type="button"
                 onClick={toggleMute}
-                className="label-mono flex items-center gap-1.5 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2.5 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
+                className="label-mono flex items-center gap-1 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
                 title={isMuted ? "Unmute sound" : "Mute sound"}
               >
                 {isMuted ? (
