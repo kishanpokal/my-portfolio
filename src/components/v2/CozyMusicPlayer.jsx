@@ -7,36 +7,26 @@ export const CozyMusicPlayer = () => {
     {
       id: 1,
       title: "Snowfall",
-      artist: "Øneheart & reidenshi",
-      mood: "Dreamy & peaceful ambient",
       src: "/audio/track1-snowfall.mp3",
     },
     {
       id: 2,
       title: "A Walk",
-      artist: "Tycho",
-      mood: "Soft electronic & creative atmosphere",
       src: "/audio/track2-a-walk.mp3",
     },
     {
       id: 3,
       title: "Resonance",
-      artist: "HOME",
-      mood: "Warm synthwave & nostalgic chill",
       src: "/audio/track3-resonance.mp3",
     },
     {
       id: 4,
       title: "Near Light",
-      artist: "Ólafur Arnalds",
-      mood: "Emotional piano & ambient strings",
       src: "/audio/track4-near-light.mp3",
     },
     {
       id: 5,
       title: "Time",
-      artist: "Hans Zimmer",
-      mood: "Cinematic & thoughtful crescendo",
       src: "/audio/track5-time.mp3",
     },
   ];
@@ -307,21 +297,13 @@ export const CozyMusicPlayer = () => {
             {/* Current Track Info */}
             <div className="mt-3.5">
               <div className="flex items-baseline justify-between gap-2">
-                <p className="headline text-base uppercase font-bold text-foreground truncate">
+                <p className="headline text-base uppercase font-bold text-foreground truncate tracking-wide">
                   {currentTrack.title}
                 </p>
                 <span className="label-mono text-[9px] text-[#ff5a1f] shrink-0 font-semibold">
                   {currentTrackIndex + 1} / {tracks.length}
                 </span>
               </div>
-              <p className="label-mono text-[10.5px] font-semibold text-foreground/80 truncate">
-                {currentTrack.artist}
-              </p>
-              {currentTrack.mood && (
-                <p className="label-mono text-[9px] text-muted-foreground mt-0.5 truncate italic">
-                  {currentTrack.mood}
-                </p>
-              )}
 
               {/* 5-track mini progress / selector dots */}
               <div className="flex items-center gap-1.5 mt-2.5">
@@ -335,7 +317,7 @@ export const CozyMusicPlayer = () => {
                         ? "w-6 bg-[#ff5a1f]"
                         : "w-2 bg-black/15 dark:bg-white/20 hover:bg-[#ff5a1f]/60"
                     }`}
-                    title={`${t.title} — ${t.artist}`}
+                    title={t.title}
                     aria-label={`Switch to ${t.title}`}
                   />
                 ))}
