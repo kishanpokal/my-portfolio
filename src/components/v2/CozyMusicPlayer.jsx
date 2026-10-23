@@ -190,7 +190,7 @@ export const CozyMusicPlayer = () => {
       />
 
       <div ref={playerContainerRef} className="fixed bottom-5 left-5 z-50">
-        {/* COLLAPSED STATE: Sleek Minimalist Circular Icon */}
+        {/* COLLAPSED STATE: Ultra-Creative Spinning Vinyl Turntable Icon */}
         {!isOpen && (
           <button
             type="button"
@@ -198,27 +198,80 @@ export const CozyMusicPlayer = () => {
               sound.click();
               setIsOpen(true);
             }}
-            className="group relative flex h-11 w-11 items-center justify-center rounded-full border border-[#11111118] dark:border-white/10 bg-white/95 dark:bg-[#12141a]/95 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#ff5a1f]"
-            title="Cozy Background Music (Click to open)"
+            className="group relative flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 hover:scale-110 focus:outline-none"
+            title="Cozy Ambient Music (Click to open controls)"
             aria-label="Open Cozy Music Player"
           >
-            {isPlaying ? (
-              /* Animated Dancing Equalizer Bars */
-              <div className="flex items-end gap-[2.5px] h-4 w-4 pb-0.5">
-                <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-3.5" />
-                <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-2 delay-100" />
-                <span className="w-1 bg-[#ff5a1f] rounded-full animate-bounce h-4 delay-200" />
-              </div>
-            ) : (
-              /* Idle Music Note with hover effect */
-              <Music className="w-4 h-4 text-foreground transition-colors group-hover:text-[#ff5a1f]" />
+            {/* Ambient Warm Vinyl Glow when playing */}
+            {isPlaying && (
+              <span className="absolute inset-0 rounded-full bg-[#ff5a1f]/25 blur-md animate-pulse pointer-events-none" />
             )}
 
-            {/* Glowing Accent Indicator if playing */}
+            {/* Spinning Vinyl Record Disc */}
+            <div
+              className={`relative h-11 w-11 rounded-full border border-black/50 shadow-xl flex items-center justify-center transition-all ${
+                isPlaying ? "animate-[spin_4s_linear_infinite]" : "group-hover:rotate-12"
+              }`}
+              style={{
+                background:
+                  "radial-gradient(circle at center, #232328 10%, #0e0f12 12%, #1b1c20 30%, #0c0d0f 32%, #1e1f24 55%, #0b0c0e 57%, #1a1b1f 78%, #090a0c 80%)",
+                boxShadow: isPlaying
+                  ? "0 0 16px rgba(255, 90, 31, 0.35), 0 6px 16px rgba(0,0,0,0.4)"
+                  : "0 4px 12px rgba(0,0,0,0.25)",
+              }}
+            >
+              {/* Concentric Vinyl Grooves */}
+              <div className="absolute inset-1.5 rounded-full border border-white/[0.07] pointer-events-none" />
+              <div className="absolute inset-2.5 rounded-full border border-white/[0.09] pointer-events-none" />
+              <div className="absolute inset-3.5 rounded-full border border-white/[0.06] pointer-events-none" />
+
+              {/* Center Vinyl Label (Sticker) */}
+              <div className="relative flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-tr from-[#ff5a1f] to-[#ff7843] shadow-inner">
+                {/* Center Spindle Hole */}
+                <div className="h-1.5 w-1.5 rounded-full bg-[#0a0a0c] border border-black/60 shadow-sm" />
+              </div>
+            </div>
+
+            {/* Miniature Stylus / Tonearm Needle */}
+            <div
+              className={`absolute -top-1 -right-0.5 origin-top-right transition-transform duration-500 ease-out pointer-events-none ${
+                isPlaying ? "rotate-[14deg]" : "-rotate-[14deg]"
+              }`}
+            >
+              <svg
+                width="18"
+                height="22"
+                viewBox="0 0 18 22"
+                fill="none"
+                className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+              >
+                {/* Pivot Base */}
+                <circle cx="14" cy="4" r="3.2" fill="#27272a" stroke="#71717a" strokeWidth="0.8" />
+                <circle cx="14" cy="4" r="1.3" fill="#ff5a1f" />
+                {/* Metallic Tonearm Rod */}
+                <path
+                  d="M13 5 L7.5 14.5 L4.5 17.5"
+                  stroke="#d4d4d8"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+                {/* Stylus Cartridge & Needle */}
+                <rect
+                  x="2"
+                  y="16.5"
+                  width="4"
+                  height="2.5"
+                  rx="0.5"
+                  fill="#ff5a1f"
+                  transform="rotate(-20 4 17.5)"
+                />
+              </svg>
+            </div>
+
+            {/* Tiny Floating Music Note when active */}
             {isPlaying && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff5a1f] opacity-75" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#ff5a1f]" />
+              <span className="absolute -top-1.5 left-1 text-[11px] text-[#ff5a1f] animate-bounce pointer-events-none">
+                ♪
               </span>
             )}
           </button>
