@@ -64,17 +64,19 @@ export const GitHubV2 = () => {
     return map;
   }, [contributionData]);
 
-  // Generate continuous calendar weeks for current year: from Jan 1st up to Today only
+  // Generate continuous calendar weeks for current year: from Jan 1st up to Today only (Monday-start ISO standard)
   const { weeks, monthLabelsByWeek, totalContributions } = useMemo(() => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const startJan = new Date(currentYear, 0, 1);
-    const startSun = new Date(startJan);
-    startSun.setDate(startJan.getDate() - startJan.getDay());
+    // Find the Monday on or immediately preceding Jan 1 (ISO 8601 week)
+    const daysToMon = (startJan.getDay() + 6) % 7;
+    const startMon = new Date(startJan);
+    startMon.setDate(startJan.getDate() - daysToMon);
 
     const weekList = [];
     let currWeek = [];
-    let cur = new Date(startSun);
+    let cur = new Date(startMon);
     let totalCount = 0;
 
     while (cur <= today || currWeek.length > 0) {
@@ -190,7 +192,9 @@ export const GitHubV2 = () => {
   ];
 
   const getLevelColor = (level, isPadding) => {
-    if (isPadding) return "opacity-0 pointer-events-none";
+    if (isPadding) {
+      return "bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.01] dark:border-white/[0.01] opacity-35 pointer-events-none";
+    }
     switch (level) {
       case 1:
         return "bg-[#ff5a1f]/30 hover:bg-[#ff5a1f]/50 border border-[#ff5a1f]/40";
@@ -299,27 +303,27 @@ export const GitHubV2 = () => {
 
               {/* Grid: Left Day Labels (Mon, Wed, Fri) + Week Columns */}
               <div className="flex items-start">
-                {/* Left Day Labels: Exact 7 rows matching the day squares line-for-line */}
+                {/* Left Day Labels: Exactly 7 rows matching the day squares line-for-line (Monday-start) */}
                 <div className="flex flex-col gap-[3px] text-[9px] font-mono text-[#5a5a54] dark:text-muted-foreground pr-2 sm:pr-2.5 select-none shrink-0 w-[28px] sm:w-[34px]">
-                  {/* Row 0: Sun */}
-                  <div className="h-2.5 sm:h-3" aria-hidden="true" />
-                  {/* Row 1: Mon */}
+                  {/* Row 0: Mon (Line 1) */}
                   <div className="h-2.5 sm:h-3 flex items-center justify-end leading-none font-medium">
                     Mon
                   </div>
-                  {/* Row 2: Tue */}
+                  {/* Row 1: Tue (Line 2) */}
                   <div className="h-2.5 sm:h-3" aria-hidden="true" />
-                  {/* Row 3: Wed */}
+                  {/* Row 2: Wed (Line 3) */}
                   <div className="h-2.5 sm:h-3 flex items-center justify-end leading-none font-medium">
                     Wed
                   </div>
-                  {/* Row 4: Thu */}
+                  {/* Row 3: Thu (Line 4) */}
                   <div className="h-2.5 sm:h-3" aria-hidden="true" />
-                  {/* Row 5: Fri */}
+                  {/* Row 4: Fri (Line 5) */}
                   <div className="h-2.5 sm:h-3 flex items-center justify-end leading-none font-medium">
                     Fri
                   </div>
-                  {/* Row 6: Sat */}
+                  {/* Row 5: Sat (Line 6) */}
+                  <div className="h-2.5 sm:h-3" aria-hidden="true" />
+                  {/* Row 6: Sun (Line 7) */}
                   <div className="h-2.5 sm:h-3" aria-hidden="true" />
                 </div>
 
