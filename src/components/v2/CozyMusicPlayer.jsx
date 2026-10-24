@@ -47,6 +47,16 @@ export const CozyMusicPlayer = () => {
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("portfolio_music_volume");
+      return saved !== null ? parseFloat(saved) : 0.35;
+    }
+    return 0.35;
+  });
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isSeeking, setIsSeeking] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
 
@@ -83,6 +93,14 @@ export const CozyMusicPlayer = () => {
     }
   };
 
+  // Format mm:ss timestamps
+  const formatTime = (seconds) => {
+    if (isNaN(seconds) || seconds < 0) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+  };
+
   // Pick next random track different from current
   const getRandomNextIndex = (currentIndex) => {
     let nextIndex;
@@ -102,6 +120,8 @@ export const CozyMusicPlayer = () => {
     sound.click();
     setHasInteracted(true);
     clearAnimationTimeouts();
+    setCurrentTime(0);
+    setDuration(0);
 
     const audio = audioRef.current;
     if (audio) {
@@ -164,8 +184,26 @@ export const CozyMusicPlayer = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.volume = 0.35;
+    audio.volume = isMuted ? 0 : volume;
     audio.muted = isMuted;
+
+    const handleTimeUpdate = () => {
+      if (!isSeeking && audio) {
+        setCurrentTime(audio.currentTime || 0);
+      }
+    };
+
+    const handleLoadedMetadata = () => {
+      if (audio && !isNaN(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    };
+
+    const handleDurationChange = () => {
+      if (audio && !isNaN(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    };
 
     const handleEnded = () => {
       const nextIdx = getRandomNextIndex(currentTrackIndex);
@@ -177,16 +215,22 @@ export const CozyMusicPlayer = () => {
     };
     const handlePlay = () => setIsPlaying(true);
 
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("durationchange", handleDurationChange);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("pause", handlePause);
     audio.addEventListener("play", handlePlay);
 
     return () => {
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("durationchange", handleDurationChange);
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("play", handlePlay);
     };
-  }, [currentTrackIndex, isMuted, isChangingTrack]);
+  }, [currentTrackIndex, isMuted, volume, isChangingTrack, isSeeking]);
 
   // Close when clicking outside of the expanded player
   useEffect(() => {
@@ -239,12 +283,44 @@ export const CozyMusicPlayer = () => {
     triggerMechanicalTrackChange(index);
   };
 
+  const handleSeek = (e) => {
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    const percent = clickX / rect.width;
+    if (audioRef.current && duration > 0) {
+      const targetTime = percent * duration;
+      audioRef.current.currentTime = targetTime;
+      setCurrentTime(targetTime);
+    }
+  };
+
+  const handleVolumeChange = (e) => {
+    const newVol = parseFloat(e.target.value);
+    setVolume(newVol);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("portfolio_music_volume", String(newVol));
+    }
+    if (newVol > 0 && isMuted) {
+      setIsMuted(false);
+    }
+    if (audioRef.current) {
+      audioRef.current.volume = newVol;
+      audioRef.current.muted = false;
+    }
+  };
+
   const toggleMute = () => {
     sound.click();
     const newMuted = !isMuted;
     setIsMuted(newMuted);
     if (audioRef.current) {
       audioRef.current.muted = newMuted;
+      if (!newMuted) {
+        const activeVol = volume > 0 ? volume : 0.35;
+        audioRef.current.volume = activeVol;
+        if (volume === 0) setVolume(0.35);
+      }
     }
   };
 
@@ -492,19 +568,60 @@ export const CozyMusicPlayer = () => {
                   />
                 ))}
               </div>
+
+              {/* Hairline Interactive Scrubber with Real-Time Timestamps */}
+              <div className="mt-3 space-y-1">
+                <div
+                  role="slider"
+                  tabIndex={0}
+                  aria-valuemin={0}
+                  aria-valuemax={Math.round(duration || 100)}
+                  aria-valuenow={Math.round(currentTime)}
+                  onClick={handleSeek}
+                  className="group relative flex h-3.5 w-full cursor-pointer items-center"
+                  title="Click anywhere to seek"
+                >
+                  {/* Background Track */}
+                  <div className="h-1 w-full rounded-full bg-black/10 dark:bg-white/10 group-hover:h-1.5 transition-all overflow-hidden">
+                    {/* Filled Progress Bar */}
+                    <div
+                      className="h-full rounded-full transition-all duration-75 ease-linear"
+                      style={{
+                        width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+                        backgroundColor: currentTrack.accent,
+                      }}
+                    />
+                  </div>
+
+                  {/* Scrubber Knob / Thumb */}
+                  <div
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-2.5 w-2.5 rounded-full border border-white bg-[#111111] dark:bg-white shadow-md transition-transform group-hover:scale-125"
+                    style={{
+                      left: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+                      borderColor: currentTrack.accent,
+                    }}
+                  />
+                </div>
+
+                {/* Real-time Timestamps (mm:ss / mm:ss) */}
+                <div className="flex items-center justify-between text-[10px] font-mono font-medium text-muted-foreground px-0.5">
+                  <span>{formatTime(currentTime)}</span>
+                  <span className="opacity-70">{formatTime(duration)}</span>
+                </div>
+              </div>
             </div>
 
             {/* Interactive Control Options */}
-            <div className="mt-3.5 flex items-center justify-between border-t border-[#11111110] dark:border-white/10 pt-3">
+            <div className="mt-3 flex items-center justify-between border-t border-[#11111110] dark:border-white/10 pt-3">
               {/* Shuffle Button */}
               <button
                 type="button"
                 onClick={handleShuffle}
-                className="label-mono flex items-center gap-1.5 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2.5 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
+                className="label-mono flex items-center gap-1 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
                 title="Shuffle and change to a random vinyl record"
               >
                 <Shuffle className="w-3 h-3 text-[#ff5a1f]" />
-                <span>Shuffle</span>
+                <span className="hidden xs:inline">Shuffle</span>
               </button>
 
               {/* Prev / Play / Next playback group */}
@@ -543,25 +660,33 @@ export const CozyMusicPlayer = () => {
                 </button>
               </div>
 
-              {/* Mute Toggle */}
-              <button
-                type="button"
-                onClick={toggleMute}
-                className="label-mono flex items-center gap-1 rounded-sm border border-[#11111114] dark:border-white/10 bg-[#eae7e1] dark:bg-white/5 px-2 py-1.5 text-[9px] font-bold text-foreground transition-all hover:border-[#ff5a1f] hover:text-[#ff5a1f] active:scale-95"
-                title={isMuted ? "Unmute sound" : "Mute sound"}
-              >
-                {isMuted ? (
-                  <>
-                    <VolumeX className="w-3 h-3 text-rose-500" />
-                    <span>Muted</span>
-                  </>
-                ) : (
-                  <>
-                    <Volume2 className="w-3 h-3 text-[#ff5a1f]" />
-                    <span>Mute</span>
-                  </>
-                )}
-              </button>
+              {/* Volume Slider & Mute Toggle */}
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={toggleMute}
+                  className="rounded-full p-1 text-muted-foreground hover:text-[#ff5a1f] transition-colors"
+                  title={isMuted ? "Unmute sound" : "Mute sound"}
+                  aria-label={isMuted ? "Unmute sound" : "Mute sound"}
+                >
+                  {isMuted || volume === 0 ? (
+                    <VolumeX className="w-3.5 h-3.5 text-rose-500" />
+                  ) : (
+                    <Volume2 className="w-3.5 h-3.5 text-[#ff5a1f]" />
+                  )}
+                </button>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.02"
+                  value={isMuted ? 0 : volume}
+                  onChange={handleVolumeChange}
+                  className="h-1 w-12 sm:w-14 cursor-pointer accent-[#ff5a1f] bg-black/10 dark:bg-white/15 rounded-lg appearance-none"
+                  title={`Volume: ${isMuted ? 0 : Math.round(volume * 100)}%`}
+                  aria-label="Volume slider"
+                />
+              </div>
             </div>
           </div>
         )}

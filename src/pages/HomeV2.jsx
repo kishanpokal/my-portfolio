@@ -38,6 +38,9 @@ export const HomeV2 = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
+  // Shared Interactive Tech Stack ⇄ Project Filter State
+  const [activeTechFilter, setActiveTechFilter] = useState(null);
+
   // Top 2px Scroll Progress Bar
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -75,8 +78,11 @@ export const HomeV2 = () => {
         {/* 1. Hero */}
         <HeroV2 />
 
-        {/* 2. Selected Works (Inverted Ink Surface) */}
-        <ProjectsV2 />
+        {/* 2. Selected Works (Inverted Ink Surface) with Live Tech Filtering */}
+        <ProjectsV2
+          activeTechFilter={activeTechFilter}
+          onSelectTechFilter={setActiveTechFilter}
+        />
 
         {/* 3. Career Milestones & Experience */}
         <ExperienceV2 />
@@ -87,8 +93,11 @@ export const HomeV2 = () => {
         {/* 5. Education & Background */}
         <AboutV2 />
 
-        {/* 6. Technical Stack Definition Rows */}
-        <StackV2 />
+        {/* 6. Technical Stack Definition Rows with Interactive Cross-Filter */}
+        <StackV2
+          activeTechFilter={activeTechFilter}
+          onSelectTechFilter={setActiveTechFilter}
+        />
 
         {/* 7. Contact & Collaboration */}
         <ContactV2 />
@@ -97,7 +106,7 @@ export const HomeV2 = () => {
       {/* Inverted Editorial Footer */}
       <FooterV2 />
 
-      {/* Floating Cozy Background Music Player (3 Tracks, Random Shuffle) */}
+      {/* Floating Cozy Background Music Player */}
       <CozyMusicPlayer />
     </div>
   );
