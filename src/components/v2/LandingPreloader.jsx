@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, VolumeX, Sparkles } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
 // 6 Top World & Native Languages Requested by Kishan
@@ -55,7 +55,7 @@ export const LandingPreloader = ({ onComplete }) => {
       });
     }, intervalTime);
 
-    // At 4600ms: reveal the giant name across the equator
+    // At 4600ms: greetings are done. Reveal the center name & laser line
     const nameTimer = setTimeout(() => {
       setShowNameTitle(true);
       sound.kernelTick(720);
@@ -169,19 +169,18 @@ export const LandingPreloader = ({ onComplete }) => {
           </div>
         </div>
 
-        {/* Top Half of the Giant Editorial Split Monogram */}
-        {/* Only appears after greetings finish so they never clash */}
+        {/* Top Half of the Minecraft Typographic Split Monogram */}
+        {/* Optical adjustment: pushed down so the seam cuts at the exact 50% visual center of the Minecraft letters */}
         <div className="relative z-20 flex-1 flex items-end justify-center overflow-hidden">
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0 }}
             animate={{
               opacity: showNameTitle ? 1 : 0,
-              scale: showNameTitle ? 1 : 0.98,
             }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="translate-y-1/2 flex items-center justify-center px-4 w-full text-center"
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="translate-y-[calc(50%+8px)] sm:translate-y-[calc(50%+12px)] md:translate-y-[calc(50%+16px)] flex items-center justify-center px-4 w-full text-center"
           >
-            <span className="headline text-[clamp(2.75rem,8.5vw,8.5rem)] font-bold tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-bold tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
           </motion.div>
@@ -209,8 +208,8 @@ export const LandingPreloader = ({ onComplete }) => {
       </motion.div>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          CENTRAL GREETING OVERLAY (6 Languages: English, Hindi,
-          Spanish, Japanese, French, Gujarati)
+          CENTRAL GREETING OVERLAY (Clean — NO LINE ACROSS)
+          Languages: English, Hindi, Spanish, Japanese, French, Gujarati
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <AnimatePresence>
         {!showNameTitle && !isExiting && (
@@ -226,11 +225,11 @@ export const LandingPreloader = ({ onComplete }) => {
                 <span className="h-2.5 w-2.5 rounded-full bg-[#ff5a1f] animate-ping" />
                 <motion.h2
                   key={greetingIndex}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white flex items-center gap-1.5"
+                  exit={{ opacity: 0, y: -18 }}
+                  transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white flex items-center gap-2"
                 >
                   <span>{GREETINGS[greetingIndex].text}</span>
                   <span className="text-[#ff5a1f]">.</span>
@@ -243,11 +242,11 @@ export const LandingPreloader = ({ onComplete }) => {
                 animate={{ opacity: 1 }}
                 className="mt-3.5 flex items-center gap-2"
               >
-                <span className="label-mono text-[10px] sm:text-xs text-[#8a8a85] tracking-widest uppercase">
+                <span className="label-mono text-[10px] sm:text-xs text-[#8a8a85] tracking-widest uppercase font-medium">
                   {GREETINGS[greetingIndex].lang}
                 </span>
                 <span className="text-white/20 text-xs">•</span>
-                <span className="label-mono text-[10px] text-[#ff5a1f] tracking-widest uppercase">
+                <span className="label-mono text-[10px] text-[#ff5a1f] tracking-widest uppercase font-semibold">
                   {GREETINGS[greetingIndex].code}
                 </span>
               </motion.div>
@@ -257,20 +256,23 @@ export const LandingPreloader = ({ onComplete }) => {
       </AnimatePresence>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          RAZOR SPLIT SEAM FILAMENT (Center Seam Line)
+          RAZOR SPLIT SEAM LINE
+          ONLY appears when name title appears for the split!
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <motion.div
-        className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1.5px] bg-[#ff5a1f] shadow-[0_0_15px_#ff5a1f] z-30 pointer-events-none"
-        initial={{ scaleX: 0, opacity: 0 }}
-        animate={{
-          scaleX: isExiting ? 1.5 : [0.2, 0.8, 0.4],
-          opacity: isExiting ? [1, 0] : [0.2, 0.8, 0.2],
-        }}
-        transition={{
-          scaleX: isExiting ? { duration: 0.7 } : { duration: 2.2, repeat: Infinity, ease: "easeInOut" },
-          opacity: isExiting ? { duration: 0.6 } : { duration: 2.2, repeat: Infinity, ease: "easeInOut" },
-        }}
-      />
+      {showNameTitle && (
+        <motion.div
+          className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-[#ff5a1f] shadow-[0_0_20px_#ff5a1f] z-30 pointer-events-none"
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{
+            scaleX: isExiting ? 1.4 : 1,
+            opacity: isExiting ? [1, 0] : 1,
+          }}
+          transition={{
+            scaleX: { duration: 0.45, ease: "easeOut" },
+            opacity: isExiting ? { duration: 0.6 } : { duration: 0.25 },
+          }}
+        />
+      )}
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           BOTTOM CURTAIN PANEL (Slides Down with Elastic Ease)
@@ -307,19 +309,18 @@ export const LandingPreloader = ({ onComplete }) => {
           />
         </svg>
 
-        {/* Bottom Half of the Giant Editorial Split Monogram */}
-        {/* Only appears after greetings finish so they never clash */}
+        {/* Bottom Half of the Minecraft Typographic Split Monogram */}
+        {/* Optical adjustment: matches top curtain so the cut slices right through the vertical center */}
         <div className="relative z-20 flex-1 flex items-start justify-center overflow-hidden">
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0 }}
             animate={{
               opacity: showNameTitle ? 1 : 0,
-              scale: showNameTitle ? 1 : 0.98,
             }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="-translate-y-1/2 flex items-center justify-center px-4 w-full text-center"
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="translate-y-[calc(-50%+8px)] sm:translate-y-[calc(-50%+12px)] md:translate-y-[calc(-50%+16px)] flex items-center justify-center px-4 w-full text-center"
           >
-            <span className="headline text-[clamp(2.75rem,8.5vw,8.5rem)] font-bold tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-bold tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
           </motion.div>
@@ -332,7 +333,7 @@ export const LandingPreloader = ({ onComplete }) => {
             <span>{localTime ? `${localTime} IST` : "23.02° N, 72.57° E"}</span>
           </div>
 
-          {/* Replaced Counter with Refined Creative Status Pill */}
+          {/* Refined Creative Status Pill */}
           <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 backdrop-blur-xs">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff5a1f] opacity-75" />
