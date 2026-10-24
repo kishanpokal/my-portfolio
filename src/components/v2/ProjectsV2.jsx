@@ -22,7 +22,19 @@ export const ProjectsV2 = ({ activeTechFilter = null, onSelectTechFilter = () =>
         "Full offline support with local Room DB and Firebase cloud sync",
         "Clean MVVM architecture with Kotlin Coroutines and Flow",
       ],
-      tags: ["Kotlin", "Jetpack Compose", "Firebase", "Room DB", "Coroutines"],
+      tags: [
+        "Kotlin",
+        "Jetpack Compose",
+        "Firebase",
+        "Room DB",
+        "Coroutines",
+        "Material 3",
+        "MVVM",
+        "SQLite",
+        "Android Studio",
+        "Gradle",
+        "Retrofit",
+      ],
       primaryLink: {
         label: "Google Play Store",
         url: "https://play.google.com/store/apps/details?id=com.kishan.trackeasy",
@@ -44,7 +56,7 @@ export const ProjectsV2 = ({ activeTechFilter = null, onSelectTechFilter = () =>
         "Behavior-tree monster AI with patrolling, investigative, and hunting states",
         "Custom mobile shaders & optimized occlusion culling for smooth framerates",
       ],
-      tags: ["Unity 3D", "C#", "Game AI", "Acoustic Detection", "Mobile Shaders"],
+      tags: ["Unity 3D", "C#", "C# Scripting", "Game AI", "Real-Time Mic Audio", "Mobile Shaders"],
     },
     {
       num: "03",
@@ -61,7 +73,16 @@ export const ProjectsV2 = ({ activeTechFilter = null, onSelectTechFilter = () =>
         "Clean, intuitive Android interface adhering to Material Design",
         "Cloud database synchronization with Firebase Firestore",
       ],
-      tags: ["Kotlin", "Android SDK", "Firebase", "Material Design"],
+      tags: [
+        "Kotlin",
+        "Android SDK",
+        "Firebase",
+        "Material Design",
+        "MVVM",
+        "Retrofit",
+        "Android Studio",
+        "Gradle",
+      ],
       primaryLink: {
         label: "GitHub Repository",
         url: "https://github.com/kishanpokal/AttendMate2",
@@ -74,25 +95,42 @@ export const ProjectsV2 = ({ activeTechFilter = null, onSelectTechFilter = () =>
     {
       title: "ThreatLens AI",
       category: "Cybersecurity & ML",
-      stack: "Python • PyTorch • FastAPI • React",
+      stack: "Python • PyTorch • FastAPI • Feature Engineering • REST APIs • React",
       desc: "Machine learning platform analyzing URLs and email bodies to detect malicious phishing attempts.",
       link: "https://github.com/kishanpokal/ThreatLens",
     },
     {
       title: "HabitFlow",
       category: "Productivity Web App",
-      stack: "React • Tailwind CSS • Vercel",
+      stack: "JavaScript • React • Tailwind CSS • Vercel",
       desc: "Daily habit tracking application with streak heatmaps, progress analytics, and local persistence.",
       link: "https://habitflowweb.vercel.app/",
     },
     {
       title: "Multiplayer Cricket Game",
       category: "Real-Time Web Game",
-      stack: "React • TypeScript • Firebase",
+      stack: "TypeScript • React • Firebase • Real-Time Web Game",
       desc: "Browser-based multiplayer cricket game with matchmaking lobbies, real-time ball physics, and scoreboards.",
       link: "https://cricketbuzz-web.vercel.app/",
     },
   ];
+
+  // Architectural / foundational capabilities explanations for skills without isolated demo apps
+  const foundationalSkillsInfo = {
+    sql: "Relational database querying, schema modeling, joins, and indexing utilized in database management and backend architectures.",
+    postgresql: "Relational database design, table normalization, and transactional data persistence used in scalable backend systems.",
+    docker: "Containerization, reproducible microservices, and environment isolation for modern local development and deployment pipelines.",
+    linux: "POSIX shell scripting, file permissions, build environments, and production Linux server administration.",
+    postman: "REST API prototyping, automated endpoint regression testing, and HTTP request payload inspection.",
+    java: "Object-oriented software development and algorithmic data structures from academic computer science foundations.",
+    "scikit-learn": "Predictive modeling, classification, regression, and classical machine learning algorithm workflows.",
+    tensorflow: "Neural network graphs, model architecture experimentation, and machine learning pipelines.",
+    opencv: "Computer vision processing, image filtering, contour recognition, and visual preprocessing pipelines.",
+    pandas: "Data manipulation, dataset cleaning, feature extraction, and tabular statistical analysis.",
+    numpy: "Vectorized mathematics, linear algebra matrix computations, and scientific computing.",
+    "node.js": "Event-driven asynchronous JavaScript runtime for backend server services and developer tooling.",
+    express: "Minimalist server routing, middleware pipelines, and RESTful service orchestration.",
+  };
 
   // Helper matching functions for live cross-filtering
   const isProjectMatch = (proj, filter) => {
@@ -144,7 +182,7 @@ export const ProjectsV2 = ({ activeTechFilter = null, onSelectTechFilter = () =>
           </div>
 
           {/* Active Cross-Filter Indicator Banner */}
-          {activeTechFilter && (
+          {activeTechFilter && totalMatchCount > 0 && (
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-sm border border-[#ff5a1f]/40 bg-[#ff5a1f]/10 px-4 py-3 backdrop-blur-md animate-in fade-in slide-in-from-top-1 duration-200">
               <div className="flex flex-wrap items-center gap-2 text-xs">
                 <Filter className="w-3.5 h-3.5 text-[#ff5a1f] shrink-0" />
@@ -171,11 +209,54 @@ export const ProjectsV2 = ({ activeTechFilter = null, onSelectTechFilter = () =>
             </div>
           )}
 
+          {/* Core Technical Competency Banner (When visitor selects a stack item without an isolated project) */}
+          {activeTechFilter && totalMatchCount === 0 && (
+            <div className="mt-4 rounded-sm border border-[#ff5a1f]/40 bg-white/[0.03] p-4 sm:p-5 backdrop-blur-md animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="space-y-1.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="label-mono px-2 py-0.5 rounded-sm text-[10px] font-bold bg-[#ff5a1f] text-black uppercase">
+                      Core Engineering Competency
+                    </span>
+                    <span className="font-bold text-white text-sm sm:text-base">{activeTechFilter}</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#c4c4be] max-w-2xl leading-relaxed">
+                    {foundationalSkillsInfo[activeTechFilter.toLowerCase()] ||
+                      `${activeTechFilter} is an active technical capability Kishan uses across software architectures, pipelines, and coursework rather than an isolated demo app.`}
+                  </p>
+                  <p className="label-mono text-[11px] text-[#8a8a85]">
+                    Showing all flagship builds below without filter dimming.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <a
+                    href="#stack"
+                    className="label-mono text-[11px] text-[#ff5a1f] hover:underline flex items-center gap-1 border border-[#ff5a1f]/30 px-2.5 py-1 rounded-sm bg-[#ff5a1f]/10"
+                  >
+                    <span>View Stack</span>
+                    <span>↓</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      sound.click();
+                      onSelectTechFilter(null);
+                    }}
+                    className="label-mono text-xs text-white/80 hover:text-white flex items-center gap-1 font-semibold px-2.5 py-1 border border-white/10 rounded-sm hover:bg-white/5 transition-colors cursor-pointer"
+                  >
+                    <span>Clear</span>
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Flagship Cards Grid */}
           <div className="mt-8 sm:mt-12 grid gap-6 sm:gap-8 lg:grid-cols-3">
             {projects.map((proj) => {
               const isMatch = isProjectMatch(proj, activeTechFilter);
-              const isDimmed = activeTechFilter && !isMatch;
+              const isDimmed = activeTechFilter && totalMatchCount > 0 && !isMatch;
 
               return (
                 <article
@@ -332,7 +413,7 @@ export const ProjectsV2 = ({ activeTechFilter = null, onSelectTechFilter = () =>
             <div className="grid gap-3.5 sm:gap-4 md:grid-cols-3">
               {archivedBuilds.map((build) => {
                 const isMatch = isArchiveMatch(build, activeTechFilter);
-                const isDimmed = activeTechFilter && !isMatch;
+                const isDimmed = activeTechFilter && totalMatchCount > 0 && !isMatch;
 
                 return (
                   <a

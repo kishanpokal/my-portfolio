@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, Shuffle, Music, X } from "lucide-react";
+import { Play, Pause, SkipForward, SkipBack, Volume1, Volume2, VolumeX, Shuffle, Music, X } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
 export const CozyMusicPlayer = () => {
@@ -295,15 +295,16 @@ export const CozyMusicPlayer = () => {
     }
   };
 
-  const handleVolumeChange = (e) => {
-    const newVol = parseFloat(e.target.value);
+  const handleVolumeSeek = (e) => {
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    const newVol = parseFloat((clickX / rect.width).toFixed(2));
     setVolume(newVol);
     if (typeof window !== "undefined") {
       localStorage.setItem("portfolio_music_volume", String(newVol));
     }
-    if (newVol > 0 && isMuted) {
-      setIsMuted(false);
-    }
+    if (isMuted) setIsMuted(false);
     if (audioRef.current) {
       audioRef.current.volume = newVol;
       audioRef.current.muted = false;
@@ -660,8 +661,8 @@ export const CozyMusicPlayer = () => {
                 </button>
               </div>
 
-              {/* Volume Slider & Mute Toggle */}
-              <div className="flex items-center gap-1.5">
+              {/* Hairline Volume Slider with Sleek Custom Scrubber */}
+              <div className="group/vol flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={toggleMute}
@@ -671,21 +672,45 @@ export const CozyMusicPlayer = () => {
                 >
                   {isMuted || volume === 0 ? (
                     <VolumeX className="w-3.5 h-3.5 text-rose-500" />
+                  ) : volume < 0.35 ? (
+                    <Volume1 className="w-3.5 h-3.5 text-[#ff5a1f]" />
                   ) : (
                     <Volume2 className="w-3.5 h-3.5 text-[#ff5a1f]" />
                   )}
                 </button>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.02"
-                  value={isMuted ? 0 : volume}
-                  onChange={handleVolumeChange}
-                  className="h-1 w-12 sm:w-14 cursor-pointer accent-[#ff5a1f] bg-black/10 dark:bg-white/15 rounded-lg appearance-none"
-                  title={`Volume: ${isMuted ? 0 : Math.round(volume * 100)}%`}
-                  aria-label="Volume slider"
-                />
+
+                {/* Custom Hairline Volume Track (Zero native browser thumb ugliness) */}
+                <div
+                  role="slider"
+                  tabIndex={0}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={Math.round((isMuted ? 0 : volume) * 100)}
+                  onClick={handleVolumeSeek}
+                  className="relative flex h-3.5 w-14 sm:w-16 cursor-pointer items-center"
+                  title={`Volume: ${isMuted ? "0" : Math.round(volume * 100)}% (Click to adjust)`}
+                >
+                  {/* Subtle Background Track */}
+                  <div className="h-1 w-full rounded-full bg-black/15 dark:bg-white/15 overflow-hidden">
+                    {/* Filled Track */}
+                    <div
+                      className="h-full rounded-full transition-all duration-75"
+                      style={{
+                        width: `${(isMuted ? 0 : volume) * 100}%`,
+                        backgroundColor: currentTrack.accent,
+                      }}
+                    />
+                  </div>
+
+                  {/* Micro Delicate Knob */}
+                  <div
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-2.5 w-2.5 rounded-full border border-white dark:border-zinc-900 shadow-sm transition-transform group-hover/vol:scale-125"
+                    style={{
+                      left: `${(isMuted ? 0 : volume) * 100}%`,
+                      backgroundColor: currentTrack.accent,
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -30,6 +30,38 @@ export const StackV2 = ({ activeTechFilter = null, onSelectTechFilter = () => {}
     },
   ];
 
+  const showcaseSkills = [
+    "kotlin",
+    "jetpack compose",
+    "android sdk",
+    "room db",
+    "coroutines & flow",
+    "firebase",
+    "material 3",
+    "mvvm",
+    "retrofit",
+    "sqlite",
+    "android studio",
+    "gradle",
+    "unity 3d",
+    "c#",
+    "c# scripting",
+    "game ai",
+    "real-time mic audio",
+    "mobile shaders",
+    "python",
+    "pytorch",
+    "fastapi",
+    "feature engineering",
+    "rest apis",
+    "react",
+    "javascript",
+    "typescript",
+    "tailwind css",
+    "vercel",
+    "git & github",
+  ];
+
   const handleTechClick = (tech) => {
     sound.click();
     const isCurrentlyActive =
@@ -42,7 +74,7 @@ export const StackV2 = ({ activeTechFilter = null, onSelectTechFilter = () => {}
       onSelectTechFilter(null);
     } else {
       onSelectTechFilter(tech);
-      // Smoothly scroll up to the projects section to see the highlighted builds
+      // Smoothly scroll up to the projects section to see the highlighted builds or competency overview
       const projectsEl = document.getElementById("projects");
       if (projectsEl) {
         projectsEl.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -62,15 +94,27 @@ export const StackV2 = ({ activeTechFilter = null, onSelectTechFilter = () => {}
             Stack<span className="text-[#ff5a1f]">.</span>
           </h2>
           <p className="mt-3 sm:mt-4 max-w-xs text-xs sm:text-sm text-[#5a5a54] dark:text-muted-foreground leading-relaxed">
-            Technologies and tools I reach for regularly. <span className="text-[#ff5a1f] font-semibold">Click any technology</span> to cross-highlight matching projects above.
+            Technologies and tools I reach for regularly. <span className="text-[#ff5a1f] font-semibold">Click any technology</span> to cross-highlight matching projects or inspect architectural capabilities.
           </p>
+
+          {/* Stack Legend */}
+          <div className="mt-4 flex flex-col gap-1.5 text-[11px] font-mono text-[#5a5a54] dark:text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <span className="text-[#ff5a1f] text-[12px] leading-none">●</span>
+              <span>Project Case Study Available</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground/60 text-[10px] leading-none">◈</span>
+              <span>Core Engineering Competency</span>
+            </div>
+          </div>
 
           {/* Active Filter Indicator Pill */}
           {activeTechFilter && (
             <div className="mt-5 inline-flex flex-col gap-1.5 p-3 rounded-lg border border-[#ff5a1f]/30 bg-[#ff5a1f]/10 backdrop-blur-sm">
               <span className="label-mono text-[10px] uppercase font-bold text-[#ff5a1f] flex items-center gap-1.5">
                 <Sparkles className="w-3 h-3 text-[#ff5a1f]" />
-                Active Project Filter
+                Active Filter
               </span>
               <div className="flex items-center gap-2">
                 <span className="label-mono text-xs font-bold text-[#111111] dark:text-white bg-[#ff5a1f] px-2 py-0.5 rounded text-black font-semibold">
@@ -108,6 +152,7 @@ export const StackV2 = ({ activeTechFilter = null, onSelectTechFilter = () => {}
                     (activeTechFilter.toLowerCase() === item.toLowerCase() ||
                       item.toLowerCase().includes(activeTechFilter.toLowerCase()) ||
                       activeTechFilter.toLowerCase().includes(item.toLowerCase()));
+                  const hasDirectProject = showcaseSkills.includes(item.toLowerCase());
 
                   return (
                     <button
@@ -119,8 +164,15 @@ export const StackV2 = ({ activeTechFilter = null, onSelectTechFilter = () => {}
                           ? "bg-[#ff5a1f] text-black border-[#ff5a1f] shadow-md shadow-[#ff5a1f]/25 scale-[1.03] ring-1 ring-[#ff5a1f]"
                           : "border-black/10 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] text-[#111111] dark:text-[#f2f0ec] hover:border-[#ff5a1f]/60 hover:text-[#ff5a1f] hover:bg-[#ff5a1f]/10"
                       }`}
-                      title={`Filter projects built with ${item} and jump to Projects`}
+                      title={
+                        hasDirectProject
+                          ? `Filter projects built with ${item}`
+                          : `Core Competency: ${item} (utilized across architecture & systems)`
+                      }
                     >
+                      <span className={hasDirectProject ? "text-[#ff5a1f] text-[10px]" : "text-muted-foreground/60 text-[9px]"}>
+                        {hasDirectProject ? "●" : "◈"}
+                      </span>
                       <span>{item}</span>
                       {isSelected ? (
                         <X className="w-3 h-3 text-black" />
