@@ -79,7 +79,6 @@ export const LandingPreloader = ({ onComplete }) => {
   const triggerShutterExit = useCallback(() => {
     if (isExiting) return;
     setIsExiting(true);
-    // Duration matches the cubic-bezier split transition
     setTimeout(() => {
       onComplete?.();
     }, 1100);
@@ -112,10 +111,10 @@ export const LandingPreloader = ({ onComplete }) => {
       aria-label="Portfolio Introduction"
     >
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          TOP CURTAIN PANEL (Slides Up with Elastic Ease)
+          TOP CURTAIN PANEL (Exact 50vh, Slides Up on Exit)
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <motion.div
-        className="absolute inset-x-0 top-0 h-1/2 bg-[#0c0d10] z-20 flex flex-col justify-between overflow-hidden"
+        className="absolute inset-x-0 top-0 h-1/2 bg-[#0c0d10] z-20 overflow-hidden"
         initial={{ y: "0%" }}
         animate={{ y: isExiting ? "-102%" : "0%" }}
         transition={{
@@ -127,7 +126,7 @@ export const LandingPreloader = ({ onComplete }) => {
         <div className="bg-noise-grain pointer-events-none absolute inset-0 opacity-[0.035]" />
 
         {/* Top Header: Normal Clean Standard Typography (NOT Minecraft — Perfectly Readable) */}
-        <div className="relative z-30 mx-auto w-full max-w-[1280px] px-5 sm:px-8 md:px-10 pt-6 flex items-center justify-between">
+        <div className="absolute top-0 inset-x-0 z-30 mx-auto w-full max-w-[1280px] px-5 sm:px-8 md:px-10 pt-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="font-sans text-sm sm:text-base font-bold tracking-tight text-[#f2f0ec]">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
@@ -169,18 +168,18 @@ export const LandingPreloader = ({ onComplete }) => {
           </div>
         </div>
 
-        {/* Top Half of the MINECRAFT Split Monogram (Center Name) */}
-        {/* Optical adjustment: pushed down so the seam cuts at the exact 50% visual center of the Minecraft letters */}
-        <div className="relative z-20 flex-1 flex items-end justify-center overflow-hidden">
+        {/* Top Half of the MINECRAFT Split Name */}
+        {/* Pinned strictly to bottom edge (50vh) and translated by 50% so the middle line cuts directly through the center */}
+        <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center pointer-events-none">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{
               opacity: showNameTitle ? 1 : 0,
             }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="translate-y-[calc(50%+8px)] sm:translate-y-[calc(50%+12px)] md:translate-y-[calc(50%+16px)] flex items-center justify-center px-4 w-full text-center"
+            transition={{ duration: 0.2 }}
+            className="translate-y-1/2 flex items-center justify-center px-4 w-full text-center"
           >
-            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.5rem,7.8vw,7.5rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
           </motion.div>
@@ -208,7 +207,7 @@ export const LandingPreloader = ({ onComplete }) => {
       </motion.div>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          CENTRAL GREETING OVERLAY (Clean — NO LINE ACROSS)
+          CENTRAL GREETING OVERLAY (Clean — ZERO HORIZONTAL LINE)
           Languages: English, Hindi, Spanish, Japanese, French, Gujarati
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <AnimatePresence>
@@ -256,7 +255,7 @@ export const LandingPreloader = ({ onComplete }) => {
       </AnimatePresence>
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          RAZOR SPLIT SEAM LINE
+          RAZOR SPLIT SEAM LINE (At Exact 50vh)
           ONLY appears when the Minecraft name appears for the split!
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       {showNameTitle && (
@@ -275,10 +274,10 @@ export const LandingPreloader = ({ onComplete }) => {
       )}
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          BOTTOM CURTAIN PANEL (Slides Down with Elastic Ease)
+          BOTTOM CURTAIN PANEL (Exact 50vh, Slides Down on Exit)
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <motion.div
-        className="absolute inset-x-0 bottom-0 h-1/2 bg-[#0c0d10] z-20 flex flex-col justify-between overflow-hidden"
+        className="absolute inset-x-0 bottom-0 h-1/2 bg-[#0c0d10] z-20 overflow-hidden"
         initial={{ y: "0%" }}
         animate={{ y: isExiting ? "102%" : "0%" }}
         transition={{
@@ -309,25 +308,25 @@ export const LandingPreloader = ({ onComplete }) => {
           />
         </svg>
 
-        {/* Bottom Half of the MINECRAFT Split Monogram (Center Name) */}
-        {/* Optical adjustment: matches top curtain so the cut slices right through the vertical center */}
-        <div className="relative z-20 flex-1 flex items-start justify-center overflow-hidden">
+        {/* Bottom Half of the MINECRAFT Split Name */}
+        {/* Pinned strictly to top edge (50vh) and translated by -50% so the middle line cuts directly through the center */}
+        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-center pointer-events-none">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{
               opacity: showNameTitle ? 1 : 0,
             }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="translate-y-[calc(-50%+8px)] sm:translate-y-[calc(-50%+12px)] md:translate-y-[calc(-50%+16px)] flex items-center justify-center px-4 w-full text-center"
+            transition={{ duration: 0.2 }}
+            className="-translate-y-1/2 flex items-center justify-center px-4 w-full text-center"
           >
-            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.5rem,7.8vw,7.5rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
           </motion.div>
         </div>
 
-        {/* Bottom Metadata Bar: No Numbers/Counters, Clean Editorial Status Badges */}
-        <div className="relative z-30 mx-auto w-full max-w-[1280px] px-5 sm:px-8 md:px-10 pb-6 flex items-end justify-between">
+        {/* Bottom Metadata Bar: Clean Editorial Status Badges (Pinned to Bottom) */}
+        <div className="absolute inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[1280px] px-5 sm:px-8 md:px-10 pb-6 flex items-end justify-between">
           <div className="flex flex-col gap-1 text-[11px] label-mono text-[#8a8a85]">
             <span className="text-[#f2f0ec]/90 font-medium">Ahmedabad, India</span>
             <span>{localTime ? `${localTime} IST` : "23.02° N, 72.57° E"}</span>
