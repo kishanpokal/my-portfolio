@@ -169,20 +169,20 @@ export const LandingPreloader = ({ onComplete }) => {
         </div>
 
         {/* Top Half of the MINECRAFT Split Name */}
-        {/* Pinned strictly to bottom edge (50vh) and translated by 50% so the middle line cuts directly through the center */}
-        <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: showNameTitle ? 1 : 0,
-            }}
-            transition={{ duration: 0.2 }}
-            className="translate-y-1/2 flex items-center justify-center px-4 w-full text-center"
+        {/* Pinned strictly to bottom edge (50vh) with guaranteed inline transform for pixel-perfect waist cut */}
+        <div
+          className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center pointer-events-none"
+          style={{ transform: "translateY(calc(50% - 6px))" }}
+        >
+          <div
+            className={`transition-opacity duration-200 ${
+              showNameTitle ? "opacity-100" : "opacity-0"
+            } flex items-center justify-center px-4 w-full text-center`}
           >
-            <span className="headline-minecraft text-[clamp(2.5rem,7.8vw,7.5rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.4rem,7.5vw,7.2rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
-          </motion.div>
+          </div>
         </div>
 
         {/* SVG Elastic Tension Curve (Bottom Lip of Top Curtain) */}
@@ -309,20 +309,20 @@ export const LandingPreloader = ({ onComplete }) => {
         </svg>
 
         {/* Bottom Half of the MINECRAFT Split Name */}
-        {/* Pinned strictly to top edge (50vh) and translated by -50% so the middle line cuts directly through the center */}
-        <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-center pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: showNameTitle ? 1 : 0,
-            }}
-            transition={{ duration: 0.2 }}
-            className="-translate-y-1/2 flex items-center justify-center px-4 w-full text-center"
+        {/* Pinned strictly to top edge (50vh) with matching inline transform */}
+        <div
+          className="absolute inset-x-0 top-0 z-20 flex items-center justify-center pointer-events-none"
+          style={{ transform: "translateY(calc(-50% - 6px))" }}
+        >
+          <div
+            className={`transition-opacity duration-200 ${
+              showNameTitle ? "opacity-100" : "opacity-0"
+            } flex items-center justify-center px-4 w-full text-center`}
           >
-            <span className="headline-minecraft text-[clamp(2.5rem,7.8vw,7.5rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.4rem,7.5vw,7.2rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
-          </motion.div>
+          </div>
         </div>
 
         {/* Bottom Metadata Bar: Clean Editorial Status Badges (Pinned to Bottom) */}
