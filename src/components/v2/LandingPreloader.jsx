@@ -55,18 +55,18 @@ export const LandingPreloader = ({ onComplete }) => {
       });
     }, intervalTime);
 
-    // At 4600ms: greetings are done. Reveal the center name & laser line
+    // At 4600ms: greetings are done. Reveal the center Minecraft name & laser line
     const nameTimer = setTimeout(() => {
       setShowNameTitle(true);
       sound.kernelTick(720);
     }, 4600);
 
-    // At 5100ms: trigger the split shutter launch
+    // At 5150ms: trigger the split shutter launch
     const exitTimer = setTimeout(() => {
       hasFinishedRef.current = true;
       sound.kernelComplete();
       triggerShutterExit();
-    }, 5100);
+    }, 5150);
 
     return () => {
       clearInterval(greetingTimer);
@@ -126,10 +126,10 @@ export const LandingPreloader = ({ onComplete }) => {
         {/* Subtle noise grain */}
         <div className="bg-noise-grain pointer-events-none absolute inset-0 opacity-[0.035]" />
 
-        {/* Top Header: Normal Clean Bold Typography (Readable & High Contrast) */}
+        {/* Top Header: Normal Clean Standard Typography (NOT Minecraft — Perfectly Readable) */}
         <div className="relative z-30 mx-auto w-full max-w-[1280px] px-5 sm:px-8 md:px-10 pt-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="headline text-base sm:text-lg md:text-xl font-bold tracking-tight text-[#f2f0ec]">
+            <span className="font-sans text-sm sm:text-base font-bold tracking-tight text-[#f2f0ec]">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
             <span className="label-mono hidden sm:inline-block text-[11px] text-[#8a8a85] border-l border-white/15 pl-3">
@@ -169,7 +169,7 @@ export const LandingPreloader = ({ onComplete }) => {
           </div>
         </div>
 
-        {/* Top Half of the Minecraft Typographic Split Monogram */}
+        {/* Top Half of the MINECRAFT Split Monogram (Center Name) */}
         {/* Optical adjustment: pushed down so the seam cuts at the exact 50% visual center of the Minecraft letters */}
         <div className="relative z-20 flex-1 flex items-end justify-center overflow-hidden">
           <motion.div
@@ -180,7 +180,7 @@ export const LandingPreloader = ({ onComplete }) => {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="translate-y-[calc(50%+8px)] sm:translate-y-[calc(50%+12px)] md:translate-y-[calc(50%+16px)] flex items-center justify-center px-4 w-full text-center"
           >
-            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-bold tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
           </motion.div>
@@ -257,7 +257,7 @@ export const LandingPreloader = ({ onComplete }) => {
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           RAZOR SPLIT SEAM LINE
-          ONLY appears when name title appears for the split!
+          ONLY appears when the Minecraft name appears for the split!
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       {showNameTitle && (
         <motion.div
@@ -309,7 +309,7 @@ export const LandingPreloader = ({ onComplete }) => {
           />
         </svg>
 
-        {/* Bottom Half of the Minecraft Typographic Split Monogram */}
+        {/* Bottom Half of the MINECRAFT Split Monogram (Center Name) */}
         {/* Optical adjustment: matches top curtain so the cut slices right through the vertical center */}
         <div className="relative z-20 flex-1 flex items-start justify-center overflow-hidden">
           <motion.div
@@ -320,7 +320,7 @@ export const LandingPreloader = ({ onComplete }) => {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="translate-y-[calc(-50%+8px)] sm:translate-y-[calc(-50%+12px)] md:translate-y-[calc(-50%+16px)] flex items-center justify-center px-4 w-full text-center"
           >
-            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-bold tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
+            <span className="headline-minecraft text-[clamp(2.2rem,7vw,7rem)] font-normal tracking-tight text-[#f2f0ec] uppercase whitespace-nowrap select-none leading-none">
               Kishan Pokal<span className="text-[#ff5a1f]">.</span>
             </span>
           </motion.div>
