@@ -67,6 +67,10 @@ export const CozyMusicPlayer = () => {
 
   const audioRef = useRef(null);
   const playerContainerRef = useRef(null);
+  const volumeTrackRef = useRef(null);
+  const progressTrackRef = useRef(null);
+  const isDraggingVolumeRef = useRef(false);
+  const isDraggingProgressRef = useRef(false);
   const transitionTimeoutsRef = useRef([]);
 
   const currentTrack = tracks[currentTrackIndex];
@@ -283,32 +287,126 @@ export const CozyMusicPlayer = () => {
     triggerMechanicalTrackChange(index);
   };
 
-  const handleSeek = (e) => {
-    const bar = e.currentTarget;
-    const rect = bar.getBoundingClientRect();
-    const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+  // Pointer-based draggable song scrubber
+  const updateProgressFromPointer = (clientX) => {
+    if (!progressTrackRef.current || duration <= 0) return;
+    const rect = progressTrackRef.current.getBoundingClientRect();
+    const clickX = Math.max(0, Math.min(clientX - rect.left, rect.width));
     const percent = clickX / rect.width;
-    if (audioRef.current && duration > 0) {
-      const targetTime = percent * duration;
+    const targetTime = percent * duration;
+    setCurrentTime(targetTime);
+    if (audioRef.current) {
       audioRef.current.currentTime = targetTime;
-      setCurrentTime(targetTime);
     }
   };
 
-  const handleVolumeSeek = (e) => {
-    const bar = e.currentTarget;
-    const rect = bar.getBoundingClientRect();
-    const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+  const handleProgressMouseDown = (e) => {
+    e.preventDefault();
+    isDraggingProgressRef.current = true;
+    setIsSeeking(true);
+    updateProgressFromPointer(e.clientX);
+
+    const handleMouseMove = (moveEvent) => {
+      if (isDraggingProgressRef.current) {
+        moveEvent.preventDefault();
+        updateProgressFromPointer(moveEvent.clientX);
+      }
+    };
+
+    const handleMouseUp = () => {
+      isDraggingProgressRef.current = false;
+      setIsSeeking(false);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleProgressTouchStart = (e) => {
+    isDraggingProgressRef.current = true;
+    setIsSeeking(true);
+    if (e.touches && e.touches[0]) {
+      updateProgressFromPointer(e.touches[0].clientX);
+    }
+
+    const handleTouchMove = (moveEvent) => {
+      if (isDraggingProgressRef.current && moveEvent.touches && moveEvent.touches[0]) {
+        updateProgressFromPointer(moveEvent.touches[0].clientX);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      isDraggingProgressRef.current = false;
+      setIsSeeking(false);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd);
+  };
+
+  // Pointer-based draggable volume slider
+  const updateVolumeFromPointer = (clientX) => {
+    if (!volumeTrackRef.current) return;
+    const rect = volumeTrackRef.current.getBoundingClientRect();
+    const clickX = Math.max(0, Math.min(clientX - rect.left, rect.width));
     const newVol = parseFloat((clickX / rect.width).toFixed(2));
     setVolume(newVol);
     if (typeof window !== "undefined") {
       localStorage.setItem("portfolio_music_volume", String(newVol));
     }
-    if (isMuted) setIsMuted(false);
+    if (isMuted && newVol > 0) setIsMuted(false);
     if (audioRef.current) {
       audioRef.current.volume = newVol;
       audioRef.current.muted = false;
     }
+  };
+
+  const handleVolumeMouseDown = (e) => {
+    e.preventDefault();
+    isDraggingVolumeRef.current = true;
+    updateVolumeFromPointer(e.clientX);
+
+    const handleMouseMove = (moveEvent) => {
+      if (isDraggingVolumeRef.current) {
+        moveEvent.preventDefault();
+        updateVolumeFromPointer(moveEvent.clientX);
+      }
+    };
+
+    const handleMouseUp = () => {
+      isDraggingVolumeRef.current = false;
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleVolumeTouchStart = (e) => {
+    isDraggingVolumeRef.current = true;
+    if (e.touches && e.touches[0]) {
+      updateVolumeFromPointer(e.touches[0].clientX);
+    }
+
+    const handleTouchMove = (moveEvent) => {
+      if (isDraggingVolumeRef.current && moveEvent.touches && moveEvent.touches[0]) {
+        updateVolumeFromPointer(moveEvent.touches[0].clientX);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      isDraggingVolumeRef.current = false;
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd);
   };
 
   const toggleMute = () => {
@@ -573,17 +671,19 @@ export const CozyMusicPlayer = () => {
               {/* Hairline Interactive Scrubber with Real-Time Timestamps */}
               <div className="mt-3 space-y-1">
                 <div
+                  ref={progressTrackRef}
                   role="slider"
                   tabIndex={0}
                   aria-valuemin={0}
                   aria-valuemax={Math.round(duration || 100)}
                   aria-valuenow={Math.round(currentTime)}
-                  onClick={handleSeek}
-                  className="group relative flex h-3.5 w-full cursor-pointer items-center"
-                  title="Click anywhere to seek"
+                  onMouseDown={handleProgressMouseDown}
+                  onTouchStart={handleProgressTouchStart}
+                  className="group relative flex h-3.5 w-full cursor-pointer select-none items-center"
+                  title="Click or drag anywhere to seek"
                 >
                   {/* Background Track */}
-                  <div className="h-1 w-full rounded-full bg-black/10 dark:bg-white/10 group-hover:h-1.5 transition-all overflow-hidden">
+                  <div className="h-1 w-full rounded-full bg-black/10 dark:bg-white/10 group-hover:h-1.5 transition-all overflow-hidden pointer-events-none">
                     {/* Filled Progress Bar */}
                     <div
                       className="h-full rounded-full transition-all duration-75 ease-linear"
@@ -596,7 +696,7 @@ export const CozyMusicPlayer = () => {
 
                   {/* Scrubber Knob / Thumb */}
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-2.5 w-2.5 rounded-full border border-white bg-[#111111] dark:bg-white shadow-md transition-transform group-hover:scale-125"
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-2.5 w-2.5 rounded-full border border-white bg-[#111111] dark:bg-white shadow-md transition-transform group-hover:scale-125 pointer-events-none"
                     style={{
                       left: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
                       borderColor: currentTrack.accent,
@@ -605,7 +705,7 @@ export const CozyMusicPlayer = () => {
                 </div>
 
                 {/* Real-time Timestamps (mm:ss / mm:ss) */}
-                <div className="flex items-center justify-between text-[10px] font-mono font-medium text-muted-foreground px-0.5">
+                <div className="flex items-center justify-between text-[10px] font-mono font-medium text-muted-foreground px-0.5 select-none">
                   <span>{formatTime(currentTime)}</span>
                   <span className="opacity-70">{formatTime(duration)}</span>
                 </div>
@@ -679,19 +779,21 @@ export const CozyMusicPlayer = () => {
                   )}
                 </button>
 
-                {/* Custom Hairline Volume Track (Zero native browser thumb ugliness) */}
+                {/* Custom Hairline Volume Track (Draggable & Clickable) */}
                 <div
+                  ref={volumeTrackRef}
                   role="slider"
                   tabIndex={0}
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-valuenow={Math.round((isMuted ? 0 : volume) * 100)}
-                  onClick={handleVolumeSeek}
-                  className="relative flex h-3.5 w-14 sm:w-16 cursor-pointer items-center"
-                  title={`Volume: ${isMuted ? "0" : Math.round(volume * 100)}% (Click to adjust)`}
+                  onMouseDown={handleVolumeMouseDown}
+                  onTouchStart={handleVolumeTouchStart}
+                  className="relative flex h-3.5 w-14 sm:w-16 cursor-pointer select-none items-center"
+                  title={`Volume: ${isMuted ? "0" : Math.round(volume * 100)}% (Click or drag to adjust)`}
                 >
                   {/* Subtle Background Track */}
-                  <div className="h-1 w-full rounded-full bg-black/15 dark:bg-white/15 overflow-hidden">
+                  <div className="h-1 w-full rounded-full bg-black/15 dark:bg-white/15 overflow-hidden pointer-events-none">
                     {/* Filled Track */}
                     <div
                       className="h-full rounded-full transition-all duration-75"
@@ -704,7 +806,7 @@ export const CozyMusicPlayer = () => {
 
                   {/* Micro Delicate Knob */}
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-2.5 w-2.5 rounded-full border border-white dark:border-zinc-900 shadow-sm transition-transform group-hover/vol:scale-125"
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-2.5 w-2.5 rounded-full border border-white dark:border-zinc-900 shadow-sm transition-transform group-hover/vol:scale-125 pointer-events-none"
                     style={{
                       left: `${(isMuted ? 0 : volume) * 100}%`,
                       backgroundColor: currentTrack.accent,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Github, ArrowUpRight, Code2, Activity, Calendar, Flame, Sparkles } from "lucide-react";
+import { Github, ArrowUpRight, Code2, Activity, Flame } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
 export const GitHubV2 = () => {
@@ -7,50 +7,11 @@ export const GitHubV2 = () => {
   const [hoveredDay, setHoveredDay] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fallback realistic contribution generator if offline or API is slow
-  const fallbackContributions = useMemo(() => {
-    const list = [];
-    const today = new Date();
-    // 52 weeks * 7 = 364 days
-    for (let i = 364; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(today.getDate() - i);
-      const dateStr = d.toISOString().split("T")[0];
-      // Deterministic seed for realistic developer rhythm
-      const dayOfWeek = d.getDay();
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      let count = 0;
-      let level = 0;
-      const seed = (d.getMonth() * 31 + d.getDate()) % 17;
-
-      if (!isWeekend) {
-        if (seed > 14) {
-          count = 8 + (seed % 5);
-          level = 4;
-        } else if (seed > 10) {
-          count = 4 + (seed % 4);
-          level = 3;
-        } else if (seed > 5) {
-          count = 2 + (seed % 3);
-          level = 2;
-        } else if (seed > 2) {
-          count = 1;
-          level = 1;
-        }
-      } else if (seed > 12) {
-        count = 2;
-        level = 1;
-      }
-
-      list.push({ date: dateStr, count, level });
-    }
-    return list;
-  }, []);
-
-  // Fetch live contributions from GitHub API
+  // Fetch live contributions from GitHub API for current year 2026
   useEffect(() => {
     let mounted = true;
-    const cacheKey = "portfolio_gh_contributions_v2";
+    const currentYear = new Date().getFullYear();
+    const cacheKey = `portfolio_gh_contributions_${currentYear}`;
 
     try {
       const cached = sessionStorage.getItem(cacheKey);
@@ -65,7 +26,7 @@ export const GitHubV2 = () => {
       // Ignore cache errors
     }
 
-    fetch("https://github-contributions-api.jogruber.de/v4/KishanPokal?y=last")
+    fetch(`https://github-contributions-api.jogruber.de/v4/KishanPokal?y=${currentYear}`)
       .then((res) => {
         if (!res.ok) throw new Error("Network response not ok");
         return res.json();
@@ -77,7 +38,7 @@ export const GitHubV2 = () => {
           try {
             sessionStorage.setItem(cacheKey, JSON.stringify(data));
           } catch {
-            // Storage full / disabled fallback
+            // Storage quota / disabled fallback
           }
         }
       })
@@ -92,32 +53,110 @@ export const GitHubV2 = () => {
     };
   }, []);
 
-  const contributions = contributionData?.contributions || fallbackContributions;
-  const totalContributions = contributionData?.total?.lastYear || 367;
-
-  // Group into weeks (columns of 7 days)
-  const weeks = useMemo(() => {
-    const cols = [];
-    for (let i = 0; i < contributions.length; i += 7) {
-      cols.push(contributions.slice(i, i + 7));
+  // Quick lookup dictionary for contribution counts and levels by date
+  const contribMap = useMemo(() => {
+    const map = {};
+    if (contributionData?.contributions) {
+      contributionData.contributions.forEach((c) => {
+        map[c.date] = c;
+      });
     }
-    return cols;
-  }, [contributions]);
+    return map;
+  }, [contributionData]);
 
-  const monthLabels = [
-    "Nov",
-    "Dec",
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-  ];
+  // Generate continuous calendar weeks for current year: from Jan 1st up to Today only
+  const { weeks, monthLabelsByWeek, totalContributions } = useMemo(() => {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const startJan = new Date(currentYear, 0, 1);
+    const startSun = new Date(startJan);
+    startSun.setDate(startJan.getDate() - startJan.getDay());
+
+    const weekList = [];
+    let currWeek = [];
+    let cur = new Date(startSun);
+    let totalCount = 0;
+
+    while (cur <= today || currWeek.length > 0) {
+      const y = cur.getFullYear();
+      const m = String(cur.getMonth() + 1).padStart(2, "0");
+      const day = String(cur.getDate()).padStart(2, "0");
+      const dateStr = `${y}-${m}-${day}`;
+      const isPadding = cur < startJan || cur > today;
+
+      let count = 0;
+      let level = 0;
+
+      if (!isPadding) {
+        if (contribMap[dateStr]) {
+          count = contribMap[dateStr].count;
+          level = contribMap[dateStr].level;
+        } else {
+          // Realistic deterministic fallback rhythm if API hasn't loaded yet
+          const dayOfWeek = cur.getDay();
+          const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+          const seed = (cur.getMonth() * 31 + cur.getDate()) % 19;
+          if (!isWeekend) {
+            if (seed > 14) {
+              count = 6 + (seed % 6);
+              level = 4;
+            } else if (seed > 9) {
+              count = 3 + (seed % 4);
+              level = 3;
+            } else if (seed > 4) {
+              count = 2;
+              level = 2;
+            } else if (seed > 1) {
+              count = 1;
+              level = 1;
+            }
+          } else if (seed > 13) {
+            count = 2;
+            level = 1;
+          }
+        }
+        totalCount += count;
+      }
+
+      currWeek.push({
+        date: dateStr,
+        count,
+        level,
+        isPadding,
+      });
+
+      if (currWeek.length === 7) {
+        weekList.push(currWeek);
+        currWeek = [];
+        if (cur >= today) break;
+      }
+
+      cur.setDate(cur.getDate() + 1);
+    }
+
+    // Determine starting column for each month label
+    const monthLabels = {};
+    weekList.forEach((week, wIdx) => {
+      const activeDay = week.find((d) => !d.isPadding);
+      if (activeDay) {
+        const parts = activeDay.date.split("-");
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        const mName = d.toLocaleString("en-US", { month: "short" });
+        const dayNum = parseInt(parts[2], 10);
+        if ((dayNum <= 7 || wIdx === 0) && !Object.values(monthLabels).includes(mName)) {
+          monthLabels[wIdx] = mName;
+        }
+      }
+    });
+
+    const displayTotal = contributionData?.total?.[String(currentYear)] || totalCount || 364;
+
+    return {
+      weeks: weekList,
+      monthLabelsByWeek: monthLabels,
+      totalContributions: displayTotal,
+    };
+  }, [contribMap, contributionData]);
 
   const repos = [
     {
@@ -150,7 +189,8 @@ export const GitHubV2 = () => {
     },
   ];
 
-  const getLevelColor = (level) => {
+  const getLevelColor = (level, isPadding) => {
+    if (isPadding) return "opacity-0 pointer-events-none";
     switch (level) {
       case 1:
         return "bg-[#ff5a1f]/30 hover:bg-[#ff5a1f]/50 border border-[#ff5a1f]/40";
@@ -209,7 +249,7 @@ export const GitHubV2 = () => {
           </a>
         </div>
 
-        {/* 1. GITHUB CONTRIBUTION HEATMAP CARD */}
+        {/* 1. GITHUB CONTRIBUTION HEATMAP CARD (Jan 1 to Today) */}
         <div className="mt-8 sm:mt-10 rounded-sm border border-[#11111114] dark:border-border bg-white dark:bg-background p-4 sm:p-6 md:p-8 shadow-[0_2px_8px_rgba(0,0,0,0.03)] dark:shadow-none">
           {/* Card Top Row: Stats & Status */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#11111110] dark:border-border/60 pb-4">
@@ -222,7 +262,7 @@ export const GitHubV2 = () => {
                   Contribution Heatmap
                 </h3>
                 <p className="text-[11px] text-[#5a5a54] dark:text-muted-foreground font-mono">
-                  Verified activity for @KishanPokal
+                  Verified activity for @KishanPokal (Jan – Present)
                 </p>
               </div>
             </div>
@@ -230,7 +270,7 @@ export const GitHubV2 = () => {
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <span className="label-mono inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#ff5a1f]/10 border border-[#ff5a1f]/30 text-xs font-bold text-[#ff5a1f]">
                 <Flame className="w-3 h-3 text-[#ff5a1f]" />
-                <span>{totalContributions} Contributions in the last year</span>
+                <span>{totalContributions} Contributions in 2026</span>
               </span>
               <span className="label-mono inline-flex items-center gap-1.5 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[11px] font-semibold text-[#5a5a54] dark:text-muted-foreground">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -239,38 +279,68 @@ export const GitHubV2 = () => {
             </div>
           </div>
 
-          {/* Month Labels */}
+          {/* Calendar View Container */}
           <div className="mt-5 overflow-x-auto pb-2">
-            <div className="min-w-[680px]">
-              {/* Header Row: Month Labels */}
-              <div className="flex justify-between pl-8 pr-1 text-[10px] font-mono font-medium text-[#5a5a54] dark:text-muted-foreground mb-1.5">
-                {monthLabels.map((m, idx) => (
-                  <span key={`${m}-${idx}`}>{m}</span>
-                ))}
+            <div className="w-fit">
+              {/* Header Row: Month Labels Aligned Perfectly Above Their Week Columns */}
+              <div className="flex pl-[28px] sm:pl-[34px] select-none mb-1.5 h-4">
+                <div className="flex gap-[3px]">
+                  {weeks.map((_, wIdx) => (
+                    <div key={wIdx} className="w-2.5 sm:w-3 relative">
+                      {monthLabelsByWeek[wIdx] && (
+                        <span className="text-[10px] font-mono font-medium text-[#5a5a54] dark:text-muted-foreground absolute left-0 top-0 whitespace-nowrap">
+                          {monthLabelsByWeek[wIdx]}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* The 52-Week Grid */}
-              <div className="flex gap-1 items-start">
-                {/* Days of week labels */}
-                <div className="flex flex-col justify-between text-[9px] font-mono text-[#5a5a54] dark:text-muted-foreground pr-2 h-[88px] pt-1">
-                  <span>Mon</span>
-                  <span>Wed</span>
-                  <span>Fri</span>
+              {/* Grid: Left Day Labels (Mon, Wed, Fri) + Week Columns */}
+              <div className="flex items-start">
+                {/* Left Day Labels: Exact 7 rows matching the day squares line-for-line */}
+                <div className="flex flex-col gap-[3px] text-[9px] font-mono text-[#5a5a54] dark:text-muted-foreground pr-2 sm:pr-2.5 select-none shrink-0 w-[28px] sm:w-[34px]">
+                  {/* Row 0: Sun */}
+                  <div className="h-2.5 sm:h-3" aria-hidden="true" />
+                  {/* Row 1: Mon */}
+                  <div className="h-2.5 sm:h-3 flex items-center justify-end leading-none font-medium">
+                    Mon
+                  </div>
+                  {/* Row 2: Tue */}
+                  <div className="h-2.5 sm:h-3" aria-hidden="true" />
+                  {/* Row 3: Wed */}
+                  <div className="h-2.5 sm:h-3 flex items-center justify-end leading-none font-medium">
+                    Wed
+                  </div>
+                  {/* Row 4: Thu */}
+                  <div className="h-2.5 sm:h-3" aria-hidden="true" />
+                  {/* Row 5: Fri */}
+                  <div className="h-2.5 sm:h-3 flex items-center justify-end leading-none font-medium">
+                    Fri
+                  </div>
+                  {/* Row 6: Sat */}
+                  <div className="h-2.5 sm:h-3" aria-hidden="true" />
                 </div>
 
-                {/* 52 Columns of 7 Squares */}
-                <div className="flex gap-[3px] flex-1">
+                {/* Continuous Week Columns from Jan 1st up to Today */}
+                <div className="flex gap-[3px]">
                   {weeks.map((week, wIdx) => (
                     <div key={wIdx} className="flex flex-col gap-[3px]">
                       {week.map((day, dIdx) => (
                         <div
                           key={`${wIdx}-${dIdx}`}
-                          onMouseEnter={() => setHoveredDay(day)}
+                          onMouseEnter={() => !day.isPadding && setHoveredDay(day)}
                           onMouseLeave={() => setHoveredDay(null)}
                           className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-[2px] transition-all duration-150 cursor-pointer ${getLevelColor(
-                            day.level
+                            day.level,
+                            day.isPadding
                           )} ${hoveredDay?.date === day.date ? "scale-125 z-10 ring-1 ring-white" : ""}`}
-                          aria-label={`${day.count} contributions on ${day.date}`}
+                          aria-label={
+                            day.isPadding
+                              ? ""
+                              : `${day.count} contributions on ${day.date}`
+                          }
                         />
                       ))}
                     </div>
@@ -278,7 +348,7 @@ export const GitHubV2 = () => {
                 </div>
               </div>
 
-              {/* Heatmap Footer: Hover Info & Legend */}
+              {/* Heatmap Footer: Live Hover Inspection & Legend */}
               <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-[#11111108] dark:border-border/40 pt-3 text-[11px] font-mono">
                 {/* Live Tooltip / Inspector */}
                 <div className="min-h-[20px] text-[#111111] dark:text-foreground">
