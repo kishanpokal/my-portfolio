@@ -72,6 +72,7 @@ export const CozyMusicPlayer = () => {
   const isDraggingVolumeRef = useRef(false);
   const isDraggingProgressRef = useRef(false);
   const transitionTimeoutsRef = useRef([]);
+  const userInteractedRef = useRef(false);
 
   const currentTrack = tracks[currentTrackIndex];
 
@@ -96,6 +97,65 @@ export const CozyMusicPlayer = () => {
         });
     }
   };
+
+  // 7-Second Auto-Start Music Timer
+  useEffect(() => {
+    let autoPlayTimer;
+    let fallbackCleanup = null;
+
+    autoPlayTimer = setTimeout(() => {
+      // If visitor has already manually interacted with the player, respect their action
+      if (userInteractedRef.current) return;
+
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      if (!audio.src) {
+        audio.src = tracks[currentTrackIndex].src;
+      }
+
+      setTonearmRaised(false);
+      const promise = audio.play();
+
+      if (promise !== undefined) {
+        promise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((err) => {
+            console.warn("Autoplay deferred until first user interaction:", err);
+            // If browser autoplay policy blocked it, start on the very first user interaction
+            const onFirstGesture = () => {
+              if (userInteractedRef.current) return;
+              audio
+                .play()
+                .then(() => setIsPlaying(true))
+                .catch(() => {});
+              cleanupGestureListeners();
+            };
+
+            const cleanupGestureListeners = () => {
+              window.removeEventListener("click", onFirstGesture);
+              window.removeEventListener("keydown", onFirstGesture);
+              window.removeEventListener("touchstart", onFirstGesture);
+              window.removeEventListener("scroll", onFirstGesture);
+            };
+
+            window.addEventListener("click", onFirstGesture, { once: true });
+            window.addEventListener("keydown", onFirstGesture, { once: true });
+            window.addEventListener("touchstart", onFirstGesture, { once: true });
+            window.addEventListener("scroll", onFirstGesture, { once: true });
+
+            fallbackCleanup = cleanupGestureListeners;
+          });
+      }
+    }, 7000);
+
+    return () => {
+      clearTimeout(autoPlayTimer);
+      if (fallbackCleanup) fallbackCleanup();
+    };
+  }, [currentTrackIndex]);
 
   // Format mm:ss timestamps
   const formatTime = (seconds) => {
@@ -122,6 +182,7 @@ export const CozyMusicPlayer = () => {
   // 5. Disc starts spinning & music plays!
   const triggerMechanicalTrackChange = (nextIndex) => {
     sound.click();
+    userInteractedRef.current = true;
     setHasInteracted(true);
     clearAnimationTimeouts();
     setCurrentTime(0);
@@ -252,6 +313,7 @@ export const CozyMusicPlayer = () => {
 
   const togglePlay = () => {
     sound.click();
+    userInteractedRef.current = true;
     setHasInteracted(true);
     const audio = audioRef.current;
     if (!audio) return;
