@@ -79,6 +79,9 @@ export const LandingPreloader = ({ onComplete }) => {
   const triggerShutterExit = useCallback(() => {
     if (isExiting) return;
     setIsExiting(true);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("portfolio-user-gesture"));
+    }
     setTimeout(() => {
       onComplete?.();
     }, 1100);
@@ -89,6 +92,9 @@ export const LandingPreloader = ({ onComplete }) => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" || e.key === "Enter" || e.code === "Space") {
         e.preventDefault();
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("portfolio-user-gesture"));
+        }
         sound.click();
         triggerShutterExit();
       }
@@ -99,6 +105,9 @@ export const LandingPreloader = ({ onComplete }) => {
 
   const toggleSound = (e) => {
     e.stopPropagation();
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("portfolio-user-gesture"));
+    }
     const active = sound.toggle();
     setSoundEnabled(active);
   };

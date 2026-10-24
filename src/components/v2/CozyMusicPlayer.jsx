@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, SkipForward, SkipBack, Volume1, Volume2, VolumeX, Shuffle, Music, X } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
@@ -47,18 +48,24 @@ export const CozyMusicPlayer = () => {
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  // Volume defaults strictly to 19% (0.19) as requested
   const [volume, setVolume] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("portfolio_music_volume");
-      return saved !== null ? parseFloat(saved) : 0.35;
+      if (saved === null || saved === "0.35") {
+        localStorage.setItem("portfolio_music_volume", "0.19");
+        return 0.19;
+      }
+      return parseFloat(saved);
     }
-    return 0.35;
+    return 0.19;
   });
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [showAutoplayPrompt, setShowAutoplayPrompt] = useState(false);
 
   // Turntable mechanical transition state
   const [tonearmRaised, setTonearmRaised] = useState(false);
@@ -73,6 +80,8 @@ export const CozyMusicPlayer = () => {
   const isDraggingProgressRef = useRef(false);
   const transitionTimeoutsRef = useRef([]);
   const userInteractedRef = useRef(false);
+  const audioPrimedRef = useRef(false);
+  const autoPlayStartedRef = useRef(false);
 
   const currentTrack = tracks[currentTrackIndex];
 
@@ -86,7 +95,6 @@ export const CozyMusicPlayer = () => {
   const playAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.load();
     const promise = audio.play();
     if (promise !== undefined) {
       promise
@@ -98,14 +106,50 @@ export const CozyMusicPlayer = () => {
     }
   };
 
-  // 7-Second Auto-Start Music Timer
+  // 7-Second Auto-Start Music Timer with Early Gesture Priming & Browser Policy Fallback
   useEffect(() => {
     let autoPlayTimer;
     let fallbackCleanup = null;
 
+    // Early gesture listener to prime audio element in transient user activation
+    const onEarlyGesture = () => {
+      const audio = audioRef.current;
+      if (!audio || audioPrimedRef.current) return;
+      audioPrimedRef.current = true;
+
+      // Silent priming (instant play/pause) inside user activation to authorize unmuted play later
+      if (!autoPlayStartedRef.current && !userInteractedRef.current) {
+        const prevMuted = audio.muted;
+        const prevVol = audio.volume;
+        audio.muted = true;
+        audio.volume = 0;
+        const p = audio.play();
+        if (p !== undefined) {
+          p.then(() => {
+            if (!autoPlayStartedRef.current && !userInteractedRef.current) {
+              audio.pause();
+              audio.currentTime = 0;
+            }
+            audio.muted = prevMuted;
+            audio.volume = prevVol;
+          }).catch(() => {
+            audio.muted = prevMuted;
+            audio.volume = prevVol;
+          });
+        }
+      }
+    };
+
+    window.addEventListener("pointerdown", onEarlyGesture, { passive: true });
+    window.addEventListener("keydown", onEarlyGesture, { passive: true });
+    window.addEventListener("touchstart", onEarlyGesture, { passive: true });
+    window.addEventListener("portfolio-user-gesture", onEarlyGesture, { passive: true });
+
+    // 7-Second Auto-Start Trigger
     autoPlayTimer = setTimeout(() => {
-      // If visitor has already manually interacted with the player, respect their action
-      if (userInteractedRef.current) return;
+      // Respect visitor if they have already manually controlled playback
+      if (userInteractedRef.current || autoPlayStartedRef.current) return;
+      autoPlayStartedRef.current = true;
 
       const audio = audioRef.current;
       if (!audio) return;
@@ -113,49 +157,85 @@ export const CozyMusicPlayer = () => {
       if (!audio.src) {
         audio.src = tracks[currentTrackIndex].src;
       }
+      const initialVol = volume > 0 ? volume : 0.19;
+      audio.volume = isMuted ? 0 : initialVol;
 
       setTonearmRaised(false);
+
+      // 1. Attempt unmuted playback first
       const promise = audio.play();
 
       if (promise !== undefined) {
         promise
           .then(() => {
             setIsPlaying(true);
+            setShowAutoplayPrompt(false);
           })
           .catch((err) => {
-            console.warn("Autoplay deferred until first user interaction:", err);
-            // If browser autoplay policy blocked it, start on the very first user interaction
-            const onFirstGesture = () => {
-              if (userInteractedRef.current) return;
-              audio
-                .play()
-                .then(() => setIsPlaying(true))
-                .catch(() => {});
-              cleanupGestureListeners();
+            console.warn(
+              "Browser Autoplay Policy restricted unmuted playback. Auto-starting muted lo-fi stream with interaction trigger:",
+              err
+            );
+            // 2. Fallback: Browser strictly blocks unmuted audio until user interaction.
+            // Start playing in muted mode so the vinyl spins and progress begins immediately!
+            audio.muted = true;
+            setIsMuted(true);
+            audio
+              .play()
+              .then(() => {
+                setIsPlaying(true);
+                setShowAutoplayPrompt(true);
+              })
+              .catch(() => {
+                setShowAutoplayPrompt(true);
+              });
+
+            // 3. Unmute smoothly on visitor's very first interaction anywhere on page
+            const unmuteOnFirstAction = () => {
+              if (audioRef.current) {
+                audioRef.current.muted = false;
+                const activeVol = volume > 0 ? volume : 0.19;
+                audioRef.current.volume = activeVol;
+                audioRef.current.play().then(() => {
+                  setIsPlaying(true);
+                  setIsMuted(false);
+                }).catch(() => {});
+              }
+              setIsMuted(false);
+              setShowAutoplayPrompt(false);
+              cleanupUnmuteListeners();
             };
 
-            const cleanupGestureListeners = () => {
-              window.removeEventListener("click", onFirstGesture);
-              window.removeEventListener("keydown", onFirstGesture);
-              window.removeEventListener("touchstart", onFirstGesture);
-              window.removeEventListener("scroll", onFirstGesture);
+            const cleanupUnmuteListeners = () => {
+              window.removeEventListener("pointerdown", unmuteOnFirstAction);
+              window.removeEventListener("click", unmuteOnFirstAction);
+              window.removeEventListener("keydown", unmuteOnFirstAction);
+              window.removeEventListener("touchstart", unmuteOnFirstAction);
+              window.removeEventListener("scroll", unmuteOnFirstAction);
+              window.removeEventListener("portfolio-user-gesture", unmuteOnFirstAction);
             };
 
-            window.addEventListener("click", onFirstGesture, { once: true });
-            window.addEventListener("keydown", onFirstGesture, { once: true });
-            window.addEventListener("touchstart", onFirstGesture, { once: true });
-            window.addEventListener("scroll", onFirstGesture, { once: true });
+            window.addEventListener("pointerdown", unmuteOnFirstAction, { once: true, passive: true });
+            window.addEventListener("click", unmuteOnFirstAction, { once: true, passive: true });
+            window.addEventListener("keydown", unmuteOnFirstAction, { once: true, passive: true });
+            window.addEventListener("touchstart", unmuteOnFirstAction, { once: true, passive: true });
+            window.addEventListener("scroll", unmuteOnFirstAction, { once: true, passive: true });
+            window.addEventListener("portfolio-user-gesture", unmuteOnFirstAction, { once: true, passive: true });
 
-            fallbackCleanup = cleanupGestureListeners;
+            fallbackCleanup = cleanupUnmuteListeners;
           });
       }
     }, 7000);
 
     return () => {
       clearTimeout(autoPlayTimer);
+      window.removeEventListener("pointerdown", onEarlyGesture);
+      window.removeEventListener("keydown", onEarlyGesture);
+      window.removeEventListener("touchstart", onEarlyGesture);
+      window.removeEventListener("portfolio-user-gesture", onEarlyGesture);
       if (fallbackCleanup) fallbackCleanup();
     };
-  }, [currentTrackIndex]);
+  }, []);
 
   // Format mm:ss timestamps
   const formatTime = (seconds) => {
@@ -184,6 +264,7 @@ export const CozyMusicPlayer = () => {
     sound.click();
     userInteractedRef.current = true;
     setHasInteracted(true);
+    setShowAutoplayPrompt(false);
     clearAnimationTimeouts();
     setCurrentTime(0);
     setDuration(0);
@@ -315,6 +396,7 @@ export const CozyMusicPlayer = () => {
     sound.click();
     userInteractedRef.current = true;
     setHasInteracted(true);
+    setShowAutoplayPrompt(false);
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -475,14 +557,32 @@ export const CozyMusicPlayer = () => {
     sound.click();
     const newMuted = !isMuted;
     setIsMuted(newMuted);
+    setShowAutoplayPrompt(false);
     if (audioRef.current) {
       audioRef.current.muted = newMuted;
       if (!newMuted) {
-        const activeVol = volume > 0 ? volume : 0.35;
+        const activeVol = volume > 0 ? volume : 0.19;
         audioRef.current.volume = activeVol;
-        if (volume === 0) setVolume(0.35);
+        if (volume === 0) setVolume(0.19);
       }
     }
+  };
+
+  const handleUnmuteFromPrompt = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    userInteractedRef.current = true;
+    setShowAutoplayPrompt(false);
+    const audio = audioRef.current;
+    if (audio) {
+      audio.muted = false;
+      const targetVol = volume > 0 ? volume : 0.19;
+      audio.volume = targetVol;
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setIsMuted(false);
+      }).catch(() => {});
+    }
+    setIsMuted(false);
   };
 
   // Reusable Realistic Vinyl Disc Component
@@ -619,12 +719,41 @@ export const CozyMusicPlayer = () => {
       />
 
       <div ref={playerContainerRef} className="fixed bottom-3.5 left-3.5 sm:bottom-5 sm:left-5 z-50">
+        {/* Floating Autoplay Prompt Pill (appears if modern browser blocked unmuted sound until gesture) */}
+        <AnimatePresence>
+          {showAutoplayPrompt && !isOpen && (
+            <motion.button
+              type="button"
+              initial={{ opacity: 0, y: 10, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.92 }}
+              onClick={handleUnmuteFromPrompt}
+              className="absolute bottom-full left-0 mb-3 flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#111111]/95 text-white border border-[#ff5a1f]/60 shadow-[0_8px_24px_rgba(255,90,31,0.35)] backdrop-blur-md cursor-pointer hover:border-[#ff5a1f] hover:scale-105 active:scale-95 transition-all text-xs whitespace-nowrap z-50 select-none group"
+              title="Click anywhere to start lo-fi background music (Volume: 19%)"
+            >
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5a1f] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff5a1f]"></span>
+              </span>
+              <span className="text-[#f2f0ec] font-mono text-[11px] font-semibold tracking-tight">
+                Click anywhere to start music ♫
+              </span>
+              <span className="text-[9px] font-mono uppercase bg-[#ff5a1f]/20 text-[#ff5a1f] px-1.5 py-0.5 rounded border border-[#ff5a1f]/30">
+                19% Vol
+              </span>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
         {/* COLLAPSED STATE: Ultra-Creative Spinning Vinyl Turntable Icon */}
         {!isOpen && (
           <button
             type="button"
             onClick={() => {
               sound.click();
+              if (showAutoplayPrompt) {
+                handleUnmuteFromPrompt({ stopPropagation: () => {} });
+              }
               setIsOpen(true);
             }}
             className="group relative flex h-12 w-12 sm:h-13 sm:w-13 items-center justify-center rounded-full transition-all duration-300 hover:scale-110 focus:outline-none p-1"
