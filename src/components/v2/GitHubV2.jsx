@@ -324,7 +324,9 @@ export const GitHubV2 = () => {
                   {/* Row 5: Sat (Line 6) */}
                   <div className="h-2.5 sm:h-3" aria-hidden="true" />
                   {/* Row 6: Sun (Line 7) */}
-                  <div className="h-2.5 sm:h-3" aria-hidden="true" />
+                  <div className="h-2.5 sm:h-3 flex items-center justify-end leading-none font-medium">
+                    Sun
+                  </div>
                 </div>
 
                 {/* Continuous Week Columns from Jan 1st up to Today */}
