@@ -83,7 +83,7 @@ export const Navbar = ({ onOpenCommandPalette, theme, onToggleTheme, isModalOpen
                 <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
               </span>
               <span className="text-[10px] font-mono text-muted-foreground hidden sm:block">
-                Android &amp; AI Developer
+                Android &amp; Software Engineer
               </span>
             </div>
           </a>

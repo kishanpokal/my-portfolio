@@ -74,7 +74,7 @@ export const ContactV2 = () => {
           Have an opportunity? Write to me<span className="text-[#ff5a1f]">.</span>
         </h2>
         <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-[#5a5a54] dark:text-muted-foreground">
-          <span>Actively considering full-time Android &amp; AI software roles.</span>
+          <span>Actively considering full-time Android &amp; Software Engineering roles.</span>
           <span className="text-foreground/40">•</span>
           <span className="label-mono text-xs text-[#ff5a1f] font-semibold">Replies within 2-4 hours</span>
         </div>
@@ -173,7 +173,7 @@ export const ContactV2 = () => {
                 rows={4}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="We would love to discuss an Android / AI opportunity with you..."
+                placeholder="We would love to discuss an Android / Engineering opportunity with you..."
                 className="w-full rounded-sm border border-[#1111111c] dark:border-border bg-[#f8f7f5] dark:bg-secondary/30 px-3.5 py-2.5 text-base sm:text-sm text-[#111111] dark:text-foreground placeholder:text-[#8a8a85] focus:border-[#ff5a1f] focus:bg-white dark:focus:bg-secondary/50 focus:outline-none transition-colors resize-none shadow-2xs"
               />
             </div>

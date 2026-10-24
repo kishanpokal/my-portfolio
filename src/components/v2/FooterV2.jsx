@@ -25,7 +25,7 @@ export const FooterV2 = ({ onReboot }) => {
               Kishan<span className="text-[#ff5a1f]">.</span>
             </a>
             <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-[#8a8a85]">
-              Android &amp; AI Developer building high-performance mobile architectures and intelligent applications.
+              Android &amp; Software Engineer building high-performance mobile architectures and resilient systems.
             </p>
           </div>
 

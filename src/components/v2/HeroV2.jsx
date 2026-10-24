@@ -51,7 +51,7 @@ export const HeroV2 = () => {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff5a1f] opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ff5a1f]" />
           </span>
-          <span>Available for Android &amp; AI roles</span>
+          <span>Available for Android &amp; Software Engineering roles</span>
         </p>
       </div>
 
@@ -114,7 +114,7 @@ export const HeroV2 = () => {
                 Kishan Pokal
               </p>
               <p className="label-mono text-[10px] text-[#5a5a54] dark:text-muted-foreground font-semibold">
-                Android &amp; AI Developer
+                Android &amp; Software Engineer
               </p>
             </div>
           </div>

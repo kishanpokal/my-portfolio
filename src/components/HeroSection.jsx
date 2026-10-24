@@ -80,7 +80,7 @@ const DeveloperCard = ({ activeLens }) => {
           <div>
             <h3 className="text-xl sm:text-2xl font-bold text-foreground">Kishan Pokal</h3>
             <p className="text-xs sm:text-sm font-semibold text-sky-600 dark:text-sky-400 mt-0.5">
-              Android &amp; AI Developer
+              Android &amp; Software Engineer
             </p>
             <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-slate-500 dark:text-slate-400">
               <span className="relative flex h-2 w-2">

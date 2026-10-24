@@ -339,7 +339,7 @@ export const LandingPreloader = ({ onComplete }) => {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-[#ff5a1f]" />
             </span>
             <span className="label-mono text-[11px] text-[#f2f0ec] font-semibold tracking-wider">
-              Android &amp; AI Engineer
+              Android &amp; Software Engineer
             </span>
           </div>
         </div>

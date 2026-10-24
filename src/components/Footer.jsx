@@ -47,7 +47,7 @@ export const Footer = () => {
                   Kishan Pokal
                 </span>
                 <span className="text-[11px] font-mono text-sky-600 dark:text-sky-400 font-semibold">
-                  Android &amp; AI Developer
+                  Android &amp; Software Engineer
                 </span>
               </div>
             </div>
