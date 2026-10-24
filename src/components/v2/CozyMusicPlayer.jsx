@@ -80,10 +80,20 @@ export const CozyMusicPlayer = () => {
   const isDraggingProgressRef = useRef(false);
   const transitionTimeoutsRef = useRef([]);
   const userInteractedRef = useRef(false);
-  const audioPrimedRef = useRef(false);
-  const autoPlayStartedRef = useRef(false);
+  const userManuallyPausedRef = useRef(false);
+  const isPlayingRef = useRef(false);
+  const currentTrackIndexRef = useRef(currentTrackIndex);
 
   const currentTrack = tracks[currentTrackIndex];
+
+  // Sync state to refs
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  useEffect(() => {
+    currentTrackIndexRef.current = currentTrackIndex;
+  }, [currentTrackIndex]);
 
   // Helper to clear any pending animation timeouts
   const clearAnimationTimeouts = () => {
@@ -91,149 +101,76 @@ export const CozyMusicPlayer = () => {
     transitionTimeoutsRef.current = [];
   };
 
-  // Safe playback trigger
-  const playAudio = () => {
+  // Dedicated unmuted playback executor
+  const executeStartMusic = (isUserGesture = false) => {
+    // Respect manual pause if user specifically clicked pause
+    if (userManuallyPausedRef.current && !isUserGesture) return;
+
     const audio = audioRef.current;
     if (!audio) return;
+
+    const activeIdx = currentTrackIndexRef.current;
+    if (!audio.src) {
+      audio.src = tracks[activeIdx].src;
+    }
+    const targetVol = volume > 0 ? volume : 0.19;
+    audio.muted = false;
+    audio.volume = targetVol;
+    setIsMuted(false);
+    setTonearmRaised(false);
+
     const promise = audio.play();
     if (promise !== undefined) {
       promise
-        .then(() => setIsPlaying(true))
+        .then(() => {
+          setIsPlaying(true);
+          setShowAutoplayPrompt(false);
+        })
         .catch((err) => {
-          console.warn("Audio play prevented:", err);
-          setIsPlaying(false);
+          console.warn("Autoplay without interaction blocked by browser:", err);
+          // Show prompt pill so visitor can click anywhere or tap it to unmute
+          setShowAutoplayPrompt(true);
+
+          // One-time listener to start on the very first user interaction anywhere
+          const onNextInteraction = () => {
+            executeStartMusic(true);
+            window.removeEventListener("click", onNextInteraction);
+            window.removeEventListener("keydown", onNextInteraction);
+            window.removeEventListener("touchstart", onNextInteraction);
+            window.removeEventListener("pointerdown", onNextInteraction);
+          };
+
+          window.addEventListener("click", onNextInteraction, { once: true });
+          window.addEventListener("keydown", onNextInteraction, { once: true });
+          window.addEventListener("touchstart", onNextInteraction, { once: true });
+          window.addEventListener("pointerdown", onNextInteraction, { once: true });
         });
     }
   };
 
-  // 7-Second Auto-Start Music Timer with Early Gesture Priming & Browser Policy Fallback
+  // Safe playback trigger
+  const playAudio = () => {
+    executeStartMusic(true);
+  };
+
+  // 7-Second Auto-Start Music Timer & Preloader Trigger
   useEffect(() => {
-    let autoPlayTimer;
-    let fallbackCleanup = null;
-
-    // Early gesture listener to prime audio element in transient user activation
-    const onEarlyGesture = () => {
-      const audio = audioRef.current;
-      if (!audio || audioPrimedRef.current) return;
-      audioPrimedRef.current = true;
-
-      // Silent priming (instant play/pause) inside user activation to authorize unmuted play later
-      if (!autoPlayStartedRef.current && !userInteractedRef.current) {
-        const prevMuted = audio.muted;
-        const prevVol = audio.volume;
-        audio.muted = true;
-        audio.volume = 0;
-        const p = audio.play();
-        if (p !== undefined) {
-          p.then(() => {
-            if (!autoPlayStartedRef.current && !userInteractedRef.current) {
-              audio.pause();
-              audio.currentTime = 0;
-            }
-            audio.muted = prevMuted;
-            audio.volume = prevVol;
-          }).catch(() => {
-            audio.muted = prevMuted;
-            audio.volume = prevVol;
-          });
-        }
-      }
+    // 1. Listen for preloader enter gesture (triggers instant music start inside real user click)
+    const handlePreloaderMusicStart = () => {
+      executeStartMusic(true);
     };
+    window.addEventListener("portfolio-start-music", handlePreloaderMusicStart);
 
-    window.addEventListener("pointerdown", onEarlyGesture, { passive: true });
-    window.addEventListener("keydown", onEarlyGesture, { passive: true });
-    window.addEventListener("touchstart", onEarlyGesture, { passive: true });
-    window.addEventListener("portfolio-user-gesture", onEarlyGesture, { passive: true });
-
-    // 7-Second Auto-Start Trigger
-    autoPlayTimer = setTimeout(() => {
-      // Respect visitor if they have already manually controlled playback
-      if (userInteractedRef.current || autoPlayStartedRef.current) return;
-      autoPlayStartedRef.current = true;
-
-      const audio = audioRef.current;
-      if (!audio) return;
-
-      if (!audio.src) {
-        audio.src = tracks[currentTrackIndex].src;
-      }
-      const initialVol = volume > 0 ? volume : 0.19;
-      audio.volume = isMuted ? 0 : initialVol;
-
-      setTonearmRaised(false);
-
-      // 1. Attempt unmuted playback first
-      const promise = audio.play();
-
-      if (promise !== undefined) {
-        promise
-          .then(() => {
-            setIsPlaying(true);
-            setShowAutoplayPrompt(false);
-          })
-          .catch((err) => {
-            console.warn(
-              "Browser Autoplay Policy restricted unmuted playback. Auto-starting muted lo-fi stream with interaction trigger:",
-              err
-            );
-            // 2. Fallback: Browser strictly blocks unmuted audio until user interaction.
-            // Start playing in muted mode so the vinyl spins and progress begins immediately!
-            audio.muted = true;
-            setIsMuted(true);
-            audio
-              .play()
-              .then(() => {
-                setIsPlaying(true);
-                setShowAutoplayPrompt(true);
-              })
-              .catch(() => {
-                setShowAutoplayPrompt(true);
-              });
-
-            // 3. Unmute smoothly on visitor's very first interaction anywhere on page
-            const unmuteOnFirstAction = () => {
-              if (audioRef.current) {
-                audioRef.current.muted = false;
-                const activeVol = volume > 0 ? volume : 0.19;
-                audioRef.current.volume = activeVol;
-                audioRef.current.play().then(() => {
-                  setIsPlaying(true);
-                  setIsMuted(false);
-                }).catch(() => {});
-              }
-              setIsMuted(false);
-              setShowAutoplayPrompt(false);
-              cleanupUnmuteListeners();
-            };
-
-            const cleanupUnmuteListeners = () => {
-              window.removeEventListener("pointerdown", unmuteOnFirstAction);
-              window.removeEventListener("click", unmuteOnFirstAction);
-              window.removeEventListener("keydown", unmuteOnFirstAction);
-              window.removeEventListener("touchstart", unmuteOnFirstAction);
-              window.removeEventListener("scroll", unmuteOnFirstAction);
-              window.removeEventListener("portfolio-user-gesture", unmuteOnFirstAction);
-            };
-
-            window.addEventListener("pointerdown", unmuteOnFirstAction, { once: true, passive: true });
-            window.addEventListener("click", unmuteOnFirstAction, { once: true, passive: true });
-            window.addEventListener("keydown", unmuteOnFirstAction, { once: true, passive: true });
-            window.addEventListener("touchstart", unmuteOnFirstAction, { once: true, passive: true });
-            window.addEventListener("scroll", unmuteOnFirstAction, { once: true, passive: true });
-            window.addEventListener("portfolio-user-gesture", unmuteOnFirstAction, { once: true, passive: true });
-
-            fallbackCleanup = cleanupUnmuteListeners;
-          });
+    // 2. 7-Second Auto-Start Timer
+    const autoPlayTimer = setTimeout(() => {
+      if (!isPlayingRef.current) {
+        executeStartMusic(false);
       }
     }, 7000);
 
     return () => {
       clearTimeout(autoPlayTimer);
-      window.removeEventListener("pointerdown", onEarlyGesture);
-      window.removeEventListener("keydown", onEarlyGesture);
-      window.removeEventListener("touchstart", onEarlyGesture);
-      window.removeEventListener("portfolio-user-gesture", onEarlyGesture);
-      if (fallbackCleanup) fallbackCleanup();
+      window.removeEventListener("portfolio-start-music", handlePreloaderMusicStart);
     };
   }, []);
 
@@ -401,13 +338,15 @@ export const CozyMusicPlayer = () => {
     if (!audio) return;
 
     if (isPlaying) {
+      userManuallyPausedRef.current = true;
       audio.pause();
       setIsPlaying(false);
       setTonearmRaised(true);
     } else {
+      userManuallyPausedRef.current = false;
       setTonearmRaised(false);
       audio.src = tracks[currentTrackIndex].src;
-      playAudio();
+      executeStartMusic(true);
     }
   };
 
@@ -571,18 +510,9 @@ export const CozyMusicPlayer = () => {
   const handleUnmuteFromPrompt = (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
     userInteractedRef.current = true;
+    userManuallyPausedRef.current = false;
     setShowAutoplayPrompt(false);
-    const audio = audioRef.current;
-    if (audio) {
-      audio.muted = false;
-      const targetVol = volume > 0 ? volume : 0.19;
-      audio.volume = targetVol;
-      audio.play().then(() => {
-        setIsPlaying(true);
-        setIsMuted(false);
-      }).catch(() => {});
-    }
-    setIsMuted(false);
+    executeStartMusic(true);
   };
 
   // Reusable Realistic Vinyl Disc Component

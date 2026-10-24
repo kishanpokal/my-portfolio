@@ -61,12 +61,12 @@ export const LandingPreloader = ({ onComplete }) => {
       sound.kernelTick(720);
     }, 4600);
 
-    // At 5150ms: trigger the split shutter launch
+    // At 7000ms: 7-second auto-launch shutter exit if user hasn't already clicked
     const exitTimer = setTimeout(() => {
       hasFinishedRef.current = true;
       sound.kernelComplete();
       triggerShutterExit();
-    }, 5150);
+    }, 7000);
 
     return () => {
       clearInterval(greetingTimer);
@@ -80,7 +80,7 @@ export const LandingPreloader = ({ onComplete }) => {
     if (isExiting) return;
     setIsExiting(true);
     if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent("portfolio-user-gesture"));
+      window.dispatchEvent(new CustomEvent("portfolio-start-music"));
     }
     setTimeout(() => {
       onComplete?.();
@@ -93,7 +93,7 @@ export const LandingPreloader = ({ onComplete }) => {
       if (e.key === "Escape" || e.key === "Enter" || e.code === "Space") {
         e.preventDefault();
         if (typeof window !== "undefined") {
-          window.dispatchEvent(new CustomEvent("portfolio-user-gesture"));
+          window.dispatchEvent(new CustomEvent("portfolio-start-music"));
         }
         sound.click();
         triggerShutterExit();
@@ -105,11 +105,11 @@ export const LandingPreloader = ({ onComplete }) => {
 
   const toggleSound = (e) => {
     e.stopPropagation();
-    if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent("portfolio-user-gesture"));
-    }
     const active = sound.toggle();
     setSoundEnabled(active);
+    if (active && typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("portfolio-start-music"));
+    }
   };
 
   return (
@@ -333,6 +333,20 @@ export const LandingPreloader = ({ onComplete }) => {
             </span>
           </div>
         </div>
+
+        {/* Subtle Interactive Cue when Name Appears */}
+        {showNameTitle && !isExiting && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.4 }}
+            className="absolute top-16 sm:top-20 inset-x-0 flex justify-center pointer-events-none z-30"
+          >
+            <span className="label-mono text-[10px] sm:text-[11px] font-semibold text-[#f2f0ec]/70 bg-white/5 border border-white/10 px-3.5 py-1 rounded-full backdrop-blur-sm tracking-wider">
+              [ CLICK ANYWHERE TO ENTER ]
+            </span>
+          </motion.div>
+        )}
 
         {/* Bottom Metadata Bar: Clean Editorial Status Badges (Pinned to Bottom) */}
         <div className="absolute inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[1280px] px-5 sm:px-8 md:px-10 pb-6 flex items-end justify-between">
