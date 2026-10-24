@@ -1,9 +1,17 @@
 import React from "react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, RotateCcw } from "lucide-react";
+import { sound } from "@/lib/SoundEngine";
 
-export const FooterV2 = () => {
+export const FooterV2 = ({ onReboot }) => {
   const scrollToTop = () => {
+    sound.click();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRebootClick = () => {
+    sound.click();
+    window.scrollTo({ top: 0, behavior: "instant" });
+    onReboot?.();
   };
 
   return (
@@ -62,41 +70,45 @@ export const FooterV2 = () => {
                   href="https://play.google.com/store/apps/details?id=com.kishan.trackeasy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="label-mono flex items-center gap-1 text-xs text-[#8a8a85] transition-colors hover:text-white"
+                  className="label-mono flex items-center justify-between text-xs text-[#8a8a85] transition-colors hover:text-white"
                 >
                   <span>TrackEasy</span>
-                  <span className="text-[10px] text-[#ff5a1f]">↗</span>
+                  <span className="text-[10px]">↗</span>
                 </a>
               </li>
               <li>
-                <span className="label-mono flex items-center gap-1 text-xs text-[#8a8a85]">
-                  <span>Maunam (3D)</span>
-                </span>
+                <a
+                  href="#projects"
+                  className="label-mono flex items-center justify-between text-xs text-[#8a8a85] transition-colors hover:text-white"
+                >
+                  <span>Maunam</span>
+                  <span className="text-[10px]">↗</span>
+                </a>
               </li>
               <li>
                 <a
-                  href="https://github.com/kishanpokal/AttendMate2"
+                  href="https://play.google.com/store/apps/developer?id=Kishan+Pokal"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="label-mono flex items-center gap-1 text-xs text-[#8a8a85] transition-colors hover:text-white"
+                  className="label-mono flex items-center justify-between text-xs text-[#8a8a85] transition-colors hover:text-white"
                 >
-                  <span>AttendMate</span>
-                  <span className="text-[10px] text-[#ff5a1f]">↗</span>
+                  <span>Play Console</span>
+                  <span className="text-[10px]">↗</span>
                 </a>
               </li>
             </ul>
           </nav>
 
-          {/* Socials */}
-          <nav aria-label="Socials">
-            <h3 className="label-mono text-xs font-bold text-white">Socials</h3>
+          {/* Connect */}
+          <nav aria-label="Connect">
+            <h3 className="label-mono text-xs font-bold text-white">Connect</h3>
             <ul className="mt-4 flex flex-col gap-2.5">
               <li>
                 <a
                   href="https://github.com/KishanPokal"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="label-mono flex items-center gap-1 text-xs text-[#8a8a85] transition-colors hover:text-white"
+                  className="label-mono flex items-center justify-between text-xs text-[#8a8a85] transition-colors hover:text-white"
                 >
                   <span>GitHub</span>
                   <span className="text-[10px]">↗</span>
@@ -104,10 +116,10 @@ export const FooterV2 = () => {
               </li>
               <li>
                 <a
-                  href="https://www.linkedin.com/in/kishanpokal956/"
+                  href="https://linkedin.com/in/kishanpokal"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="label-mono flex items-center gap-1 text-xs text-[#8a8a85] transition-colors hover:text-white"
+                  className="label-mono flex items-center justify-between text-xs text-[#8a8a85] transition-colors hover:text-white"
                 >
                   <span>LinkedIn</span>
                   <span className="text-[10px]">↗</span>
@@ -115,8 +127,8 @@ export const FooterV2 = () => {
               </li>
               <li>
                 <a
-                  href="mailto:kishanpokal1111@gmail.com"
-                  className="label-mono flex items-center gap-1 text-xs text-[#8a8a85] transition-colors hover:text-white"
+                  href="mailto:contact@kishanpokal.com"
+                  className="label-mono flex items-center justify-between text-xs text-[#8a8a85] transition-colors hover:text-white"
                 >
                   <span>Email</span>
                   <span className="text-[10px]">↗</span>
@@ -132,14 +144,28 @@ export const FooterV2 = () => {
             © {new Date().getFullYear()} Kishan Pokal. All rights reserved.
           </p>
 
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="label-mono flex items-center gap-1.5 w-fit text-[11px] text-[#8a8a85] transition-colors hover:text-[#ff5a1f] p-1"
-          >
-            <span>Back to top</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-4 sm:gap-6">
+            {onReboot && (
+              <button
+                type="button"
+                onClick={handleRebootClick}
+                className="label-mono flex items-center gap-1.5 w-fit text-[11px] text-[#8a8a85] transition-colors hover:text-[#ff5a1f] p-1"
+                title="Replay intro preloader"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-[#ff5a1f]" />
+                <span>Replay Intro</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="label-mono flex items-center gap-1.5 w-fit text-[11px] text-[#8a8a85] transition-colors hover:text-[#ff5a1f] p-1"
+            >
+              <span>Back to top</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 

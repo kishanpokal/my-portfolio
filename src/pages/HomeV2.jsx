@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { NavbarV2 } from "../components/v2/NavbarV2";
 import { HeroV2 } from "../components/v2/HeroV2";
@@ -10,8 +10,12 @@ import { StackV2 } from "../components/v2/StackV2";
 import { ContactV2 } from "../components/v2/ContactV2";
 import { FooterV2 } from "../components/v2/FooterV2";
 import { CozyMusicPlayer } from "../components/v2/CozyMusicPlayer";
+import { LandingPreloader } from "../components/v2/LandingPreloader";
 
 export const HomeV2 = () => {
+  // Always trigger the preloader on page load
+  const [showPreloader, setShowPreloader] = useState(true);
+
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("portfolio_theme_v2") || "dark";
@@ -37,6 +41,10 @@ export const HomeV2 = () => {
   const toggleTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
+
+  const handleReboot = useCallback(() => {
+    setShowPreloader(true);
+  }, []);
 
   // Shared Interactive Tech Stack ⇄ Project Filter State
   const [activeTechFilter, setActiveTechFilter] = useState(null);
@@ -73,8 +81,16 @@ export const HomeV2 = () => {
       {/* Floating Editorial Header */}
       <NavbarV2 theme={theme} onToggleTheme={toggleTheme} />
 
-      {/* Main Content Sections */}
-      <main className="relative z-10 flex flex-col">
+      {/* Main Content Sections with gentle camera lens focus reveal */}
+      <motion.main
+        className="relative z-10 flex flex-col"
+        initial={{ scale: 1.02, opacity: 0.96 }}
+        animate={{
+          scale: showPreloader ? 1.02 : 1,
+          opacity: 1,
+        }}
+        transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+      >
         {/* 1. Hero */}
         <HeroV2 />
 
@@ -101,13 +117,18 @@ export const HomeV2 = () => {
 
         {/* 7. Contact & Collaboration */}
         <ContactV2 />
-      </main>
+      </motion.main>
 
       {/* Inverted Editorial Footer */}
-      <FooterV2 />
+      <FooterV2 onReboot={handleReboot} />
 
       {/* Floating Cozy Background Music Player */}
       <CozyMusicPlayer />
+
+      {/* Human-Crafted Editorial Split-Curtain Preloader */}
+      {showPreloader && (
+        <LandingPreloader onComplete={() => setShowPreloader(false)} />
+      )}
     </div>
   );
 };
