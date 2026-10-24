@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { NavbarV2 } from "../components/v2/NavbarV2";
 import { HeroV2 } from "../components/v2/HeroV2";
@@ -41,10 +41,6 @@ export const HomeV2 = () => {
   const toggleTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
-
-  const handleReboot = useCallback(() => {
-    setShowPreloader(true);
-  }, []);
 
   // Shared Interactive Tech Stack ⇄ Project Filter State
   const [activeTechFilter, setActiveTechFilter] = useState(null);
@@ -120,7 +116,7 @@ export const HomeV2 = () => {
       </motion.main>
 
       {/* Inverted Editorial Footer */}
-      <FooterV2 onReboot={handleReboot} />
+      <FooterV2 />
 
       {/* Floating Cozy Background Music Player */}
       <CozyMusicPlayer />

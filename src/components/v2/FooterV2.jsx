@@ -1,17 +1,11 @@
 import React from "react";
-import { ArrowUp, RotateCcw } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { sound } from "@/lib/SoundEngine";
 
-export const FooterV2 = ({ onReboot }) => {
+export const FooterV2 = () => {
   const scrollToTop = () => {
     sound.click();
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleRebootClick = () => {
-    sound.click();
-    window.scrollTo({ top: 0, behavior: "instant" });
-    onReboot?.();
   };
 
   return (
@@ -144,28 +138,14 @@ export const FooterV2 = ({ onReboot }) => {
             © {new Date().getFullYear()} Kishan Pokal. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-4 sm:gap-6">
-            {onReboot && (
-              <button
-                type="button"
-                onClick={handleRebootClick}
-                className="label-mono flex items-center gap-1.5 w-fit text-[11px] text-[#8a8a85] transition-colors hover:text-[#ff5a1f] p-1"
-                title="Replay intro preloader"
-              >
-                <RotateCcw className="w-3.5 h-3.5 text-[#ff5a1f]" />
-                <span>Replay Intro</span>
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="label-mono flex items-center gap-1.5 w-fit text-[11px] text-[#8a8a85] transition-colors hover:text-[#ff5a1f] p-1"
-            >
-              <span>Back to top</span>
-              <ArrowUp className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="label-mono flex items-center gap-1.5 w-fit text-[11px] text-[#8a8a85] transition-colors hover:text-[#ff5a1f] p-1"
+          >
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
 
